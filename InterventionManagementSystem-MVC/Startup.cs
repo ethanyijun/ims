@@ -10,7 +10,7 @@ namespace InterventionManagementSystem_MVC
         {
             ConfigureAuth(app);
 
-            //run setup script
+            //run setup scripts
         }
     }
 }
