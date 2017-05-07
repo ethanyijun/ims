@@ -9,6 +9,8 @@ namespace InterventionManagementSystem_MVC
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
+            //run setup script
         }
     }
 }
