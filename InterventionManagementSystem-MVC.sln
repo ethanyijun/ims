@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterventionManagementSystem-MVC", "InterventionManagementSystem-MVC\InterventionManagementSystem-MVC.csproj", "{B54CEC55-7AE2-4363-B0A9-C9BE62EB8096}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterventionManagementSystem-MVC.Tests", "InterventionManagementSystem-MVC.Tests\InterventionManagementSystem-MVC.Tests.csproj", "{30BD726A-779D-4598-A648-E110D8CA7845}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B54CEC55-7AE2-4363-B0A9-C9BE62EB8096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B54CEC55-7AE2-4363-B0A9-C9BE62EB8096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B54CEC55-7AE2-4363-B0A9-C9BE62EB8096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B54CEC55-7AE2-4363-B0A9-C9BE62EB8096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30BD726A-779D-4598-A648-E110D8CA7845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30BD726A-779D-4598-A648-E110D8CA7845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30BD726A-779D-4598-A648-E110D8CA7845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30BD726A-779D-4598-A648-E110D8CA7845}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
