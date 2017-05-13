@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="IMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Clients' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Location" />
+            <PropertyRef Name="DistrictId" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DistrictId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Districts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Districts">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Interventions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Interventions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Hours" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Costs" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LifeRemaining" Type="int" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="State" Type="int" />
+          <Property Name="DateCreate" Type="datetime" />
+          <Property Name="DateFinish" Type="datetime" />
+          <Property Name="DateRecentVisit" Type="datetime" />
+          <Property Name="InterventionTypeId" Type="uniqueidentifier" />
+          <Property Name="ClientId" Type="uniqueidentifier" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" />
+          <Property Name="ApprovedBy" Type="uniqueidentifier" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.InterventionTypes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="InterventionTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Hours" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Costs" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IdentityId" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="AuthorisedHours" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AuthorisedCosts" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdentityId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="DistrictId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityContainer Name="IMSModelStoreContainer">
+          <EntitySet Name="Clients" EntityType="Self.Clients" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Clients].[Id] AS [Id], 
+    [Clients].[Name] AS [Name], 
+    [Clients].[Location] AS [Location], 
+    [Clients].[DistrictId] AS [DistrictId]
+    FROM [dbo].[Clients] AS [Clients]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Districts" EntityType="Self.Districts" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Districts].[Id] AS [Id], 
+    [Districts].[Name] AS [Name]
+    FROM [dbo].[Districts] AS [Districts]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Interventions" EntityType="Self.Interventions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Interventions].[Id] AS [Id], 
+    [Interventions].[Hours] AS [Hours], 
+    [Interventions].[Costs] AS [Costs], 
+    [Interventions].[LifeRemaining] AS [LifeRemaining], 
+    [Interventions].[Comments] AS [Comments], 
+    [Interventions].[State] AS [State], 
+    [Interventions].[DateCreate] AS [DateCreate], 
+    [Interventions].[DateFinish] AS [DateFinish], 
+    [Interventions].[DateRecentVisit] AS [DateRecentVisit], 
+    [Interventions].[InterventionTypeId] AS [InterventionTypeId], 
+    [Interventions].[ClientId] AS [ClientId], 
+    [Interventions].[CreatedBy] AS [CreatedBy], 
+    [Interventions].[ApprovedBy] AS [ApprovedBy]
+    FROM [dbo].[Interventions] AS [Interventions]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="InterventionTypes" EntityType="Self.InterventionTypes" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [InterventionTypes].[Id] AS [Id], 
+    [InterventionTypes].[Name] AS [Name], 
+    [InterventionTypes].[Hours] AS [Hours], 
+    [InterventionTypes].[Costs] AS [Costs]
+    FROM [dbo].[InterventionTypes] AS [InterventionTypes]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Users" EntityType="Self.Users" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Users].[Id] AS [Id], 
+    [Users].[Name] AS [Name], 
+    [Users].[Type] AS [Type], 
+    [Users].[AuthorisedHours] AS [AuthorisedHours], 
+    [Users].[AuthorisedCosts] AS [AuthorisedCosts], 
+    [Users].[IdentityId] AS [IdentityId], 
+    [Users].[DistrictId] AS [DistrictId]
+    FROM [dbo].[Users] AS [Users]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Location" />
+            <PropertyRef Name="DistrictId" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DistrictId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Intervention">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Hours" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Costs" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LifeRemaining" Type="Int32" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="Int32" />
+          <Property Name="DateCreate" Type="DateTime" Precision="3" />
+          <Property Name="DateFinish" Type="DateTime" Precision="3" />
+          <Property Name="DateRecentVisit" Type="DateTime" Precision="3" />
+          <Property Name="InterventionTypeId" Type="Guid" />
+          <Property Name="ClientId" Type="Guid" />
+          <Property Name="CreatedBy" Type="Guid" />
+          <Property Name="ApprovedBy" Type="Guid" />
+        </EntityType>
+        <EntityType Name="InterventionType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Hours" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Costs" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IdentityId" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="AuthorisedHours" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AuthorisedCosts" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdentityId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DistrictId" Type="Guid" />
+        </EntityType>
+        <EntityContainer Name="IMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Districts" EntityType="Self.District" />
+          <EntitySet Name="Interventions" EntityType="Self.Intervention" />
+          <EntitySet Name="InterventionTypes" EntityType="Self.InterventionType" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IMSModelStoreContainer" CdmEntityContainer="IMSEntities">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="IMSModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Districts">
+            <EntityTypeMapping TypeName="IMSModel.District">
+              <MappingFragment StoreEntitySet="Districts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Interventions">
+            <EntityTypeMapping TypeName="IMSModel.Intervention">
+              <MappingFragment StoreEntitySet="Interventions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Costs" ColumnName="Costs" />
+                <ScalarProperty Name="LifeRemaining" ColumnName="LifeRemaining" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="DateFinish" ColumnName="DateFinish" />
+                <ScalarProperty Name="DateRecentVisit" ColumnName="DateRecentVisit" />
+                <ScalarProperty Name="InterventionTypeId" ColumnName="InterventionTypeId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InterventionTypes">
+            <EntityTypeMapping TypeName="IMSModel.InterventionType">
+              <MappingFragment StoreEntitySet="InterventionTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Costs" ColumnName="Costs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="IMSModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="AuthorisedHours" ColumnName="AuthorisedHours" />
+                <ScalarProperty Name="AuthorisedCosts" ColumnName="AuthorisedCosts" />
+                <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
