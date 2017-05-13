@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterventionManagementSyste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterventionManagementSystem-MVC.Tests", "InterventionManagementSystem-MVC.Tests\InterventionManagementSystem-MVC.Tests.csproj", "{30BD726A-779D-4598-A648-E110D8CA7845}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMSDBLayer", "IMSDBLayer\IMSDBLayer.csproj", "{C1AB8E37-0E78-4855-A17F-9FE135E350EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{30BD726A-779D-4598-A648-E110D8CA7845}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30BD726A-779D-4598-A648-E110D8CA7845}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30BD726A-779D-4598-A648-E110D8CA7845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1AB8E37-0E78-4855-A17F-9FE135E350EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1AB8E37-0E78-4855-A17F-9FE135E350EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1AB8E37-0E78-4855-A17F-9FE135E350EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1AB8E37-0E78-4855-A17F-9FE135E350EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

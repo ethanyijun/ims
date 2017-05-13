@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using IMSDBLayer;
 
 [assembly: OwinStartupAttribute(typeof(InterventionManagementSystem_MVC.Startup))]
 namespace InterventionManagementSystem_MVC
@@ -11,6 +12,10 @@ namespace InterventionManagementSystem_MVC
             ConfigureAuth(app);
 
             //run setup scripts
+            string connstring = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            Setup DBsetup = new Setup(connstring);
+
         }
     }
 }

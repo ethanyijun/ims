@@ -1,0 +1,6 @@
+INSERT INTO [dbo].[Districts] ([Id], [Name]) VALUES (N'bf0f5542-1702-4b18-8ab6-26c25aef4f39', N'Rural New South Wales')
+INSERT INTO [dbo].[Districts] ([Id], [Name]) VALUES (N'a772a663-db28-4c71-8c46-2d77e3bf2eb4', N'Rural Indonesia')
+INSERT INTO [dbo].[Districts] ([Id], [Name]) VALUES (N'2ada97c5-8253-489c-b772-50ff40425184', N'Urban Papua New Guinea')
+INSERT INTO [dbo].[Districts] ([Id], [Name]) VALUES (N'170fa827-717e-4281-bfbf-6a0c7916d614', N'Urban Indonesia')
+INSERT INTO [dbo].[Districts] ([Id], [Name]) VALUES (N'201b5546-9793-4a89-b752-713ba856a2e0', N'Rural Papua New Guinea')
+INSERT INTO [dbo].[Districts] ([Id], [Name]) VALUES (N'6f58c53c-e824-4685-9555-cebd28412ebe', N'Sydney')
