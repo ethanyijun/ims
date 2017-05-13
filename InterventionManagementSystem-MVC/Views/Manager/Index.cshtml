@@ -1,0 +1,40 @@
+﻿@model InterventionManagementSystem_MVC.Models.ManagerViewModels
+
+
+
+<h3>Manager System</h3>
+<hr />
+
+<div class="row form-group">
+    <div class="col-md-4">
+        Manager:
+    </div>
+    <div class="col-md-4">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4">
+        District:
+    </div>
+    <div class="col-md-4">
+        @Html.DisplayFor(model => model.DistrictName)
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4">
+        Costs:
+    </div>
+    <div class="col-md-4">
+        @Html.DisplayFor(model => model.AuthorisedCosts)
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4">
+        Hours:
+    </div>
+    <div class="col-md-4">
+        @Html.DisplayFor(model => model.AuthorisedHours)
+    </div>
+</div>
+
