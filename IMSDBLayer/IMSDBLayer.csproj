@@ -58,6 +58,12 @@
     <Compile Include="DataAccessInterfaces\IInterventionTypeDataAccess.cs" />
     <Compile Include="DataAccessInterfaces\IReportDataAccess.cs" />
     <Compile Include="DataAccessInterfaces\IUserDataAccess.cs" />
+    <Compile Include="DataAccessObjects\ClientDataAccess.cs" />
+    <Compile Include="DataAccessObjects\DistrictDataAccess.cs" />
+    <Compile Include="DataAccessObjects\InterventionDataAccess.cs" />
+    <Compile Include="DataAccessObjects\InterventionTypeDataAccess.cs" />
+    <Compile Include="DataAccessObjects\ReportDataAccess.cs" />
+    <Compile Include="DataAccessObjects\UserDataAccess.cs" />
     <Compile Include="Models\Client.cs">
       <DependentUpon>IMSModel.tt</DependentUpon>
     </Compile>
@@ -140,8 +146,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataAccessObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
