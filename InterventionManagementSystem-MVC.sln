@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterventionManagementSyste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMSDBLayer", "IMSDBLayer\IMSDBLayer.csproj", "{C1AB8E37-0E78-4855-A17F-9FE135E350EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMSLogicLayer", "IMSLogicLayer\IMSLogicLayer.csproj", "{BA97460A-ACC2-4655-84B1-85DBE7B1A3BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C1AB8E37-0E78-4855-A17F-9FE135E350EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1AB8E37-0E78-4855-A17F-9FE135E350EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1AB8E37-0E78-4855-A17F-9FE135E350EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA97460A-ACC2-4655-84B1-85DBE7B1A3BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA97460A-ACC2-4655-84B1-85DBE7B1A3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA97460A-ACC2-4655-84B1-85DBE7B1A3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA97460A-ACC2-4655-84B1-85DBE7B1A3BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
