@@ -38,6 +38,17 @@ namespace IMSLogicLayer.ServiceInterfaces
         /// <returns>The current user instance</returns>
         User getDetail();
         /// <summary>
+        /// Get the district for the user
+        /// </summary>
+        /// <param name="userId">the user id</param>
+        /// <returns></returns>
+        District getDistrictForUser(Guid userId);
+        /// <summary>
+        /// get a list of districts  
+        /// </summary>
+        /// <returns>A list of district in the system</returns>
+        IEnumerable<District> getDistricts();
+        /// <summary>
         /// Change district of an user
         /// </summary>
         /// <param name="userId">The guid of the user</param>

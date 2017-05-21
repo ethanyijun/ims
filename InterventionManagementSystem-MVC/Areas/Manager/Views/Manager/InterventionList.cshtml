@@ -1,0 +1,103 @@
+﻿@model InterventionManagementSystem_MVC.Areas.Manager.Models.ManagerViewInterventionModel
+
+
+<h3>Intervention List</h3>
+<hr />
+
+
+<table id="table-clients" class="table table-striped table-bordered table-hover table-responsive" style="background-color: white">
+    <thead>
+
+        <tr>
+
+            <th class="col-md-3 col-lg-4">Intervention Type Name</th>
+
+            <th class="col-md-2 col-lg-2">Client Name</th>
+
+            <th class="col-md-1 col-lg-1">Created Date</th>
+            @using (Html.BeginForm("InterventionList", "Manager", FormMethod.Post))
+            {
+                <th class="col-md-1 col-lg-1">
+                    @Html.DropDownListFor(m => m.SelectedType, Model.ViewList, new { onchange = @"form.submit();" })
+                </th>
+
+            }
+            <th class="col-md-4 col-lg-3">Action</th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model.Interventions)
+        {
+
+            <tr style="vertical-align: middle;">
+                <td>
+                    @Html.DisplayFor(modelItem => item.InterventionTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreate);
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InterventionState)
+                </td>
+                <td>
+                    <div class="modal fade" @*id="view-<%#Eval(" Id")%>"*@ role="dialog"><div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">@Html.DisplayFor(modelItem =>item.InterventionTypeName)</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-4">Client: </div>
+                                        <div class="col-md-8">@Html.DisplayFor(modelItem => item.ClientName)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">District</div>
+                                        <div class="col-md-8">@Html.DisplayFor(modelItem => item.DistrictName)</div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-4">Costs</div>
+                                        <div class="col-md-8">@Html.DisplayFor(modelItem => item.Costs)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">Hours</div>
+                                        <div class="col-md-8">@Html.DisplayFor(modelItem => item.Hours)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">Perform Date</div>
+                                        <div class="col-md-8">@Html.DisplayFor(modelItem => item.DateFinish)</div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-4">State: </div>
+                                        <div class="col-md-8">@Html.DisplayFor(modelItem => item.InterventionState)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">Comments: </div>
+                                        <div class="col-md-8">@Html.DisplayFor(modelItem => item.Comments)</div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-default btn-listview" data-toggle="modal" data-target="">View</a>
+                    <input type="button" value="Approve" onclick="location.href=''" />
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+
+</table>

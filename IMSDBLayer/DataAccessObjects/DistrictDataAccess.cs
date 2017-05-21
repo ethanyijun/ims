@@ -47,7 +47,7 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities context = new IMSEntities())
             {
 
-                return context.Districts.AsEnumerable();
+                return context.Districts.ToList();
             }
         }
 

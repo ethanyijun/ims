@@ -67,6 +67,24 @@ namespace IMSLogicLayer.Services
             return new User(Users.fetchUserByIdentityId(accountantId));
         }
         /// <summary>
+        /// Get the district for the user
+        /// </summary>
+        /// <param name="userId">the user id</param>
+        /// <returns></returns>
+        public District getDistrictForUser(Guid userId)
+        {
+           return new District(Districts.fetchDistrictById(getUserById(userId).DistrictId.Value));
+        }
+
+        /// <summary>
+        /// get a list of districts  
+        /// </summary>
+        /// <returns>A list of district in the system</returns>
+        public IEnumerable<District> getDistricts()
+        {
+            return Districts.getAll().Select(c => new District(c)).ToList();
+        }
+        /// <summary>
         /// Get the user with it's id
         /// </summary>
         /// <param name="userId">The guid of an user</param>

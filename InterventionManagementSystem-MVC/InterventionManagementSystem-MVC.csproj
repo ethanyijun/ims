@@ -192,6 +192,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Accountant\AccountantAreaRegistration.cs" />
+    <Compile Include="Areas\Accountant\Controllers\AccountantController.cs" />
+    <Compile Include="Areas\Accountant\Models\AccountantViewModels.cs" />
     <Compile Include="Areas\Manager\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Manager\ManagerAreaRegistration.cs" />
     <Compile Include="Areas\Manager\Models\ManagerViewModels.cs" />
@@ -227,6 +229,12 @@
     <Content Include="Areas\Manager\Views\Manager\Index.cshtml" />
     <Content Include="Areas\Manager\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Manager\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Manager\Views\Manager\InterventionList.cshtml" />
+    <Content Include="Areas\Accountant\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Accountant\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Accountant\Views\Accountant\Index.cshtml" />
+    <Content Include="Areas\Accountant\Views\Accountant\AccountListView.cshtml" />
+    <Content Include="Areas\Accountant\Views\Accountant\EditDistrict.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -275,9 +283,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Accountant\Controllers\" />
-    <Folder Include="Areas\Accountant\Models\" />
-    <Folder Include="Areas\Accountant\Views\Shared\" />
     <Folder Include="Areas\SiteEngineer\Controllers\" />
     <Folder Include="Areas\SiteEngineer\Models\" />
     <Folder Include="Areas\SiteEngineer\Views\Shared\" />

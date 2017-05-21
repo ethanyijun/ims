@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using IMSLogicLayer.Models;
 using System.Web.Mvc;
+using InterventionManagementSystem_MVC.Models;
 
-namespace InterventionManagementSystem_MVC.Models
+namespace InterventionManagementSystem_MVC.Areas.Manager.Models
 {
     public class ManagerViewModel
     {
