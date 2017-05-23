@@ -29,5 +29,9 @@ namespace InterventionManagementSystem_MVC.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Areas.SiteEngineer.Models.SiteEngineerViewModel> SiteEngineerViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.InterventionViewModel> InterventionViewModels { get; set; }
     }
 }
