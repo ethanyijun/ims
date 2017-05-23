@@ -30,5 +30,7 @@ namespace IMSDBLayer.Models
         public virtual DbSet<Intervention> Interventions { get; set; }
         public virtual DbSet<InterventionType> InterventionTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+        object placeHolderVariable;
     }
 }
