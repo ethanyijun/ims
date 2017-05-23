@@ -197,6 +197,8 @@
     <Compile Include="Areas\Manager\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Manager\ManagerAreaRegistration.cs" />
     <Compile Include="Areas\Manager\Models\ManagerViewModels.cs" />
+    <Compile Include="Areas\SiteEngineer\Controllers\SiteEngineerController.cs" />
+    <Compile Include="Areas\SiteEngineer\Models\SiteEngineerViewModels.cs" />
     <Compile Include="Areas\SiteEngineer\SiteEngineerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -235,6 +237,9 @@
     <Content Include="Areas\Accountant\Views\Accountant\Index.cshtml" />
     <Content Include="Areas\Accountant\Views\Accountant\AccountListView.cshtml" />
     <Content Include="Areas\Accountant\Views\Accountant\EditDistrict.cshtml" />
+    <Content Include="Areas\SiteEngineer\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\SiteEngineer\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\SiteEngineer\Views\SiteEngineer\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -283,9 +288,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\SiteEngineer\Controllers\" />
-    <Folder Include="Areas\SiteEngineer\Models\" />
-    <Folder Include="Areas\SiteEngineer\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
