@@ -14,12 +14,21 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 {
     public class SiteEngineerController : Controller
     {
+        private IEngineerService engineer;
 
+        public SiteEngineerController()
+        {
+            engineer = GetEngineerService();
+        }
+
+        public SiteEngineerController(IEngineerService engineer)
+        {
+            this.engineer = engineer;
+        }
 
         // GET: SiteEngineer/SiteEngineer
         public ActionResult Index()
         {
-            IEngineerService engineer = GetEngineerService();
             var user = engineer.getDetail();
             var model = new SiteEngineerViewModel()
             {
@@ -33,7 +42,6 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/Create
         public ActionResult CreateIntervention()
         {
-            IEngineerService engineer = GetEngineerService();
             //mockup data
             List<Client> Clients = new List<Client>();
             Clients.Add(new Client("jammie", "chatswood", new Guid()));
@@ -83,7 +91,6 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/Interventions
         public ActionResult InterventionList()
         {
-            IEngineerService engineer = GetEngineerService();
             var interventionList = engineer.getInterventionListByCreator(engineer.getDetail().Id).ToList();
             var interventions = new List<InterventionViewModel>();
 

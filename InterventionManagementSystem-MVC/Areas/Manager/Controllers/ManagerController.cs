@@ -14,10 +14,21 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 {
     public class ManagerController : Controller
     {
+        private IManagerService manager;
+
+        public ManagerController()
+        {
+            manager = GetManagerService();
+        }
+
+        public ManagerController(IManagerService manager)
+        {
+            this.manager = manager;
+        }
+
         // GET: Manager/Manager
         public ActionResult Index()
         {
-            IManagerService manager = GetManagerService();
             var user = manager.GetDetail();
             var model = new ManagerViewModel()
             {
@@ -31,7 +42,6 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 
         public ActionResult InterventionList()
         {
-            IManagerService manager = GetManagerService();
             var interventionList = manager.GetApprovedInterventions();
             var interventions = new List<InterventionViewModel>();
             var viewList = new List<SelectListItem>()
@@ -55,7 +65,6 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             else
             {
                
-                IManagerService manager = GetManagerService();
                 var user = manager.GetDetail();
                 var interventionList = manager.GetInterventionsByState(IMSLogicLayer.Enums.InterventionState.Proposed);
                 var interventions = new List<InterventionViewModel>();
