@@ -38,7 +38,6 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         
         public ActionResult AccountListView()
         {
-            accountant = GetAccountantService();
             var siteEngineerList = accountant.getAllSiteEngineer();
             var siteEnigeerVMList = new List<SiteEngineerViewModel>();
             foreach (var siteEngineer in siteEngineerList)
@@ -77,8 +76,6 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         //GET Default information of an User
         public ActionResult EditDistrict(string id)
         {
-            accountant = GetAccountantService();
-
             var user = accountant.getUserById(new Guid(id));
             user.District = accountant.getDistrictForUser(user.Id);
 
@@ -91,7 +88,6 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
                 CurrentDistrict = user.District.Name,
                 DistrictList= districts
             };
-
 
             return View(model);
         }
