@@ -94,7 +94,9 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         [TestMethod]
         public void Accountant_EditDistrictView()
         {
+            var view = controller.EditDistrict("9D2B0228-4444-4C23-8B49-01A698857709") as ViewResult;
 
+            Assert.AreEqual("", view.ViewName);
         }
 
         [TestMethod]
@@ -118,7 +120,9 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         [TestMethod]
         public void TestReportListView()
         {
+            var view = controller.ReportList() as ViewResult;
 
+            Assert.AreEqual("", view.ViewName);
         }
     }
 }
