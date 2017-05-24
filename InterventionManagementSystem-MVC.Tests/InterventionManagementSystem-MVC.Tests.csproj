@@ -103,6 +103,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IMSDBLayer\IMSDBLayer.csproj">
+      <Project>{c1ab8e37-0e78-4855-a17f-9fe135e350ec}</Project>
+      <Name>IMSDBLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IMSLogicLayer\IMSLogicLayer.csproj">
       <Project>{ba97460a-acc2-4655-84b1-85dbe7b1a3be}</Project>
       <Name>IMSLogicLayer</Name>

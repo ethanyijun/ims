@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using InterventionManagementSystem_MVC.Areas.Accountant.Controllers;
 using System.Web.Mvc;
 using InterventionManagementSystem_MVC.Areas.Accountant.Models;
+using Moq;
+using IMSLogicLayer.ServiceInterfaces;
 
 namespace InterventionManagementSystem_MVC.Tests.Controllers
 {
@@ -13,7 +15,12 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         [TestInitialize]
         public void SetUp()
         {
-            controller = new AccountantController();
+            IMSLogicLayer.Models.User accountant = new IMSLogicLayer.Models.User("John Smith", 1, 40, 40, "", new Guid());
+
+            Mock<IAccountantService> accountantService = new Mock<IAccountantService>();
+            accountantService.Setup(a => a.getDetail()).Returns(accountant);
+
+            controller = new AccountantController(accountantService.Object);
         }
 
         [TestMethod]

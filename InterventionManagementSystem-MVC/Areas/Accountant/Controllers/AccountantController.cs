@@ -12,11 +12,21 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 {
     public class AccountantController : Controller
     {
+        private IAccountantService accountant;
+
+        public AccountantController()
+        {
+            accountant = GetAccountantService();
+        }
+
+        public AccountantController(IAccountantService accountant)
+        {
+            this.accountant = accountant;
+        }
+
         // GET: Accountant/Accountants
         public ActionResult Index()
-        {
-            
-            IAccountantService accountant = GetAccountantService();
+        {            
             var user = accountant.getDetail();
             var model = new AccountantViewModel()
             {
@@ -28,7 +38,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         
         public ActionResult AccountListView()
         {
-            IAccountantService accountant = GetAccountantService();
+            accountant = GetAccountantService();
             var siteEngineerList = accountant.getAllSiteEngineer();
             var siteEnigeerVMList = new List<SiteEngineerViewModel>();
             foreach (var siteEngineer in siteEngineerList)
@@ -67,7 +77,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         //GET Default information of an User
         public ActionResult EditDistrict(string id)
         {
-            var accountant = GetAccountantService();
+            accountant = GetAccountantService();
 
             var user = accountant.getUserById(new Guid(id));
             user.District = accountant.getDistrictForUser(user.Id);
