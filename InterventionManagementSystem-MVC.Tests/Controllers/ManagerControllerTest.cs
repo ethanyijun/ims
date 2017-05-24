@@ -17,7 +17,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             controller = new ManagerController();
         }
         [TestMethod]
-        public void TestIndexView()
+        public void Manager_IndexView()
         {
             var view = controller.Index() as ViewResult;
 
@@ -25,7 +25,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestIndexViewModel()
+        public void Manager_IndexViewModel()
         {
             var view = controller.Index() as ViewResult;
             var model = (ManagerViewModel)view.ViewData.Model;
@@ -37,7 +37,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestInterventionListView()
+        public void Manager_InterventionListView()
         {
             var view = controller.InterventionList() as ViewResult;
 
@@ -45,7 +45,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestInterventionListViewModel()
+        public void Manager_InterventionListViewModel()
         {
             var view = controller.InterventionList() as ViewResult;
             var model = (ManagerViewInterventionModel)view.ViewData.Model;
@@ -55,7 +55,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestInterventionListViewPost()
+        public void Manager_InterventionListViewPost()
         {
 
         }

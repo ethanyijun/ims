@@ -18,14 +18,14 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestIndexView()
+        public void SiteEngineer_IndexView()
         {
             var view = controller.Index() as ViewResult;
             Assert.AreEqual("Index", view.ViewName);
         }
 
         [TestMethod]
-        public void TestIndexViewModel()
+        public void SiteEngineer_IndexViewIndexViewModel()
         {
             var view = controller.Index() as ViewResult;
             var model = (SiteEngineerViewModel)view.ViewData.Model;
@@ -37,14 +37,14 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestCreateInterventionView()
+        public void SiteEngineer_IndexViewCreateInterventionView()
         {
             var view = controller.CreateIntervention() as ViewResult;
             Assert.AreEqual("Create", view.ViewName);
         }
 
         [TestMethod]
-        public void TestCreateInterventionViewModel()
+        public void SiteEngineer_IndexViewCreateInterventionViewModel()
         {
             var view = controller.CreateIntervention() as ViewResult;
             var model = (SiteEngineerViewInterventionModel)view.ViewData.Model;
@@ -56,20 +56,20 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestCreateInterventionViewPost()
+        public void SiteEngineer_IndexViewCreateInterventionViewPost()
         {
 
         }
 
         [TestMethod]
-        public void TestInterventionListView()
+        public void SiteEngineer_IndexViewInterventionListView()
         {
             var view = controller.InterventionList() as ViewResult;
             Assert.AreEqual("Interventions", view.ViewName);
         }
 
         [TestMethod]
-        public void TestInterventionListViewModel()
+        public void SiteEngineer_IndexViewInterventionListViewModel()
         {
             var view = controller.InterventionList() as ViewResult;
             var model = (SiteEngineerViewInterventionModel)view.ViewData.Model;

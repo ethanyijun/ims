@@ -17,7 +17,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestIndexView()
+        public void Accountant_IndexView()
         {
             var view = controller.Index() as ViewResult;
 
@@ -25,7 +25,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestIndexViewModel()
+        public void Accountant_IndexViewModel()
         {
             var view = controller.Index() as ViewResult;
             var model = (AccountantViewModel)view.ViewData.Model;
@@ -34,7 +34,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestAccountListView()
+        public void Accountant_AccountListView()
         {
             var view = controller.AccountListView() as ViewResult;
 
@@ -42,13 +42,13 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestAccountListViewModel()
+        public void Accountant_AccountListViewModel()
         {
 
         }
 
         [TestMethod]
-        public void TestEditDistrictView()
+        public void Accountant_EditDistrictView()
         {
 
         }
