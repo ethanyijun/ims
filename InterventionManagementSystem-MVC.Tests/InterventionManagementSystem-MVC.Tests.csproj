@@ -97,6 +97,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IMSLogicLayer\IMSLogicLayer.csproj">
+      <Project>{ba97460a-acc2-4655-84b1-85dbe7b1a3be}</Project>
+      <Name>IMSLogicLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InterventionManagementSystem-MVC\InterventionManagementSystem-MVC.csproj">
       <Project>{B54CEC55-7AE2-4363-B0A9-C9BE62EB8096}</Project>
       <Name>InterventionManagementSystem-MVC</Name>
