@@ -39,13 +39,19 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         [TestMethod]
         public void TestInterventionListView()
         {
+            var view = controller.InterventionList() as ViewResult;
 
+            Assert.AreEqual("InterventionList", view.ViewName);
         }
 
         [TestMethod]
         public void TestInterventionListViewModel()
         {
+            var view = controller.InterventionList() as ViewResult;
+            var model = (ManagerViewInterventionModel)view.ViewData.Model;
 
+            Assert.IsNotNull(model.ViewList);
+            Assert.IsNotNull(model.Interventions);
         }
 
         [TestMethod]
