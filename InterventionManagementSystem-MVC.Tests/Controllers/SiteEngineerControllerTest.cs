@@ -9,7 +9,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
     [TestClass]
     public class SiteEngineerControllerTest
     {
-        SiteEngineerController controller;
+        private SiteEngineerController controller;
 
         [TestInitialize]
         public void SetUp()
