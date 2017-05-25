@@ -15,7 +15,7 @@ namespace IMSDBLayer.DataAccessObjects
         {
             using (IMSEntities context = new IMSEntities())
             {
-                context.Users.Add(user);
+                context.Users.Add(new User(user));
                 context.SaveChanges();
                 return context.Users.Find(user);
             }
@@ -72,7 +72,7 @@ namespace IMSDBLayer.DataAccessObjects
             {
                 var old = context.Users.Where(u => u.Id == user.Id).FirstOrDefault();
 
-                old = user;
+                old =new User (user);
 
                 if (context.SaveChanges() > 0)
                 {
