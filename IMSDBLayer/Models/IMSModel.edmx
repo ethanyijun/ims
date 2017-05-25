@@ -4,33 +4,23 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="IMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Clients' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+    <Schema Namespace="IMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Location" />
-            <PropertyRef Name="DistrictId" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DistrictId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Districts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Districts">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Interventions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Interventions">
           <Key>
             <PropertyRef Name="Id" />
@@ -49,25 +39,18 @@ warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Intervention
           <Property Name="CreatedBy" Type="uniqueidentifier" />
           <Property Name="ApprovedBy" Type="uniqueidentifier" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.InterventionTypes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="InterventionTypes">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Hours" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Costs" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IdentityId" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -78,59 +61,13 @@ warning 6002: The table/view 'InterventionManagementSystem-MVC .dbo.Users' does 
           <Property Name="DistrictId" Type="uniqueidentifier" />
         </EntityType>
         <EntityContainer Name="IMSModelStoreContainer">
-          <EntitySet Name="Clients" EntityType="Self.Clients" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Clients].[Id] AS [Id], 
-    [Clients].[Name] AS [Name], 
-    [Clients].[Location] AS [Location], 
-    [Clients].[DistrictId] AS [DistrictId]
-    FROM [dbo].[Clients] AS [Clients]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Districts" EntityType="Self.Districts" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Districts].[Id] AS [Id], 
-    [Districts].[Name] AS [Name]
-    FROM [dbo].[Districts] AS [Districts]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Interventions" EntityType="Self.Interventions" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Interventions].[Id] AS [Id], 
-    [Interventions].[Hours] AS [Hours], 
-    [Interventions].[Costs] AS [Costs], 
-    [Interventions].[LifeRemaining] AS [LifeRemaining], 
-    [Interventions].[Comments] AS [Comments], 
-    [Interventions].[State] AS [State], 
-    [Interventions].[DateCreate] AS [DateCreate], 
-    [Interventions].[DateFinish] AS [DateFinish], 
-    [Interventions].[DateRecentVisit] AS [DateRecentVisit], 
-    [Interventions].[InterventionTypeId] AS [InterventionTypeId], 
-    [Interventions].[ClientId] AS [ClientId], 
-    [Interventions].[CreatedBy] AS [CreatedBy], 
-    [Interventions].[ApprovedBy] AS [ApprovedBy]
-    FROM [dbo].[Interventions] AS [Interventions]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="InterventionTypes" EntityType="Self.InterventionTypes" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [InterventionTypes].[Id] AS [Id], 
-    [InterventionTypes].[Name] AS [Name], 
-    [InterventionTypes].[Hours] AS [Hours], 
-    [InterventionTypes].[Costs] AS [Costs]
-    FROM [dbo].[InterventionTypes] AS [InterventionTypes]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Users" EntityType="Self.Users" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Users].[Id] AS [Id], 
-    [Users].[Name] AS [Name], 
-    [Users].[Type] AS [Type], 
-    [Users].[AuthorisedHours] AS [AuthorisedHours], 
-    [Users].[AuthorisedCosts] AS [AuthorisedCosts], 
-    [Users].[IdentityId] AS [IdentityId], 
-    [Users].[DistrictId] AS [DistrictId]
-    FROM [dbo].[Users] AS [Users]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Districts" EntityType="Self.Districts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Interventions" EntityType="Self.Interventions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InterventionTypes" EntityType="Self.InterventionTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="IMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">

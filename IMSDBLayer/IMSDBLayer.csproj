@@ -147,6 +147,7 @@
       <DependentUpon>IMSModel.edmx</DependentUpon>
       <LastGenOutput>IMSModel.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Scripts\Script021 -AlterTableDefinitionPKAdd.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
