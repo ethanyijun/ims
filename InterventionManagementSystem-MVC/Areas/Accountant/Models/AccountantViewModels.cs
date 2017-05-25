@@ -16,10 +16,10 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Models
 
     public class SiteEngineerViewModel
     {
-
-        public string Id { get; set; }
+      
+        public string  Id { get; set; }
         public string Name { get; set; }
-
+        
     }
 
     public class ManagerViewModel
@@ -27,7 +27,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
-
+        
 
     }
 
@@ -36,7 +36,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Models
         public IEnumerable<SiteEngineerViewModel> SiteEngineers { get; set; }
         public IEnumerable<ManagerViewModel> Managers { get; set; }
     }
-
+    
     public class EditDistrictViewModel
     {
         public string SelectedDistrict { get; set; }
@@ -47,7 +47,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Models
         public string CurrentDistrict { get; set; }
 
         public IEnumerable<SelectListItem> DistrictList { get; set; }
-
+        
     }
 
     public class ReportViewModel
@@ -55,9 +55,5 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Models
         public string Name { get; set; }
     }
 
-    public class ReportsViewModel
-    {
-
-    }
 
 }
