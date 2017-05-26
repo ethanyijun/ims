@@ -1,51 +1,63 @@
-﻿@model InterventionManagementSystem_MVC.Areas.SiteEngineer.Models.SiteEngineerViewModel
+﻿ ﻿@model InterventionManagementSystem_MVC.Areas.SiteEngineer.Models.SiteEngineerViewModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
 <div>
-    <h4>SiteEngineerViewModel</h4>
+    <h3>SiteEngineerViewModel</h3>
     <hr />
-    @*<label name="Mylabel">Test + @ViewBag.MyLabelUpdate</label>*@
     <dl class="dl-horizontal">
+
         <dt>
             @Html.DisplayNameFor(model => model.Name)
+
         </dt>
+
 
         <dd>
             @Html.DisplayFor(model => model.Name)
+
         </dd>
+
 
         <dt>
             @Html.DisplayNameFor(model => model.DistrictName)
+
         </dt>
+
 
         <dd>
             @Html.DisplayFor(model => model.DistrictName)
+
         </dd>
+
 
         <dt>
             @Html.DisplayNameFor(model => model.AuthorisedHours)
+
         </dt>
+
 
         <dd>
             @Html.DisplayFor(model => model.AuthorisedHours)
+
         </dd>
+
 
         <dt>
             @Html.DisplayNameFor(model => model.AuthorisedCosts)
+
         </dt>
+
 
         <dd>
             @Html.DisplayFor(model => model.AuthorisedCosts)
+
         </dd>
 
+
     </dl>
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

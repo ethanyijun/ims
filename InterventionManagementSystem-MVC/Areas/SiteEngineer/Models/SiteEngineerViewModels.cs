@@ -1,14 +1,14 @@
-﻿using System;
+﻿using InterventionManagementSystem_MVC.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using IMSLogicLayer.Models;
 using System.Web.Mvc;
-using InterventionManagementSystem_MVC.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
 {
+
     public class SiteEngineerViewModel
     {
         [Key]
@@ -21,26 +21,27 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
 
     public class SiteEngineerViewInterventionModel
     {
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime ToDate { get; set; }
         public int SelectedType { get; set; }
         public IEnumerable<InterventionViewModel> Interventions { get; set; }
-        public InterventionViewModel Intervention { get; set; }
         public IEnumerable<SelectListItem> ViewInterventionTypeList { get; set; }
         public IEnumerable<SelectListItem> ViewClientsList { get; set; }
 
-        //public IEnumerable<SelectListItem> ViewList { get; set; }
     }
 
     public class SiteEngineerViewClientModel
     {
+        //public int SelectedType { get; set; }
         public IEnumerable<ClientViewModel> Clients { get; set; }
 
-        //public int SelectedType { get; set; }
-        //public IEnumerable<ClientViewModel> Clients { get; set; }
+        public IEnumerable<SelectListItem> ViewList { get; set; }
+    }
 
-        //public IEnumerable<SelectListItem> ViewList { get; set; }
+    public class ClientViewModel
+    {
+        public string Name { get; set; }
+
+        public string Location { get; set; }
+        public string DistrictName { get; set; }
     }
 
 }
