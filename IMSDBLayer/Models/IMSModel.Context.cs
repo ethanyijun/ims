@@ -32,5 +32,7 @@ namespace IMSDBLayer.Models
         public virtual DbSet<User> Users { get; set; }
 
         object placeHolderVariable;
+      //  public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.ClientViewModel> ClientViewModels { get; set; }
+        //public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.ClientViewModel> ClientViewModels { get; set; }
     }
 }

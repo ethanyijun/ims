@@ -9,6 +9,7 @@ using InterventionManagementSystem_MVC.Models;
 using Microsoft.AspNet.Identity;
 using InterventionManagementSystem_MVC.Areas.SiteEngineer.Models;
 using IMSLogicLayer.Models;
+using IMSLogicLayer.Enums;
 
 namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 {
@@ -34,22 +35,25 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         public ActionResult CreateIntervention()
         {
             IEngineerService engineer = GetEngineerService();
+            User engineerUser = engineer.getDetail();
+            Guid engineerDistrictId = (Guid)engineerUser.DistrictId;
             //mockup data
             List<Client> Clients = new List<Client>();
-            Clients.Add(new Client("jammie","chatswood",new Guid()));
-
-            //var Clients = engineer.getClients();
+            Clients.Add(new Client("jammie", "chatswood", engineerDistrictId));
+            Clients.Add(new Client("huey", "hurstvile", engineerDistrictId));
+            Clients.Add(new Client("nancy", "newtown", engineerDistrictId));
+        //    var Clients = engineer.getClients();
             var viewClientsList = new List<SelectListItem>();
             foreach (var client in Clients)
             {
-                viewClientsList.Add(new SelectListItem() { Text = client.Name, Value = client.Name });
+                viewClientsList.Add(new SelectListItem() { Text = client.Name, Value = client.Id.ToString() });
             }
 
             var InterventionTypes = engineer.getInterventionTypes();
             var viewInterventionTypes = new List<SelectListItem>();
             foreach (var type in InterventionTypes)
             {
-                viewInterventionTypes.Add(new SelectListItem() { Text = type.Name.ToString(), Value =type.Name.ToString()  });
+                viewInterventionTypes.Add(new SelectListItem() { Text = type.Name.ToString(), Value =type.Id.ToString()  });
             }
             var model = new SiteEngineerViewInterventionModel() { ViewInterventionTypeList= viewInterventionTypes, ViewClientsList= viewClientsList };
             return View(model);
@@ -58,20 +62,107 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
         }
 
+        // GET: SiteEngineer/ClientsList
+        public ActionResult ClientsList()
+        {
+               IEngineerService engineer = GetEngineerService();
+            var clientList = engineer.getClients().ToList();
+            var clients = new List<ClientViewModel>();
+
+            //var viewList = new List<SelectListItem>()
+            //{
+            //    new SelectListItem(){ Text ="Approved",Value="Approved", Selected=true },
+            //    new SelectListItem(){ Text="Proposed", Value="Proposed"}
+            //};
+           
+
+            BindClient(clientList, clients);
+
+            var model = new SiteEngineerViewClientModel() { Clients = clients };
+            return View(model);
+
+           
+            // to be continued..
+       
+        }
+
+
         // POST: SiteEngineer/Create
-  
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateIntervention(InterventionViewModel interventionmodel)/*([Bind(Include = "Id,Name,Description,Length,Price,Rating,IncludesMeals")] Tour tour)*/
+        public ActionResult CreateIntervention(SiteEngineerViewInterventionModel viewmodel)/*([Bind(Include = "Id,Name,Description,Length,Price,Rating,IncludesMeals")] Tour tour)*/
         {
             if (ModelState.IsValid)
             {
+
+                IEngineerService engineer = GetEngineerService();
+
+            decimal hours =(decimal) viewmodel.Intervention.Hours;
+
+               decimal costs= (decimal)viewmodel.Intervention.Costs;
+            int lifeRemaining = 100;
+            string comments = viewmodel.Intervention.Comments;
+
+            InterventionState state = InterventionState.Approved;
+                Guid clientId = new Guid(Request.Form["ClientsList"]);
+
+
+                //DateTime dateCreate = (DateTime)viewmodel.Intervention.DateCreate;
+                DateTime dateCreate = DateTime.Now;
+                DateTime dateFinish = (DateTime)viewmodel.Intervention.DateFinish;
+                DateTime dateRecentVisit = DateTime.Now;
+
+
+                Guid createdBy = (Guid)engineer.getDetail().DistrictId;
+                 Guid approvedBy= (Guid)engineer.getDetail().DistrictId;
+                Guid typeId = new Guid(Request.Form["ClientsList"]);   // new Guid(viewmodel.Intervention.InterventionTypeName);
+
+                Intervention newone = new Intervention(hours,costs,lifeRemaining,comments,state,
+                    dateCreate,dateFinish,dateRecentVisit, typeId, clientId,createdBy,approvedBy);
+                engineer.createIntervention(newone);
+
+                //    if (Page.IsValid)
+                //    {
+                //        decimal hour = decimal.Parse(InterventionHour.Text);
+                //        decimal cost = decimal.Parse(InterventionCost.Text);
+                //        string comments = InterventionComments.Text;
+                //        Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+                //        DateTime createDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+                //        DateTime? finishDate;
+                //        if (String.IsNullOrEmpty(InterventionPerformDate.Text))
+                //        {
+                //            finishDate = null;
+                //        }
+                //        else
+                //        {
+                //            finishDate = DateTime.Parse(InterventionPerformDate.Text);
+                //        }
+
+
+                //        DateTime recentVisit = DateTime.Parse(DateTime.Now.ToShortDateString());
+                //        var typeID = SeletedInterventionType.SelectedValue;
+                //        var clientID = SelectClient.SelectedValue;
+                //        InterventionState state = InterventionState.Proposed;
+
+                //        Intervention intervention = new Intervention(hour, cost, 100, comments, state, createDate, finishDate, recentVisit, new Guid(typeID), new Guid(clientID), engineerService.getDetail().Id, null);
+                //        engineerService.createIntervention(intervention);
+
+                //        Response.Redirect("~/Engineer/InterventionList.aspx", false);
+                //    }
+                //}
+
+
+
+
+
                 //db.Tours.Add(tour);
                 //db.SaveChanges();
                 return RedirectToAction("Index");
+              //  return View();
             }
 
-            return View(interventionmodel);
+            return View(viewmodel);
         }
 
         //public ActionResult CreateIntervention() {
@@ -99,8 +190,11 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
         // POST: SiteEngineer/Interventions
         [HttpPost]
-        public ActionResult InterventionList(FormCollection form)
+        public ActionResult InterventionList(SiteEngineerViewInterventionModel viewmodel)
         {
+
+            
+
 
 
             //if (form["SelectedType"].ToString().Equals("Approved"))
@@ -131,7 +225,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         private IEngineerService GetEngineerService()
         {
             var identityId = User.Identity.GetUserId();
-            IEngineerService engineer = new EngineerService(identityId);
+            IEngineerService engineer = new EngineerService("03869985-ae09-4331-8b0a-68b98084132a");
             return engineer;
 
       
@@ -143,6 +237,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             {
                 interventions.Add(new InterventionViewModel()
                 {
+                   
                     InterventionTypeName = intervention.InterventionType.Name,
                     ClientName = intervention.Client.Name,
                     DateCreate = intervention.DateCreate,
@@ -156,6 +251,20 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 });
             }
         }
-   
-}
+        private void BindClient(IEnumerable<IMSLogicLayer.Models.Client> clientList, List<ClientViewModel> clients)
+        {
+            IEngineerService engineer = GetEngineerService();
+            foreach (var client in clientList)
+            {
+                clients.Add(new ClientViewModel()
+                {
+                    Name = client.Name,
+                    DistrictName = engineer.getDistrictName(client.DistrictId),
+                    Location = client.Location
+
+    });
+            }
+        }
+
+    }
 }

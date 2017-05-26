@@ -28,7 +28,7 @@ namespace IMSDBLayer
 
             if (!result.Successful)
             {
-                throw new Exception("Database is not updated");
+                throw new Exception("Database is not updated. " + result.Error);
             }
         }
         /// <summary>

@@ -76,13 +76,17 @@ namespace IMSLogicLayer.Services
         {
             return GetDetail(engineerIdentityId);
         }
+        public String getDistrictName(Guid districtId) {
+            return GetDistrictName(districtId);
+        }
+
         /// <summary>
         /// Get all clients on the same district as the current user
         /// </summary>
         /// <returns>A list of client</returns>
         public IEnumerable<Client> getClients()
         {
-            return Clients.fetchClientsByDistrictId(getDetail().DistrictId.Value).Select(c => new Client(c)).ToList();
+            return Clients.fetchClientsByDistrictId(getDetail().DistrictId.Value).ToList().Select(c => new Client(c)).ToList();
         }
         /// <summary>
         /// Get all the interventions for a client
@@ -122,6 +126,7 @@ namespace IMSLogicLayer.Services
         public Intervention createIntervention(Intervention intervention)
         {
             var newIntervention = new Intervention(Interventions.create(intervention));
+
             if (approveAnIntervention(newIntervention.Id))
             {
                 return newIntervention;

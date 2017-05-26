@@ -14,6 +14,17 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 {
     public class ManagerController : Controller
     {
+        private IManagerService manager;
+        public ManagerController()
+        {
+            manager = GetManagerService();
+        }
+
+        public ManagerController(IManagerService manager)
+        {
+            manager = GetManagerService();
+        }
+
         // GET: Manager/Manager
         public ActionResult Index()
         {

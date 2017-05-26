@@ -15,7 +15,6 @@ namespace IMSDBLayer.DataAccessObjects
         {
             using (IMSEntities context = new IMSEntities())
             {
-
                 context.Interventions.Add(intervention);
                 context.SaveChanges();
                 return context.Interventions.Find(intervention);

@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using IMSLogicLayer.Models;
 using System.Web.Mvc;
 using InterventionManagementSystem_MVC.Models;
@@ -25,9 +21,12 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
 
     public class SiteEngineerViewInterventionModel
     {
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime ToDate { get; set; }
         public int SelectedType { get; set; }
         public IEnumerable<InterventionViewModel> Interventions { get; set; }
-
+        public InterventionViewModel Intervention { get; set; }
         public IEnumerable<SelectListItem> ViewInterventionTypeList { get; set; }
         public IEnumerable<SelectListItem> ViewClientsList { get; set; }
 
@@ -36,10 +35,12 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
 
     public class SiteEngineerViewClientModel
     {
-        //public int SelectedType { get; set; }
         public IEnumerable<ClientViewModel> Clients { get; set; }
 
-        public IEnumerable<SelectListItem> ViewList { get; set; }
+        //public int SelectedType { get; set; }
+        //public IEnumerable<ClientViewModel> Clients { get; set; }
+
+        //public IEnumerable<SelectListItem> ViewList { get; set; }
     }
 
 }
