@@ -57,8 +57,8 @@ namespace IMSDBLayer.DataAccessObjects
             {
                 //var old = context.Clients.Where(c => c.Id == client.Id).FirstOrDefault();
                 var old = context.Districts.Find(district);
-                old = new District(district);
-               
+                context.Entry(old).CurrentValues.SetValues(district);
+
                 if (context.SaveChanges() > 0)
                 {
                     return true;

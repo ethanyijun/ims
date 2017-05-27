@@ -2,7 +2,8 @@
 
 <h3>Edit District</h3>
 <hr />
-
+@using (Html.BeginForm("EditDistrict", "Accountant", FormMethod.Post))
+{
 <div class="row form-group">
     <div class="col-md-4 col-lg-3 col-xl-2">
         <label>User:</label>
@@ -21,19 +22,17 @@
     <div class="col-md-4 col-lg-3 col-xl-2">
         <label>Change to District :</label>
     </div>
-    <div class="col-md-6">
-        @using (Html.BeginForm("ChangeDistrict", "Accountant", FormMethod.Post, new { @id = Model.Id}))
-        {
-
+    <fieldset>
+        @Html.Hidden("Id", Model.Id);
+        <div class="col-md-6">
             @Html.DropDownListFor(m => m.SelectedDistrict, Model.DistrictList)
 
-        }
+        </div>
 
-    </div>
-
-    <div class="col-md-6">
-        <input type="button"value="Cancel" />
-        <input type="button" value="Save" />
-    </div>
-
+        <div class="col-md-6">
+            <input type="button" value="Cancel" onclick="@("window.location.href = '"+@Url.Action("AccountListView","Accountant")+ "'");" />
+            <input type="submit" value="Save" />
+        </div>
+    </fieldset>
 </div>
+}

@@ -55,10 +55,10 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities context = new IMSEntities())
             {
                 var old = context.Clients.Where(c => c.Id == client.Id).FirstOrDefault();
-               
-                old = new Client(client);
 
-               
+                context.Entry(old).CurrentValues.SetValues(client);
+
+
                 if (context.SaveChanges() > 0)
                 {
                     return true;
