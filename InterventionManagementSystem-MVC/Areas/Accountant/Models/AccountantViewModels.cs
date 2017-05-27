@@ -52,12 +52,19 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Models
 
     public class ReportViewModel
     {
-        public string Name { get; set; }
+        public IEnumerable<ReportRow> Report { get; set; }
     }
 
-    public class ReportsViewModel
+    public class ReportListViewModel
     {
-        public IEnumerable<ReportViewModel> ReportList { get; set; }
+        public IEnumerable<string> ReportList { get; set; }
     }
 
+    public class DistrictReportViewModel:ReportViewModel
+    {
+        public string Total { get; set; }
+    }
+
+
+    
 }

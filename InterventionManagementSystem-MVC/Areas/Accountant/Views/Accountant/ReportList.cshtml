@@ -1,4 +1,4 @@
-﻿@model InterventionManagementSystem_MVC.Areas.Accountant.Models.ReportsViewModel
+﻿@model InterventionManagementSystem_MVC.Areas.Accountant.Models.ReportListViewModel
 
 <h3>Report List</h3>
 <hr />
@@ -17,13 +17,13 @@
         {
             <tr style="vertical-align: middle;">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item)
                 </td>
 
 
                 <td>
 
-                    @Html.ActionLink("Print", "PrintReport", "Accountant", new { Name = item.Name }, null)
+                    @Html.ActionLink("Print", "PrintReport", "Accountant", new { Name = item }, null)
                 </td>
             </tr>
         }

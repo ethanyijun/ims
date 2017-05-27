@@ -104,14 +104,14 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
                                 .Cast<ReportType>()
                                 .Select(v => v.ToString())
                                 .ToList();
-            var reports = new List<ReportViewModel>();
-            foreach (var report in reportList)
+            //var reports = new List<ReportViewModel>();
+            //foreach (var report in reportList)
+            //{
+            //    reports.Add(new ReportViewModel() { FirstProperty = report});
+            //}
+            var model = new ReportListViewModel()
             {
-                reports.Add(new ReportViewModel() { Name = report});
-            }
-            var model = new ReportsViewModel()
-            {
-                ReportList = reports
+                ReportList = reportList
             };
 
 
@@ -142,15 +142,24 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             else if (reportType == ReportType.TotalCostByDistrict)
             {
                 report = accountant.printTotalCostByDistrict().ToList();
+                var m = new DistrictReportViewModel()
+                {
+                    Report = report,
+                    Total = report.Sum(r => r.Costs).ToString()
+                };
+                return View("TotalDistrictReport", m);
+
             }
             else if (reportType == ReportType.TotalCostByEngineer)
             {
                 report = accountant.printTotalCostByEngineer().ToList();
             }
+            var model = new ReportViewModel() {
+                Report = report
 
+            };
 
-
-            return View();
+            return View("Report", model);
         }
 
 
