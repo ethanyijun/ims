@@ -55,7 +55,7 @@ namespace IMSDBLayer.DataAccessObjects
                                 select new { Date = i.DateFinish, Cost = i.Costs, Hour = i.Hours } into x
 
                                 group x by x.Date into y
-                                select new ReportRow() { FirstProperty = y.FirstOrDefault().Date.Value.ToString("y"), Costs = y.Sum(i => i.Cost), Hours = y.Sum(s => s.Hour) };
+                                select new ReportRow() { FirstProperty = System.Data.Entity.SqlServer.SqlFunctions.DateName("month",y.FirstOrDefault().Date.Value)+"/" + System.Data.Entity.SqlServer.SqlFunctions.DateName("year", y.FirstOrDefault().Date.Value), Costs = y.Sum(i => i.Cost), Hours = y.Sum(s => s.Hour) };
 
                 return reportRow.OrderBy(r => r.FirstProperty).ToList();
 

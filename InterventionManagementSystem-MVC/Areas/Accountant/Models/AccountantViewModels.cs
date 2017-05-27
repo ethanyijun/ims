@@ -65,6 +65,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Models
         public string Total { get; set; }
     }
 
+    public class MonthlyDistrictReportViewModel:ReportViewModel
+    {
+        public string SelectedDistrict { get; set; }
+        public IEnumerable<SelectListItem> DistrictList { get; set; }
+    }
 
     
 }

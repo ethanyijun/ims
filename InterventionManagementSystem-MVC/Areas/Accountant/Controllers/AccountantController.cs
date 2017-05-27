@@ -104,11 +104,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
                                 .Cast<ReportType>()
                                 .Select(v => v.ToString())
                                 .ToList();
-            //var reports = new List<ReportViewModel>();
-            //foreach (var report in reportList)
-            //{
-            //    reports.Add(new ReportViewModel() { FirstProperty = report});
-            //}
+         
             var model = new ReportListViewModel()
             {
                 ReportList = reportList
@@ -166,7 +162,44 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
         public ActionResult PrintMonthlyReport()
         {
-            return View();
+            var accountant = GetAccountantService();
+            var report = new List<IMSLogicLayer.Models.ReportRow>();
+           
+
+            var districts = accountant.getDistricts().Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }).ToList();
+
+            var model = new MonthlyDistrictReportViewModel()
+            {
+                DistrictList = districts,
+            };
+            
+            return View("MonthlyDistrictReport",model);
+        }
+
+
+        [HttpPost]
+        public ActionResult PrintMonthlyReport(MonthlyDistrictReportViewModel district)
+        {
+            if (district.SelectedDistrict ==null)
+            {
+                return PrintMonthlyReport();
+            }
+
+            var accountant = GetAccountantService();
+            var report = new List<IMSLogicLayer.Models.ReportRow>();
+            var districtId = new Guid(district.SelectedDistrict);
+            report = accountant.printMonthlyCostByDistrict(districtId).ToList();
+
+            var districts = accountant.getDistricts().Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }).ToList();
+
+            var model = new MonthlyDistrictReportViewModel()
+            {
+                DistrictList = districts,
+                Report= report
+            };
+
+
+            return View("MonthlyDistrictReport", model);
         }
         private IAccountantService GetAccountantService()
         {
