@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IMSLogicLayer.Enums;
 
 namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 {
@@ -92,14 +93,70 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
         public ActionResult ChangeDistrict(FormCollection form)
         {
-          
             return View();
         }
 
         public ActionResult ReportList()
         {
+            var accountant = GetAccountantService();
+
+            var reportList = Enum.GetValues(typeof(ReportType))
+                                .Cast<ReportType>()
+                                .Select(v => v.ToString())
+                                .ToList();
+            var reports = new List<ReportViewModel>();
+            foreach (var report in reportList)
+            {
+                reports.Add(new ReportViewModel() { Name = report});
+            }
+            var model = new ReportsViewModel()
+            {
+                ReportList = reports
+            };
 
 
+            return View(model);
+        }
+
+
+        public ActionResult PrintReport(string name)
+        {
+            var accountant = GetAccountantService();
+            ReportType reportType = (ReportType)Enum.Parse(typeof(ReportType), name);
+            var report = new List<IMSLogicLayer.Models.ReportRow>();
+            if (reportType == ReportType.AverageCostByEngineer)
+            {
+                report = accountant.printAverageCostByEngineer().ToList();
+                foreach (var reportrow in report)
+                {
+                    reportrow.Hours = decimal.Round(reportrow.Hours.Value, 2, MidpointRounding.AwayFromZero);
+                    reportrow.Costs = decimal.Round(reportrow.Costs.Value, 2, MidpointRounding.AwayFromZero);
+                }
+            }
+            //if report is monthly cost by district redirect to monthly report page
+            else if (reportType == ReportType.MonthlyCostByDistrict)
+            {
+
+                return PrintMonthlyReport();
+            }
+            else if (reportType == ReportType.TotalCostByDistrict)
+            {
+                report = accountant.printTotalCostByDistrict().ToList();
+            }
+            else if (reportType == ReportType.TotalCostByEngineer)
+            {
+                report = accountant.printTotalCostByEngineer().ToList();
+            }
+
+
+
+            return View();
+        }
+
+
+
+        public ActionResult PrintMonthlyReport()
+        {
             return View();
         }
         private IAccountantService GetAccountantService()

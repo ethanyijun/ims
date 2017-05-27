@@ -240,6 +240,8 @@
     <Content Include="Areas\SiteEngineer\Views\_ViewStart.cshtml" />
     <Content Include="Areas\SiteEngineer\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\SiteEngineer\Views\SiteEngineer\Index.cshtml" />
+    <Content Include="Areas\Accountant\Views\Accountant\ReportList.cshtml" />
+    <Content Include="Areas\Accountant\Views\Accountant\Report.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

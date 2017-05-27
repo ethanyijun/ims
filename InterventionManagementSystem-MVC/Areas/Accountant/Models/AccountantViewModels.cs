@@ -57,7 +57,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Models
 
     public class ReportsViewModel
     {
-
+        public IEnumerable<ReportViewModel> ReportList { get; set; }
     }
 
 }

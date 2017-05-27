@@ -23,7 +23,7 @@ namespace IMSDBLayer.DataAccessObjects
                                 group x by x.Name into y
                                 select new ReportRow() { FirstProperty = y.FirstOrDefault().Name, Costs = y.Average(i => i.Cost), Hours = y.Average(s => s.Hour) };
 
-                return reportRow.OrderBy(r => r.FirstProperty);
+                return reportRow.OrderBy(r => r.FirstProperty).ToList();
 
             }
         }
@@ -40,7 +40,7 @@ namespace IMSDBLayer.DataAccessObjects
                                 group x by x.Name into y
                                 select new ReportRow() { FirstProperty = y.FirstOrDefault().Name, Costs = y.Sum(i => i.Cost), Hours = y.Sum(s => s.Hour) };
 
-                return reportRow.OrderBy(r => r.FirstProperty);
+                return reportRow.OrderBy(r => r.FirstProperty).ToList();
 
             }
         }
@@ -57,7 +57,7 @@ namespace IMSDBLayer.DataAccessObjects
                                 group x by x.Date into y
                                 select new ReportRow() { FirstProperty = y.FirstOrDefault().Date.Value.ToString("y"), Costs = y.Sum(i => i.Cost), Hours = y.Sum(s => s.Hour) };
 
-                return reportRow.OrderBy(r => r.FirstProperty);
+                return reportRow.OrderBy(r => r.FirstProperty).ToList();
 
             }
         }
@@ -73,7 +73,7 @@ namespace IMSDBLayer.DataAccessObjects
                                 group x by x.Name into y
                                 select new ReportRow() { FirstProperty = y.FirstOrDefault().Name, Costs = y.Sum(i => i.Cost), Hours = y.Sum(s => s.Hour) };
 
-                return reportRow.OrderBy(r => r.FirstProperty);
+                return reportRow.OrderBy(r => r.FirstProperty).ToList();
 
             }
         }
