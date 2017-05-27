@@ -13,22 +13,22 @@ namespace IMSDBLayer.DataAccessInterfaces
         /// Get report data from database
         /// </summary>
         /// <returns>A list of report data</returns>
-        IEnumerable<ReportRow> totalCostByEngineer();
+        IEnumerable<ReportRow> totalCostByEngineer(int type,int state);
         /// <summary>
         /// Get report data from database
         /// </summary>
         /// <returns>A list of report data</returns>
-        IEnumerable<ReportRow> averageCostByEngineer();
+        IEnumerable<ReportRow> averageCostByEngineer(int type, int state);
         /// <summary>
         /// Get report data from database
         /// </summary>
         /// <returns>A list of report data</returns>
-        IEnumerable<ReportRow> costByDistrict();
+        IEnumerable<ReportRow> costByDistrict(int state);
         /// <summary>
         /// Get report data from database
         /// </summary>
         /// <returns>A list of report data</returns>
-        IEnumerable<ReportRow> monthlyCostForDistrict(Guid districtId);
+        IEnumerable<ReportRow> monthlyCostForDistrict(Guid districtId,int state);
 
     }
 }

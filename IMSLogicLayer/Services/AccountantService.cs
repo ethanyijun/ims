@@ -99,7 +99,7 @@ namespace IMSLogicLayer.Services
         /// <returns>a list of reportrow to construct a report</returns>
         public IEnumerable<ReportRow> printAverageCostByEngineer()
         {
-            return ReportDataAccess.averageCostByEngineer().Select(c => new ReportRow(c)).ToList();
+            return ReportDataAccess.averageCostByEngineer((int)UserType.SiteEngineer,(int)InterventionState.Completed).Select(c => new ReportRow(c)).ToList();
         }
         /// <summary>
         /// Gets the report data for monthly cost by district report
@@ -107,7 +107,7 @@ namespace IMSLogicLayer.Services
         /// <returns>a list of reportrow to construct a report</returns>
         public IEnumerable<ReportRow> printMonthlyCostByDistrict(Guid districtId)
         {
-            return ReportDataAccess.monthlyCostForDistrict(districtId).Select(c => new ReportRow(c)).ToList();
+            return ReportDataAccess.monthlyCostForDistrict(districtId,(int)InterventionState.Completed).Select(c => new ReportRow(c)).ToList();
         }
         /// <summary>
         /// Gets the report data for total cost by district report
@@ -115,7 +115,7 @@ namespace IMSLogicLayer.Services
         /// <returns>a list of reportrow to construct a report</returns>
         public IEnumerable<ReportRow> printTotalCostByDistrict()
         {
-            return ReportDataAccess.costByDistrict().Select(c => new ReportRow(c)).ToList();
+            return ReportDataAccess.costByDistrict((int)InterventionState.Completed).Select(c => new ReportRow(c)).ToList();
         }
         /// <summary>
         /// Gets the report data for total cost by engineer report
@@ -123,7 +123,7 @@ namespace IMSLogicLayer.Services
         /// <returns>a list of reportrow to construct a report</returns>
         public IEnumerable<ReportRow> printTotalCostByEngineer()
         {
-            return ReportDataAccess.totalCostByEngineer().Select(c => new ReportRow(c)).ToList();
+            return ReportDataAccess.totalCostByEngineer((int)UserType.SiteEngineer,(int)InterventionState.Completed).Select(c => new ReportRow(c)).ToList();
         }
     }
 }

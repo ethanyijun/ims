@@ -90,10 +90,16 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
    
 
-
-        public ActionResult ChangeDistrict(FormCollection form)
+        [HttpPost]
+        public ActionResult EditDistrict(EditDistrictViewModel model)
         {
-            return View();
+            var accountant = GetAccountantService();
+            if(accountant.changeDistrict(new Guid(model.Id), new Guid(model.SelectedDistrict)))
+            {
+                return RedirectToAction("EditDistrict","Accountant",model.Id);
+            }
+
+            return View("Error");
         }
 
         public ActionResult ReportList()

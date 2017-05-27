@@ -71,9 +71,8 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities context = new IMSEntities())
             {
                 var old = context.Users.Where(u => u.Id == user.Id).FirstOrDefault();
-
-                old =new User (user);
-
+                
+                context.Entry(old).CurrentValues.SetValues(user);
                 if (context.SaveChanges() > 0)
                 {
                     return true;
