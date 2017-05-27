@@ -15,10 +15,21 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
     public class AccountantController : Controller
     {
         // GET: Accountant/Accountants
+        public AccountantController() {
+
+            //var identityId = User.Identity.GetUserId();
+
+            accountant = new AccountantService("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea");
+            
+        }
+
+        public AccountantController(IAccountantService accountant) {
+            this.accountant = accountant;
+        }
+
+        private IAccountantService accountant;
         public ActionResult Index()
         {
-            
-            IAccountantService accountant = GetAccountantService();
             var user = accountant.getDetail();
             var model = new AccountantViewModel()
             {
@@ -30,7 +41,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         
         public ActionResult AccountListView()
         {
-            IAccountantService accountant = GetAccountantService();
+           
             var siteEngineerList = accountant.getAllSiteEngineer();
             var siteEnigeerVMList = new List<SiteEngineerViewModel>();
             foreach (var siteEngineer in siteEngineerList)
@@ -69,7 +80,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         //GET Default information of an User
         public ActionResult EditDistrict(string id)
         {
-            var accountant = GetAccountantService();
+         
 
             var user = accountant.getUserById(new Guid(id));
             user.District = accountant.getDistrictForUser(user.Id);
@@ -93,7 +104,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         [HttpPost]
         public ActionResult EditDistrict(EditDistrictViewModel model)
         {
-            var accountant = GetAccountantService();
+        
             if(accountant.changeDistrict(new Guid(model.Id), new Guid(model.SelectedDistrict)))
             {
                 return RedirectToAction("EditDistrict","Accountant",model.Id);
@@ -104,7 +115,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
         public ActionResult ReportList()
         {
-            var accountant = GetAccountantService();
+            
 
             var reportList = Enum.GetValues(typeof(ReportType))
                                 .Cast<ReportType>()
@@ -123,7 +134,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
         public ActionResult PrintReport(string name)
         {
-            var accountant = GetAccountantService();
+           
             ReportType reportType = (ReportType)Enum.Parse(typeof(ReportType), name);
             var report = new List<IMSLogicLayer.Models.ReportRow>();
             if (reportType == ReportType.AverageCostByEngineer)
@@ -168,7 +179,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
         public ActionResult PrintMonthlyReport()
         {
-            var accountant = GetAccountantService();
+            
             var report = new List<IMSLogicLayer.Models.ReportRow>();
            
 
@@ -191,7 +202,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
                 return PrintMonthlyReport();
             }
 
-            var accountant = GetAccountantService();
+    
             var report = new List<IMSLogicLayer.Models.ReportRow>();
             var districtId = new Guid(district.SelectedDistrict);
             report = accountant.printMonthlyCostByDistrict(districtId).ToList();
@@ -209,7 +220,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         }
         private IAccountantService GetAccountantService()
         {
-            var identityId = User.Identity.GetUserId();
+            //var identityId = User.Identity.GetUserId();
 
             IAccountantService accountant = new AccountantService("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea");
             
