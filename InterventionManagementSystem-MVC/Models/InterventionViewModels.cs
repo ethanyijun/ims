@@ -7,6 +7,7 @@ namespace InterventionManagementSystem_MVC.Models
 {
     public class InterventionViewModel
     {
+        public string Id { get; set; }
         public string InterventionTypeName { get; set; }
         public string ClientName { get; set; }
 
