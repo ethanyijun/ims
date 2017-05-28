@@ -18,10 +18,12 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Models
 
     public class ManagerViewInterventionModel
     {
-        public int SelectedType { get; set; }
+        public string SelectedType { get; set; }
         public IEnumerable<InterventionViewModel> Interventions { get; set; }
 
         public IEnumerable<SelectListItem> ViewList { get; set; }
+        public Nullable<decimal> AuthorisedHours { get; set; }
+        public Nullable<decimal> AuthorisedCosts { get; set; }
     }
 
 }

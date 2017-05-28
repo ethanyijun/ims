@@ -14,10 +14,22 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 {
     public class ManagerController : Controller
     {
+        private IManagerService manager;
+
+        public ManagerController() {
+
+            //var identityId = User.Identity.GetUserId();
+
+             manager = new ManagerService("2b8dbe21-cc7b-4794-bf3e-4a2d3a7b68e0");
+        }
+
+        public ManagerController(IManagerService manager) {
+            this.manager = manager;
+        }
         // GET: Manager/Manager
         public ActionResult Index()
         {
-            IManagerService manager = GetManagerService();
+
             var user = manager.GetDetail();
             var model = new ManagerViewModel()
             {
@@ -31,7 +43,8 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 
         public ActionResult InterventionList()
         {
-            IManagerService manager = GetManagerService();
+
+            var user = manager.GetDetail();
             var interventionList = manager.GetApprovedInterventions();
             var interventions = new List<InterventionViewModel>();
             var viewList = new List<SelectListItem>()
@@ -40,22 +53,22 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
                 new SelectListItem(){ Text="Proposed", Value="Proposed"}
             };
             BindIntervention(interventionList, interventions);
-            var model = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions };
+            var model = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions, AuthorisedCosts = user.AuthorisedCosts, AuthorisedHours = user.AuthorisedHours };
             return View(model);
         }
 
-     
+
         [HttpPost]
-        public ActionResult InterventionList(FormCollection form)
+        public ActionResult InterventionList(ManagerViewInterventionModel model)
         {
-            if (form["SelectedType"].ToString().Equals("Approved"))
+            if (model.SelectedType.Equals("Approved"))
             {
                 return RedirectToAction("InterventionList", "Manager");
             }
             else
             {
-               
-                IManagerService manager = GetManagerService();
+
+
                 var user = manager.GetDetail();
                 var interventionList = manager.GetInterventionsByState(IMSLogicLayer.Enums.InterventionState.Proposed);
                 var interventions = new List<InterventionViewModel>();
@@ -63,24 +76,30 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
                 {
                     new SelectListItem(){ Text="Proposed", Value="Proposed",Selected=true },
                     new SelectListItem(){ Text ="Approved",Value="Approved"},
-                  
+
                 };
                 BindIntervention(interventionList, interventions);
-                var model = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions };
-                return View(model);
+                var m = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions, AuthorisedCosts = user.AuthorisedCosts, AuthorisedHours = user.AuthorisedHours };
+                return View(m);
 
             }
 
         }
 
-        private IManagerService GetManagerService()
+
+       
+        public ActionResult ApproveIntervention(string id)
         {
-            var identityId = User.Identity.GetUserId();
+            if(manager.ApproveAnIntervention(new Guid(id)))
+            {
+                return RedirectToAction("InterventionList","Manager");
+            }
 
-            IManagerService manager = new ManagerService("2b8dbe21-cc7b-4794-bf3e-4a2d3a7b68e0");
-
-            return manager;
+            return View("Error");
         }
+
+      
+    
 
         private void BindIntervention(IEnumerable<IMSLogicLayer.Models.Intervention> interventionList, List<InterventionViewModel> interventions)
         {
@@ -88,6 +107,7 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             {
                 interventions.Add(new InterventionViewModel()
                 {
+                    Id=intervention.Id.ToString(),
                     InterventionTypeName = intervention.InterventionType.Name,
                     ClientName = intervention.Client.Name,
                     DateCreate = intervention.DateCreate,

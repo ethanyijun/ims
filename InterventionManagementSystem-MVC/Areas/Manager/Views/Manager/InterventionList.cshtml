@@ -4,7 +4,8 @@
 <h3>Intervention List</h3>
 <hr />
 
-
+@using (Html.BeginForm("InterventionList", "Manager", FormMethod.Post))
+{
 <table id="table-clients" class="table table-striped table-bordered table-hover table-responsive" style="background-color: white">
     <thead>
 
@@ -15,13 +16,12 @@
             <th class="col-md-2 col-lg-2">Client Name</th>
 
             <th class="col-md-1 col-lg-1">Created Date</th>
-            @using (Html.BeginForm("InterventionList", "Manager", FormMethod.Post))
-            {
+           
                 <th class="col-md-1 col-lg-1">
                     @Html.DropDownListFor(m => m.SelectedType, Model.ViewList, new { onchange = @"form.submit();" })
                 </th>
 
-            }
+            
             <th class="col-md-4 col-lg-3">Action</th>
 
         </tr>
@@ -47,11 +47,11 @@
                     @Html.DisplayFor(modelItem => item.InterventionState)
                 </td>
                 <td>
-                    <div class="modal fade" @*id="view-<%#Eval(" Id")%>"*@ role="dialog"><div class="modal-dialog">
+                    <div class="modal fade" id="view-@(item.Id)" role="dialog"><div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">@Html.DisplayFor(modelItem =>item.InterventionTypeName)</h4>
+                                    <h4 class="modal-title">@Html.DisplayFor(modelItem => item.InterventionTypeName)</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
@@ -91,9 +91,15 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-default btn-listview" data-toggle="modal" data-target="">View</a>
-                    <input type="button" value="Approve" onclick="location.href=''" />
-                </td>
+                    <a class="btn btn-default btn-listview" data-toggle="modal" data-target="#view-@(item.Id)">View</a>
+
+                    @{
+                        if (item.InterventionState == IMSLogicLayer.Enums.InterventionState.Proposed.ToString() && item.Costs <= Model.AuthorisedCosts && item.Hours <= Model.AuthorisedHours)
+                        {
+                            <input type="button" value="Approve" onclick="location.href='@Url.Action("ApproveIntervention", "Manager", new { Id = item.Id })'" class="btn btn-success btn-listview" />
+                        }
+                    }
+                  </td>
             </tr>
         }
 
@@ -101,3 +107,4 @@
     </tbody>
 
 </table>
+}
