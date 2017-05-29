@@ -17,7 +17,7 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities context = new IMSEntities())
             {
 
-                context.Districts.Add(district);
+                context.Districts.Add(new District(district));
                 context.SaveChanges();
                 return context.Districts.Find(district);
 
@@ -57,8 +57,8 @@ namespace IMSDBLayer.DataAccessObjects
             {
                 //var old = context.Clients.Where(c => c.Id == client.Id).FirstOrDefault();
                 var old = context.Districts.Find(district);
-                old = district;
-
+                old = new District(district);
+               
                 if (context.SaveChanges() > 0)
                 {
                     return true;
