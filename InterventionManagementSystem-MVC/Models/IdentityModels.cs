@@ -34,6 +34,6 @@ namespace InterventionManagementSystem_MVC.Models
 
         public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.InterventionViewModel> InterventionViewModels { get; set; }
 
-        public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.ClientViewModel> ClientViewModels { get; set; }
+       // public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.ClientViewModel> ClientViewModels { get; set; }
     }
 }
