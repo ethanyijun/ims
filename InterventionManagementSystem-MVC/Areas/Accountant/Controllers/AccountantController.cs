@@ -12,6 +12,8 @@ using IMSLogicLayer.Enums;
 
 namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 {
+    [AccountantAuthorize]
+    [HandleError]
     public class AccountantController : Controller
     {
         // GET: Accountant/Accountants

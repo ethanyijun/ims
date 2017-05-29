@@ -12,6 +12,8 @@ using InterventionManagementSystem_MVC.Areas.Manager.Models;
 
 namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 {
+    [ManagerAuthorize]
+    [HandleError]
     public class ManagerController : Controller
     {
         private IManagerService manager;

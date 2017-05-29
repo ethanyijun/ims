@@ -12,6 +12,8 @@ using IMSLogicLayer.Models;
 
 namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 {
+    [SiteEngineerAuthorize]
+    [HandleError]
     public class SiteEngineerController : Controller
     {
 
