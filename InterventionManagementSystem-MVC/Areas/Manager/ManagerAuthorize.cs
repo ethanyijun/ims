@@ -15,7 +15,7 @@ namespace InterventionManagementSystem_MVC.Areas.Manager
             var user = httpContext.User;
             if (area != null && area.ToString() == "Manager")
             {
-                if (!user.Identity.IsAuthenticated && !user.IsInRole("Manager"))
+                if (user.Identity.IsAuthenticated && user.IsInRole("Manager"))
                     return true;
             }
 

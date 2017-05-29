@@ -10,6 +10,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant
 
     {
 
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var routeData = httpContext.Request.RequestContext.RouteData;
@@ -17,10 +18,9 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant
             var user = httpContext.User;
             if (area != null && area.ToString() == "Accountant")
             {
-                if (!user.Identity.IsAuthenticated && !user.IsInRole("Accountant"))
+                if (user.Identity.IsAuthenticated && user.IsInRole("Accountant"))
                     return true;
             }
-
             return false;
 
 

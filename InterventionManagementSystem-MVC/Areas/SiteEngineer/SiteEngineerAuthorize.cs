@@ -15,7 +15,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer
             var user = httpContext.User;
             if (area != null && area.ToString() == "SiteEngineer")
             {
-                if (!user.Identity.IsAuthenticated && !user.IsInRole("SiteEngineer"))
+                if (user.Identity.IsAuthenticated && user.IsInRole("SiteEngineer"))
                     return true;
             }
 
