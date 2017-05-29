@@ -84,5 +84,10 @@ namespace IMSLogicLayer.Services
             user.District = new District(Districts.fetchDistrictById(user.DistrictId.Value));
             return user;
         }
+        internal String GetDistrictName(Guid districtId)
+        {
+           return Districts.fetchDistrictById(districtId).Name;
+      
+        }
     }
 }
