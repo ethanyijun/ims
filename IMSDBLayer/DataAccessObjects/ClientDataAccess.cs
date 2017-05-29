@@ -34,14 +34,11 @@ namespace IMSDBLayer.DataAccessObjects
 
         public IEnumerable<Client> fetchClientsByDistrictId(Guid districtId)
         {
-            IEnumerable<Client> items = null;
-
             using (IMSEntities context = new IMSEntities())
             {
-                items= (IEnumerable<Client>)context.Clients.Where(c => c.DistrictId == districtId).ToList();
-                // return context.Clients.Where(c => c.DistrictId == districtId).AsEnumerable();
+
+                return context.Clients.Where(c => c.DistrictId == districtId).AsEnumerable();
             }
-            return items;
         }
 
         public IEnumerable<Client> getAll()
@@ -49,7 +46,7 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities context = new IMSEntities())
             {
 
-                return context.Clients.ToList();
+                return context.Clients.AsEnumerable();
             }
         }
 

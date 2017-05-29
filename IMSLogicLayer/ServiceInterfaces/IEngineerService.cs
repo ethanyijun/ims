@@ -30,11 +30,6 @@ namespace IMSLogicLayer.ServiceInterfaces
         /// Get the instance of current user
         /// </summary>
         /// <returns>The current user instance</returns>
-        String getDistrictName(Guid districtId);
-        /// <summary>
-        /// Get district name by its id
-        /// </summary>
-        /// <returns>Name of district</returns>
         User getDetail();
         /// <summary>
         /// Get the User instance by its id
