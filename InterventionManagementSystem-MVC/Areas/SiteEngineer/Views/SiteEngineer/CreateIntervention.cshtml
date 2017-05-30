@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-   
+
 
     <div class="form-horizontal">
         <h4>InterventionViewModel</h4>
@@ -23,13 +23,13 @@
             <div class="row form-group">
                 <div class="col-md-4 col-lg-3 col-xl-2">
                     @Html.LabelFor(model => model.Intervention.InterventionTypeName, htmlAttributes: new { @class = "control-label col-md-2" })
-        
+
                 </div>
                 <div class="col-md-6">
-                    @Html.DropDownList("InterventionTypes", Model.ViewInterventionTypeList,"Select Intervention Type",  new { @class = "form-control" })
+                    @Html.DropDownList("InterventionTypes", Model.ViewInterventionTypeList, "Select Intervention Type", new { @class = "form-control" })
                     @Html.ValidationMessage("Intervention Types")
 
-                 
+
 
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 <div class="col-md-6">
                     @Html.DropDownList("ClientsList", Model.ViewClientsList, "Select Client", new { @class = "form-control" })
                     @Html.ValidationMessage("Clients List")
-             
+
 
                 </div>
             </div>
@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-       
+
             <div class="row form-group">
                 <div class="col-md-4 col-lg-3 col-xl-2">
                     @Html.LabelFor(model => model.Intervention.Costs, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -73,7 +73,7 @@
                     @Html.LabelFor(model => model.Intervention.DateFinish, htmlAttributes: new { @class = "control-label col-md-2" })
                 </div>
                 <div class="col-md-6">
-       @Html.TextBoxFor(model => model.Intervention.DateFinish, DateTime.Now.ToString("yyyy-MM-dd"), new { type = "date", @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Intervention.DateFinish, DateTime.Now.ToString("yyyy-MM-dd"), new { type = "date", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Intervention.DateCreate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -88,16 +88,16 @@
                 </div>
             </div>
 
-  
+
         </div>
 
-    
+
 
         <div class="row form-group">
             <div class="col-md-6">
                 <input type="submit" value="Submit" class="btn btn-default" />
             </div>
-      
+
         </div>
 
 

@@ -10,7 +10,7 @@ namespace InterventionManagementSystem_MVC.Models
     {
 
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Display (Name = "Intervention Type")]
         public string InterventionTypeName { get; set; }
         [Display(Name = "Client")]

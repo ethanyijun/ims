@@ -63,6 +63,14 @@ namespace IMSDBLayer.DataAccessObjects
                 return context.Interventions.Where(i => i.Id == interventionId).FirstOrDefault();
             }
         }
+        //public IEnumerable<Intervention> fetchInterventionsListById(Guid interventionId)
+        //{
+        //    using (IMSEntities context = new IMSEntities())
+        //    {
+        //        return context.Interventions.Where(i => i.Id == interventionId).ToList();
+        //    }
+        //}
+
 
         public IEnumerable<Intervention> fetchInterventionsByInterventionType(Guid interventionTypeId)
         {

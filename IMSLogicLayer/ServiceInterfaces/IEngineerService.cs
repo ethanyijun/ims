@@ -64,6 +64,18 @@ namespace IMSLogicLayer.ServiceInterfaces
         Client getClientById(Guid clientId);
 
         /// <summary>
+        /// Get all intervention form it's id
+        /// </summary>
+        /// <param name="interventionId">The guid of user id</param>
+        /// <returns>The user's interventions list</returns>
+        IEnumerable<Intervention> GetAllInterventions(Guid userId);
+        /// <summary>
+        /// Get a non-guid intervention form it's id
+        /// </summary>
+        /// <param name="interventionId">The guid of intervention id</param>
+        /// <returns>The non-guid intervention</returns>
+        Intervention getNonGuidInterventionById(Guid interventionId);
+        /// <summary>
         /// Get an intervention form it's id
         /// </summary>
         /// <param name="interventionId">The guid of an intervention</param>

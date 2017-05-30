@@ -119,6 +119,23 @@ namespace IMSLogicLayer.Services
             return new Intervention(Interventions.fetchInterventionsById(interventionId));
         }
         /// <summary>
+        /// Get an non-guid intervention form it's id
+        /// </summary>
+        /// <param name="interventionId">The guid of an intervention</param>
+        /// <returns>The intervention instance</returns>
+        public Intervention getNonGuidInterventionById(Guid interventionId)
+        {
+            Intervention intervention= new Intervention(Interventions.fetchInterventionsById(interventionId));
+           
+                intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+                intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
+                intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));
+
+
+            return intervention;
+        }
+
+        /// <summary>
         /// Create an intervention
         /// </summary>
         /// <param name="intervention">An intervention instance</param>
@@ -138,6 +155,53 @@ namespace IMSLogicLayer.Services
 
 
         }
+        //public IEnumerable<Intervention> GetNonGuidIntervention(Guid interventionId)
+        //{
+        //    IEnumerable<Intervention> inters=Interventions.fetchInterventionsListById(interventionId).ToList();
+            
+
+
+        //    // interventionList.RemoveAll(i => i.InterventionState == InterventionState.Cancelled);
+
+
+        //    foreach (var intervention in interventionList)
+        //    {
+        //        intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+        //        intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
+        //        intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));
+
+        //    }
+        //    return interventionList;
+        //}
+
+
+        /// <summary>
+        /// Get a list of interventions created by this user
+        /// </summary>
+        /// <param name="userId">The guid of an user</param>
+        /// <returns>A list of interventions</returns>
+        public IEnumerable<Intervention> GetAllInterventions(Guid userId)
+        {
+    
+            var interventionList = new List<Intervention>();
+            interventionList.AddRange(Interventions.fetchInterventionsByCreator(userId).Select(c => new Intervention(c)).ToList());
+
+
+           // interventionList.RemoveAll(i => i.InterventionState == InterventionState.Cancelled);
+       
+
+            foreach (var intervention in interventionList)
+            {
+                intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+                intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
+                intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));
+
+            }
+            return interventionList;
+        }
+
+
+
         /// <summary>
         /// Get a list of interventions created and approved by this user
         /// </summary>

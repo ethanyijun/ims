@@ -31,8 +31,16 @@ namespace IMSDBLayer.Models
         public virtual DbSet<InterventionType> InterventionTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-        object placeHolderVariable;
-      //  public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.ClientViewModel> ClientViewModels { get; set; }
-        //public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.ClientViewModel> ClientViewModels { get; set; }
+        //public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.InterventionViewModel> InterventionViewModels { get; set; }
+
+        //  public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Areas.SiteEngineer.Models.SiteEngineerViewInterventionModel> SiteEngineerViewInterventionModels { get; set; }
+
+        //    public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Areas.SiteEngineer.Models.SiteEngineerViewInterventionModel> SiteEngineerViewInterventionModels { get; set; }
+
+        //   public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.ClientViewModel> ClientViewModels { get; set; }
+
+        // public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Areas.SiteEngineer.Models.SiteEngineerViewInterventionModel> SiteEngineerViewInterventionModels { get; set; }
+
+        //  public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.InterventionViewModel> InterventionViewModels { get; set; }
     }
 }

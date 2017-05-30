@@ -21,11 +21,13 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
 
     public class SiteEngineerViewInterventionModel
     {
-        public int SelectedType { get; set; }
+        [Key]
+        public int Id { get; set; }
+       // public int SelectedType { get; set; }
         public IEnumerable<InterventionViewModel> Interventions { get; set; }
         public IEnumerable<SelectListItem> ViewInterventionTypeList { get; set; }
         public IEnumerable<SelectListItem> ViewClientsList { get; set; }
-
+        public InterventionViewModel Intervention { get; set; }
     }
 
     public class SiteEngineerViewClientModel
