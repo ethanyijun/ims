@@ -15,7 +15,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 {
     public class SiteEngineerController : Controller
     {
-
+       
 
         // GET: SiteEngineer/SiteEngineer
         public ActionResult Index()
@@ -31,6 +31,14 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             };
             return View(model);
         }
+        public ActionResult ClientList() {
+            return View();
+
+        }
+
+
+
+
         // GET: SiteEngineer/Create
         public ActionResult CreateIntervention()
         {
@@ -166,6 +174,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
         public ActionResult EditIntervention(Guid id)
         {
+            
             IEngineerService engineer = GetEngineerService();
               Intervention inter= engineer.getNonGuidInterventionById(id);
             InterventionViewModel mo=BindSingleIntervention(inter);
@@ -174,7 +183,12 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
      
              }
            [HttpPost]
-        public ActionResult EditIntervention(FormCollection form){
+        public ActionResult EditIntervention(InterventionViewModel interventionmodel){
+            IEngineerService engineer = GetEngineerService();
+          //  Guid interventionId = interventionmodel.Id;
+            Intervention inter = engineer.getNonGuidInterventionById(interventionmodel.Id);
+
+
             return View();
           }
 
