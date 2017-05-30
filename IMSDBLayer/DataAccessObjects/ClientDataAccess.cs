@@ -16,7 +16,7 @@ namespace IMSDBLayer.DataAccessObjects
         {
             using (IMSEntities context = new IMSEntities())
             {
-                context.Clients.Add(client);
+                context.Clients.Add(new Client(client));
                 context.SaveChanges();
                 return context.Clients.Find(client);
             }
@@ -37,7 +37,7 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities context = new IMSEntities())
             {
 
-                return context.Clients.Where(c => c.DistrictId == districtId).AsEnumerable();
+                return context.Clients.Where(c => c.DistrictId == districtId).ToList();
             }
         }
 
@@ -54,9 +54,10 @@ namespace IMSDBLayer.DataAccessObjects
         {
             using (IMSEntities context = new IMSEntities())
             {
-                //var old = context.Clients.Where(c => c.Id == client.Id).FirstOrDefault();
-                var old = context.Clients.Find(client);
-                old = client;
+                var old = context.Clients.Where(c => c.Id == client.Id).FirstOrDefault();
+
+                context.Entry(old).CurrentValues.SetValues(client);
+
 
                 if (context.SaveChanges() > 0)
                 {

@@ -15,7 +15,7 @@ namespace IMSDBLayer.DataAccessObjects
         {
             using (IMSEntities context = new IMSEntities())
             {
-                context.InterventionTypes.Add(interventionType);
+                context.InterventionTypes.Add(new InterventionType(interventionType));
                 context.SaveChanges();
                 return context.InterventionTypes.Find(interventionType);
 
@@ -49,7 +49,7 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities context = new IMSEntities())
             {
                 var old = context.InterventionTypes.Where(i => i.Id == interventionType.Id).FirstOrDefault();
-                old = interventionType;
+                context.Entry(old).CurrentValues.SetValues(interventionType);
                 if (context.SaveChanges() > 0)
                 {
                     return true;
