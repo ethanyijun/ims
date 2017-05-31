@@ -87,7 +87,7 @@ namespace IMSLogicLayer.ServiceInterfaces
         /// </summary>
         /// <param name="intervention">An intervention instance</param>
         /// <returns>An instance of Intervention created</returns>
-        Intervention createIntervention(Intervention intervention);
+        bool createIntervention(Intervention intervention);
 
         /// <summary>
         /// Get a list of interventions based on it's creator

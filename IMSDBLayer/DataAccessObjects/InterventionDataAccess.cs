@@ -117,24 +117,43 @@ namespace IMSDBLayer.DataAccessObjects
             }
         }
 
-        public bool update(Intervention intervention)
-        {
+        public bool ApproveIntervention(Intervention intervention) {
             using (IMSEntities context = new IMSEntities())
             {
-                var old = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault();
-             //   old = new Intervention(intervention);
-                foreach (var inter in context.Interventions)
+                intervention = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault<Intervention>();
+
+            }
+            if (intervention != null) {
+                intervention.State = 1;
+            }
+            using (IMSEntities dbcontext = new IMSEntities())
+            {
+                dbcontext.Entry(intervention).State = System.Data.Entity.EntityState.Modified;
+                int x = dbcontext.SaveChanges();
+                if (x > 0)
                 {
-                    if (inter.Id== old.Id)
-                    {
-                        context.Interventions.Remove(inter);
-                        context.Interventions.Add(new Intervention(intervention));
-                    }
-        
+                    return true;
                 }
-             
-                int x = context.SaveChanges();
-                if (context.SaveChanges() > 0)
+                return false;
+            }
+           }
+        public bool update(Intervention intervention)
+        {
+            Intervention old;
+            using (IMSEntities context = new IMSEntities())
+            {
+                 old = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault<Intervention>();
+            }
+            if (old != null) {
+                old.Comments = intervention.Comments;
+                old.LifeRemaining = intervention.LifeRemaining;
+                old.DateRecentVisit = intervention.DateRecentVisit;
+            }
+            using (IMSEntities dbcontext = new IMSEntities())
+            {
+                dbcontext.Entry(old).State = System.Data.Entity.EntityState.Modified;
+                int x = dbcontext.SaveChanges();
+                if (x > 0)
                 {
                     return true;
                 }

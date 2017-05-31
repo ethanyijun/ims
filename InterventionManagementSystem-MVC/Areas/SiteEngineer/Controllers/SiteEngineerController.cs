@@ -76,22 +76,15 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 IEngineerService engineer = GetEngineerService();
-
                 decimal hours = (decimal)viewmodel.Intervention.Hours;
-
                 decimal costs = (decimal)viewmodel.Intervention.Costs;
                 int lifeRemaining = 100;
                 string comments = viewmodel.Intervention.Comments;
-
                 InterventionState state = InterventionState.Proposed;
                 String test = Request.Form["ClientsList"];
 
                 Guid clientId = new Guid(Request.Form["ClientsList"]);
-
-
-                //DateTime dateCreate = (DateTime)viewmodel.Intervention.DateCreate;
                 DateTime dateCreate = DateTime.Now;
                 DateTime dateFinish = (DateTime)viewmodel.Intervention.DateFinish;
                 DateTime dateRecentVisit = DateTime.Now;
@@ -99,52 +92,15 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
                 Guid createdBy = (Guid)engineer.getDetail().Id;
                 Guid approvedBy = (Guid)engineer.getDetail().DistrictId;
-                Guid typeId = new Guid(Request.Form["InterventionTypes"]);   // new Guid(viewmodel.Intervention.InterventionTypeName);
-
-                   Intervention new_intervention = new Intervention(hours, costs, lifeRemaining, comments, state,
-                        dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, null);
-               
-             Intervention returninter= engineer.createIntervention(new_intervention);
-             //   InterventionViewModel viewm = BindSingleIntervention(returninter);
-                //    if (Page.IsValid)
-                //    {
-                //        decimal hour = decimal.Parse(InterventionHour.Text);
-                //        decimal cost = decimal.Parse(InterventionCost.Text);
-                //        string comments = InterventionComments.Text;
-                //        Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
-                //        DateTime createDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-                //        DateTime? finishDate;
-                //        if (String.IsNullOrEmpty(InterventionPerformDate.Text))
-                //        {
-                //            finishDate = null;
-                //        }
-                //        else
-                //        {
-                //            finishDate = DateTime.Parse(InterventionPerformDate.Text);
-                //        }
-
-
-                //        DateTime recentVisit = DateTime.Parse(DateTime.Now.ToShortDateString());
-                //        var typeID = SeletedInterventionType.SelectedValue;
-                //        var clientID = SelectClient.SelectedValue;
-                //        InterventionState state = InterventionState.Proposed;
-
-                //        Intervention intervention = new Intervention(hour, cost, 100, comments, state, createDate, finishDate, recentVisit, new Guid(typeID), new Guid(clientID), engineerService.getDetail().Id, null);
-                //        engineerService.createIntervention(intervention);
-
-                //        Response.Redirect("~/Engineer/InterventionList.aspx", false);
-                //    }
-                //}
-                //db.Tours.Add(tour);
-                //db.SaveChanges();
-
-                // return RedirectToAction("Index");
+                Guid typeId = new Guid(Request.Form["InterventionTypes"]);   
+                Intervention new_intervention = new Intervention(hours, costs, lifeRemaining, comments, state,
+                dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, null);
+                Boolean s;
+                 s= engineer.createIntervention(new_intervention);          
                 var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
                 var interventions = new List<InterventionViewModel>();
                 BindIntervention(interventionList, interventions);
                 var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
-                ////return View(model);
-                //return View("InterventionList", model);
                 return View("InterventionList", model);
 
             }

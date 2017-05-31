@@ -68,5 +68,11 @@ namespace IMSDBLayer.DataAccessInterfaces
         /// <param name="userId">the guid of an user</param>
         /// <returnsa list of intervention></returns>
         IEnumerable<Intervention> fetchInterventionsByApprovedUser(Guid userId);
+        /// <summary>
+        /// Approve an proper intervention 
+        /// </summary>
+        /// <param name="intervention">the intervention to be proved</param>
+        /// <returnsa the aproval result></returns>
+        bool ApproveIntervention(Intervention intervention);
     }
 }

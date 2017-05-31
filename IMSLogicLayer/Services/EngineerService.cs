@@ -140,21 +140,23 @@ namespace IMSLogicLayer.Services
         /// </summary>
         /// <param name="intervention">An intervention instance</param>
         /// <returns>An instance of Intervention created</returns>
-        public Intervention createIntervention(Intervention intervention)
+        public bool createIntervention(Intervention intervention)
         {
             var newIntervention = new Intervention(Interventions.create(intervention));
             newIntervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
             newIntervention.Client = new Client(Clients.fetchClientById((Guid)newIntervention.ClientId));///new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
             newIntervention.District= new District(Districts.fetchDistrictById(newIntervention.Client.DistrictId)); //new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
 
-            if (approveAnIntervention(newIntervention.Id))
-            {
-                return newIntervention;
-            }
-            else
-            {
-                return newIntervention;
-            }
+          return  approveAnIntervention(newIntervention.Id);
+          //  return newIntervention;
+            //if (approveAnIntervention(newIntervention.Id))
+            //{
+            //    return newIntervention;
+            //}
+            //else
+            //{
+            //    return newIntervention;
+            //}
 
 
         }
@@ -240,7 +242,7 @@ namespace IMSLogicLayer.Services
             {
                 if (state == InterventionState.Approved)
                 {
-                    return approveAnIntervention(interventionId);
+                    return (approveAnIntervention(interventionId));
                 }
                 else
                 {
@@ -265,7 +267,8 @@ namespace IMSLogicLayer.Services
             if (intervention.CreatedBy == getDetail().Id)
             {
                 User user = new User(Users.fetchUserById(userId));
-                return interventionService.updateIntervetionApprovedBy(interventionId, user);
+              return  Interventions.ApproveIntervention(intervention);
+           //     return interventionService.updateIntervetionApprovedBy(interventionId, user);
             }
             else
             {
@@ -311,15 +314,20 @@ namespace IMSLogicLayer.Services
             if (client.DistrictId == user.DistrictId && user.AuthorisedHours >= intervention.Hours && user.AuthorisedCosts >= intervention.Costs && user.AuthorisedCosts >= interventionType.Costs && user.AuthorisedHours >= interventionType.Hours)
             {
 
-                if (interventionService.updateInterventionState(interventionId, InterventionState.Approved, user.Id))
-                {
-                    return updateInterventionApproveBy(interventionId, user.Id);
-                }
-                else
-                {
-                    return false;
-                }
+                //if (interventionService.updateInterventionState(interventionId, InterventionState.Approved, user.Id))
+                //{
 
+
+                //    return updateInterventionApproveBy(interventionId, user.Id);
+                //}
+                //if (Interventions.ApproveIntervention(intervention)) {
+
+                //}
+                //else
+                //{
+                //    return false;
+                //}
+                return Interventions.ApproveIntervention(intervention);
 
             }
             else
