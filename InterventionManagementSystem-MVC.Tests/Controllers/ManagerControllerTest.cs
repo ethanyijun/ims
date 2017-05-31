@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using InterventionManagementSystem_MVC.Areas.Manager.Controllers;
 using InterventionManagementSystem_MVC.Areas.Manager.Models;
 using System.Web.Mvc;
+using IMSLogicLayer.ServiceInterfaces;
+using Moq;
 
 namespace InterventionManagementSystem_MVC.Tests.Controllers
 {
@@ -14,15 +17,39 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         [TestInitialize]
         public void SetUp()
         {
-            controller = new ManagerController();
-        }
-        [TestMethod]
-        public void Manager_IndexView()
-        {
-            var view = controller.Index() as ViewResult;
+            IMSDBLayer.Models.User db_manager = new IMSDBLayer.Models.User()
+            {
+                Id = new Guid(),
+                Name = "John Smith",
+                Type = 1,
+                AuthorisedCosts = 40,
+                AuthorisedHours = 40,
+                IdentityId = "",
+                DistrictId = new Guid()
+            };
 
-            Assert.AreEqual("Index", view.ViewName);
+            IMSDBLayer.Models.District db_district = new IMSDBLayer.Models.District()
+            {
+                Id = new Guid(),
+                Name = "NSW"
+            };
+
+            IMSLogicLayer.Models.User manager = new IMSLogicLayer.Models.User(db_manager);
+            manager.District = new IMSLogicLayer.Models.District(db_district);
+
+            Mock<IManagerService> managerService = new Mock<IManagerService>();
+            managerService.Setup(m => m.GetDetail()).Returns(manager);
+            managerService.Setup(m => m.GetApprovedInterventions()).Returns(new List<IMSLogicLayer.Models.Intervention>());
+
+            controller = new ManagerController(managerService.Object);
         }
+        //[TestMethod]
+        //public void Manager_IndexView()
+        //{
+        //    var view = controller.Index() as ViewResult;
+
+        //    Assert.AreEqual("Index", view.ViewName);
+        //}
 
         [TestMethod]
         public void Manager_IndexViewModel()
@@ -36,13 +63,13 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.AuthorisedHours);
         }
 
-        [TestMethod]
-        public void Manager_InterventionListView()
-        {
-            var view = controller.InterventionList() as ViewResult;
+        //[TestMethod]
+        //public void Manager_InterventionListView()
+        //{
+        //    var view = controller.InterventionList() as ViewResult;
 
-            Assert.AreEqual("InterventionList", view.ViewName);
-        }
+        //    Assert.AreEqual("InterventionList", view.ViewName);
+        //}
 
         [TestMethod]
         public void Manager_InterventionListViewModel()
@@ -55,7 +82,24 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void Manager_InterventionListViewPost()
+        public void Manager_InterventionListViewPostSelectedApproved()
+        {
+
+        }
+
+        [TestMethod]
+        public void Manager_InterventionListViewPostSelectedOthers()
+        {
+
+        }
+
+        [TestMethod]
+        public void Manager_ApproveInterventionSuccess()
+        {
+        }
+
+        [TestMethod]
+        public void Manager_ApproveInterventionFailed()
         {
 
         }
