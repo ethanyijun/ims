@@ -143,6 +143,9 @@ namespace IMSLogicLayer.Services
         public Intervention createIntervention(Intervention intervention)
         {
             var newIntervention = new Intervention(Interventions.create(intervention));
+            newIntervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+            newIntervention.Client = new Client(Clients.fetchClientById((Guid)newIntervention.ClientId));///new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+            newIntervention.District= new District(Districts.fetchDistrictById(newIntervention.Client.DistrictId)); //new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
 
             if (approveAnIntervention(newIntervention.Id))
             {
@@ -150,7 +153,7 @@ namespace IMSLogicLayer.Services
             }
             else
             {
-                return intervention;
+                return newIntervention;
             }
 
 

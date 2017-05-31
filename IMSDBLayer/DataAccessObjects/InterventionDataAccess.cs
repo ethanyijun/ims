@@ -17,25 +17,29 @@ namespace IMSDBLayer.DataAccessObjects
         {
             using (IMSEntities context = new IMSEntities())
             {
+                Intervention newIntervention = new Intervention(intervention);
+                context.Interventions.Add(newIntervention);
+                context.SaveChanges();
 
-                context.Interventions.Add(new Intervention(intervention));
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}",
-                                                    validationError.PropertyName,
-                                                    validationError.ErrorMessage);
-                        }
-                    }
-                }
-                return (Intervention)context.Interventions.Find(intervention.Id);
+                return newIntervention;
+           //     Intervention inter=context.Interventions.Add(new Intervention(intervention));
+                //try
+                //{
+                //    context.SaveChanges();
+                //}
+                //catch (DbEntityValidationException dbEx)
+                //{
+                //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                //    {
+                //        foreach (var validationError in validationErrors.ValidationErrors)
+                //        {
+                //            Trace.TraceInformation("Property: {0} Error: {1}",
+                //                                    validationError.PropertyName,
+                //                                    validationError.ErrorMessage);
+                //        }
+                //    }
+                //}
+                //return (Intervention)context.Interventions.Find(intervention.Id);
               //  return intervention;
             }
         }
@@ -118,7 +122,18 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities context = new IMSEntities())
             {
                 var old = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault();
-                old = new Intervention(intervention);
+             //   old = new Intervention(intervention);
+                foreach (var inter in context.Interventions)
+                {
+                    if (inter.Id== old.Id)
+                    {
+                        context.Interventions.Remove(inter);
+                        context.Interventions.Add(new Intervention(intervention));
+                    }
+        
+                }
+             
+                int x = context.SaveChanges();
                 if (context.SaveChanges() > 0)
                 {
                     return true;

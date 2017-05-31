@@ -58,7 +58,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             var viewInterventionTypes = new List<SelectListItem>();
             foreach (var type in InterventionTypes)
             {
-                viewInterventionTypes.Add(new SelectListItem() { Text = type.Name.ToString(), Value = type.Name.ToString() });
+                viewInterventionTypes.Add(new SelectListItem() { Text = type.Name.ToString(), Value = type.Id.ToString() });
             }
             var model = new SiteEngineerViewInterventionModel() { ViewInterventionTypeList = viewInterventionTypes, ViewClientsList = viewClientsList };
             return View(model);
@@ -85,7 +85,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 int lifeRemaining = 100;
                 string comments = viewmodel.Intervention.Comments;
 
-                InterventionState state = InterventionState.Approved;
+                InterventionState state = InterventionState.Proposed;
                 String test = Request.Form["ClientsList"];
 
                 Guid clientId = new Guid(Request.Form["ClientsList"]);
@@ -97,30 +97,15 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 DateTime dateRecentVisit = DateTime.Now;
 
 
-                Guid createdBy = (Guid)engineer.getDetail().DistrictId;
+                Guid createdBy = (Guid)engineer.getDetail().Id;
                 Guid approvedBy = (Guid)engineer.getDetail().DistrictId;
-                Guid typeId = new Guid(Request.Form["ClientsList"]);   // new Guid(viewmodel.Intervention.InterventionTypeName);
+                Guid typeId = new Guid(Request.Form["InterventionTypes"]);   // new Guid(viewmodel.Intervention.InterventionTypeName);
 
                    Intervention new_intervention = new Intervention(hours, costs, lifeRemaining, comments, state,
-                        dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, approvedBy);
-             //   new_intervention.Id = null;
-                //IMSDBLayer.Models.Intervention NE = new IMSDBLayer.Models.Intervention();
-                //NE.ApprovedBy = approvedBy;
-                //NE.ClientId = clientId;
-                //NE.Comments = comments;
-                //NE.Costs = costs;
-                //NE.CreatedBy = createdBy;
-                //NE.DateCreate = dateCreate;
-                //NE.DateFinish = dateFinish;
-                //NE.Hours = hours;
-                //NE.InterventionTypeId = typeId;
-                //NE.LifeRemaining = lifeRemaining;
-                //NE.State =(int) state;
-               // IMSLogicLayer.Models.Intervention EE = new Intervention(NE);
-               // String id = new_intervention.Id.ToString();
+                        dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, null);
                
-                engineer.createIntervention(new_intervention);
-
+             Intervention returninter= engineer.createIntervention(new_intervention);
+             //   InterventionViewModel viewm = BindSingleIntervention(returninter);
                 //    if (Page.IsValid)
                 //    {
                 //        decimal hour = decimal.Parse(InterventionHour.Text);
@@ -152,8 +137,16 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 //}
                 //db.Tours.Add(tour);
                 //db.SaveChanges();
-                return RedirectToAction("Index");
-                //  return View();
+
+                // return RedirectToAction("Index");
+                var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
+                var interventions = new List<InterventionViewModel>();
+                BindIntervention(interventionList, interventions);
+                var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
+                ////return View(model);
+                //return View("InterventionList", model);
+                return View("InterventionList", model);
+
             }
             return View(viewmodel);
         }
