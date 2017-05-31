@@ -43,13 +43,6 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
 
             controller = new ManagerController(managerService.Object);
         }
-        //[TestMethod]
-        //public void Manager_IndexView()
-        //{
-        //    var view = controller.Index() as ViewResult;
-
-        //    Assert.AreEqual("Index", view.ViewName);
-        //}
 
         [TestMethod]
         public void Manager_IndexViewModel()
@@ -62,14 +55,6 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.AuthorisedCosts);
             Assert.IsNotNull(model.AuthorisedHours);
         }
-
-        //[TestMethod]
-        //public void Manager_InterventionListView()
-        //{
-        //    var view = controller.InterventionList() as ViewResult;
-
-        //    Assert.AreEqual("InterventionList", view.ViewName);
-        //}
 
         [TestMethod]
         public void Manager_InterventionListViewModel()

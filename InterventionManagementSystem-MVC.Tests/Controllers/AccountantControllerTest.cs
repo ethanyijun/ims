@@ -56,15 +56,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
 
             controller = new AccountantController(accountantService.Object);
         }
-
-        //[TestMethod]
-        //public void Accountant_IndexView()
-        //{
-        //    var view = controller.Index() as ViewResult;
-
-        //    Assert.AreEqual("Index", view.ViewName);
-        //}
-
+        
         [TestMethod]
         public void Accountant_IndexViewModel()
         {
@@ -73,15 +65,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
 
             Assert.IsNotNull(model.Name);
         }
-
-        //[TestMethod]
-        //public void Accountant_AccountListView()
-        //{
-        //    var view = controller.AccountListView() as ViewResult;
-
-        //    Assert.AreEqual("AccountListView", view.ViewName);
-        //}
-
+        
         [TestMethod]
         public void Accountant_AccountListViewModel()
         {
@@ -91,15 +75,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.Managers);
             Assert.IsNotNull(model.SiteEngineers);
         }
-
-        //[TestMethod]
-        //public void Accountant_EditDistrictView()
-        //{
-        //    var view = controller.EditDistrict("9D2B0228-4444-4C23-8B49-01A698857709") as ViewResult;
-
-        //    Assert.AreEqual("", view.ViewName);
-        //}
-
+        
         [TestMethod]
         public void TestEditDistrictViewModel()
         {
@@ -130,10 +106,6 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual("EditDistrict", result.RouteValues["Action"]);
             Assert.AreEqual("Accountant", result.RouteValues["Controller"]);
-
-            //foreach (String key in result.RouteValues.Keys)
-            //    Console.WriteLine(key);
-            //Assert.AreEqual(district.Id, result.RouteValues.Keys.Count);
         }
 
         [TestMethod]
