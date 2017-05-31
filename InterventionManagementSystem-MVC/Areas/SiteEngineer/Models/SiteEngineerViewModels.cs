@@ -21,8 +21,8 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
 
     public class SiteEngineerViewInterventionModel
     {
-        [Key]
-        public int Id { get; set; }
+        //[Key]
+        //public int Id { get; set; }
        // public int SelectedType { get; set; }
         public IEnumerable<InterventionViewModel> Interventions { get; set; }
         public IEnumerable<SelectListItem> ViewInterventionTypeList { get; set; }
@@ -32,8 +32,8 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
 
     public class SiteEngineerViewClientModel
     {
-        [Key]
-        public int Id { get; set; }
+        //[Key]
+        //public int Id { get; set; }
         //public int SelectedType { get; set; }
         public IEnumerable<ClientViewModel> Clients { get; set; }
 

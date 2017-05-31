@@ -14,10 +14,6 @@ namespace IMSDBLayer.Models
     using System.ComponentModel.DataAnnotations;
     public partial class Intervention
     {
-      
-        private Guid typeId;
-
-    
         [Key]
         public System.Guid Id { get; set; }
         public Nullable<decimal> Hours { get; set; }

@@ -25,7 +25,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Hours" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Costs" Type="decimal" Precision="18" Scale="2" />
           <Property Name="LifeRemaining" Type="int" />
@@ -91,7 +91,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Hours" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Costs" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="LifeRemaining" Type="Int32" />

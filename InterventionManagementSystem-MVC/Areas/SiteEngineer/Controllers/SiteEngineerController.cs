@@ -71,6 +71,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public ActionResult CreateIntervention(SiteEngineerViewInterventionModel viewmodel)/*([Bind(Include = "Id,Name,Description,Length,Price,Rating,IncludesMeals")] Tour tour)*/
         {
             if (ModelState.IsValid)
@@ -100,25 +101,25 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 Guid approvedBy = (Guid)engineer.getDetail().DistrictId;
                 Guid typeId = new Guid(Request.Form["ClientsList"]);   // new Guid(viewmodel.Intervention.InterventionTypeName);
 
-                //   Intervention new_intervention = new IMSDBLayer.Models.Intervention(hours, costs, lifeRemaining, comments, state,
-                //        dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, approvedBy);
-
-                IMSDBLayer.Models.Intervention NE = new IMSDBLayer.Models.Intervention();
-                NE.ApprovedBy = approvedBy;
-                NE.ClientId = clientId;
-                NE.Comments = comments;
-                NE.Costs = costs;
-                NE.CreatedBy = createdBy;
-                NE.DateCreate = dateCreate;
-                NE.DateFinish = dateFinish;
-                NE.Hours = hours;
-                NE.InterventionTypeId = typeId;
-                NE.LifeRemaining = lifeRemaining;
-                NE.State =(int) state;
-                IMSLogicLayer.Models.Intervention EE = new Intervention(NE);
+                   Intervention new_intervention = new Intervention(hours, costs, lifeRemaining, comments, state,
+                        dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, approvedBy);
+             //   new_intervention.Id = null;
+                //IMSDBLayer.Models.Intervention NE = new IMSDBLayer.Models.Intervention();
+                //NE.ApprovedBy = approvedBy;
+                //NE.ClientId = clientId;
+                //NE.Comments = comments;
+                //NE.Costs = costs;
+                //NE.CreatedBy = createdBy;
+                //NE.DateCreate = dateCreate;
+                //NE.DateFinish = dateFinish;
+                //NE.Hours = hours;
+                //NE.InterventionTypeId = typeId;
+                //NE.LifeRemaining = lifeRemaining;
+                //NE.State =(int) state;
+               // IMSLogicLayer.Models.Intervention EE = new Intervention(NE);
                // String id = new_intervention.Id.ToString();
                
-                engineer.createIntervention(EE);
+                engineer.createIntervention(new_intervention);
 
                 //    if (Page.IsValid)
                 //    {
@@ -185,11 +186,21 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
            [HttpPost]
         public ActionResult EditIntervention(InterventionViewModel interventionmodel){
             IEngineerService engineer = GetEngineerService();
+            String new_comments = interventionmodel.Comments;
+            int new_liferemaining = interventionmodel.LifeRemaining;
+            DateTime new_recentvisit = interventionmodel.RecentiVisit;
+            bool s;
           //  Guid interventionId = interventionmodel.Id;
-            Intervention inter = engineer.getNonGuidInterventionById(interventionmodel.Id);
+         //   Intervention intervention = engineer.getNonGuidInterventionById(interventionmodel.Id);
+            s=engineer.updateInterventionDetail(interventionmodel.Id,new_comments,new_liferemaining,new_recentvisit);
+           
 
-
-            return View();
+            var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
+            var interventions = new List<InterventionViewModel>();
+            BindIntervention(interventionList, interventions);
+            var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
+            //return View(model);
+            return View("InterventionList",model);
           }
 
 
@@ -200,6 +211,12 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             IEngineerService engineer = GetEngineerService();
             Guid enigerrId = engineer.getDetail().Id;
             var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
+
+            //foreach (var intervention in interventionList)
+            //{
+            //    intervention.InterventionType = engineer.getInterventionTypes().Find(it => it.Id == intervention.InterventionTypeId);
+            //}
+
             var interventions = new List<InterventionViewModel>();
             BindIntervention(interventionList, interventions);
             var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
@@ -269,7 +286,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 interventions.Add(new InterventionViewModel()
                 {
                     InterventionTypeName = intervention.InterventionType.Name,
-                    Id = intervention.Id,
+                    Id = (Guid)intervention.Id,
                     // client id
                     ClientName = intervention.Client.Name,
                     DateCreate = intervention.DateCreate,
@@ -296,7 +313,9 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 ClientName = intervention.Client.Name,
                 DateCreate = intervention.DateCreate,
                 InterventionState = intervention.InterventionState.ToString(),
-
+                LifeRemaining = (int)intervention.LifeRemaining,
+                RecentiVisit = (DateTime)intervention.DateRecentVisit,
+                
                 // ??
                 DistrictName = intervention.District.Name,
                 Costs = intervention.Costs,

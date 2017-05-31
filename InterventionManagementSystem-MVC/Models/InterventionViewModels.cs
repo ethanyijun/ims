@@ -30,6 +30,9 @@ namespace InterventionManagementSystem_MVC.Models
         //public Nullable<System.DateTime> DateFinish { get; set; }
 
         public string Comments { get; set; }
+
+        public DateTime RecentiVisit { get; set; }
+        public int LifeRemaining { get; set; }
     }
 
 }

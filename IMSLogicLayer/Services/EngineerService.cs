@@ -187,7 +187,7 @@ namespace IMSLogicLayer.Services
             interventionList.AddRange(Interventions.fetchInterventionsByCreator(userId).Select(c => new Intervention(c)).ToList());
 
 
-           // interventionList.RemoveAll(i => i.InterventionState == InterventionState.Cancelled);
+            interventionList.RemoveAll(i => i.InterventionState == InterventionState.Cancelled);
        
 
             foreach (var intervention in interventionList)
