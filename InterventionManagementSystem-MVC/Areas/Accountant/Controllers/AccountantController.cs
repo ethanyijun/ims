@@ -14,6 +14,8 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 {
     public class AccountantController : Controller
     {
+        private IAccountantService accountant;
+
         // GET: Accountant/Accountants
         public AccountantController() {
 
@@ -27,7 +29,6 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             this.accountant = accountant;
         }
 
-        private IAccountantService accountant;
         public ActionResult Index()
         {
             var user = accountant.getDetail();
