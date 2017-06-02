@@ -96,6 +96,13 @@ namespace IMSLogicLayer.Services
         public IEnumerable<Intervention> getInterventionsByClient(Guid clientId)
         {
             var interventions = Interventions.fetchInterventionsByClientId(clientId).Select(c => new Intervention(c)).ToList();
+            foreach (var intervention in interventions) {
+                intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+                intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
+                intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));
+
+            }
+
             interventions.RemoveAll(i => i.InterventionState == InterventionState.Cancelled);
             return interventions;
         }
@@ -126,7 +133,7 @@ namespace IMSLogicLayer.Services
         public Intervention getNonGuidInterventionById(Guid interventionId)
         {
             Intervention intervention= new Intervention(Interventions.fetchInterventionsById(interventionId));
-           
+                // intervention.LifeRemaining=
                 intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
                 intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
                 intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));

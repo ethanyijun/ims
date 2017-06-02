@@ -15,6 +15,7 @@ namespace InterventionManagementSystem_MVC.Models
         public string InterventionTypeName { get; set; }
         [Display(Name = "Client")]
         public string ClientName { get; set; }
+        public Guid ClientId { get; set; }
         [Display (Name ="Create Date")]
         public Nullable<System.DateTime> DateCreate { get; set; }
         [Display(Name = "Perform Date")]

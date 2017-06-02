@@ -129,8 +129,7 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities dbcontext = new IMSEntities())
             {
                 dbcontext.Entry(intervention).State = System.Data.Entity.EntityState.Modified;
-                int x = dbcontext.SaveChanges();
-                if (x > 0)
+                if (dbcontext.SaveChanges() > 0)
                 {
                     return true;
                 }
@@ -152,8 +151,7 @@ namespace IMSDBLayer.DataAccessObjects
             using (IMSEntities dbcontext = new IMSEntities())
             {
                 dbcontext.Entry(old).State = System.Data.Entity.EntityState.Modified;
-                int x = dbcontext.SaveChanges();
-                if (x > 0)
+                if (dbcontext.SaveChanges() > 0)
                 {
                     return true;
                 }

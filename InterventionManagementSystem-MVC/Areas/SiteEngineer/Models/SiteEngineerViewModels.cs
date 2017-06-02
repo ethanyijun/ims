@@ -37,15 +37,15 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
         //public int SelectedType { get; set; }
         public IEnumerable<ClientViewModel> Clients { get; set; }
 
-        public IEnumerable<SelectListItem> ViewList { get; set; }
+     //   public IEnumerable<SelectListItem> ViewList { get; set; }
     }
 
-    public class ClientViewModel
-    {
-        public string Name { get; set; }
+    //public class ClientViewModel
+    //{
+    //    public string Name { get; set; }
 
-        public string Location { get; set; }
-        public string DistrictName { get; set; }
-    }
+    //    public string Location { get; set; }
+    //    public string DistrictName { get; set; }
+    //}
 
 }

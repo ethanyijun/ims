@@ -32,15 +32,38 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             return View(model);
         }
         public ActionResult ClientList() {
-            return View();
+
+            IEngineerService engineer = GetEngineerService();
+            var clientList = engineer.getClients();
+            List<ClientViewModel> clients = new List<ClientViewModel>();
+            BindClient(clientList, clients);
+
+            //var viewClientsList = new List<SelectListItem>();
+            //foreach (var client in Clients)
+            //{
+            //    viewClientsList.Add(new SelectListItem() { Text = client.Name, Value = client.Id.ToString() });
+            //}
+            //var model = new SiteEngineerViewInterventionModel() { ViewInterventionTypeList = viewInterventionTypes, ViewClientsList = viewClientsList };
+
+            return View(clients);
+
+       
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult ClientList(FormCollection form)
+        {
+            return View();
+
+           
+        }
 
 
-
-        // GET: SiteEngineer/Create
-        public ActionResult CreateIntervention()
+            // GET: SiteEngineer/Create
+            public ActionResult CreateIntervention()
         {
             IEngineerService engineer = GetEngineerService();
             //mockup data
@@ -122,6 +145,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
 
 
+        // GET: SiteEngineer/EditIntervention
         public ActionResult EditIntervention(Guid id)
         {
             
@@ -132,26 +156,63 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
              return View(mo);
      
              }
-           [HttpPost]
+
+        // POST: SiteEngineer/EditIntervention
+        [HttpPost]
         public ActionResult EditIntervention(InterventionViewModel interventionmodel){
             IEngineerService engineer = GetEngineerService();
             String new_comments = interventionmodel.Comments;
             int new_liferemaining = interventionmodel.LifeRemaining;
             DateTime new_recentvisit = interventionmodel.RecentiVisit;
-            bool s;
+            //bool s;
           //  Guid interventionId = interventionmodel.Id;
          //   Intervention intervention = engineer.getNonGuidInterventionById(interventionmodel.Id);
-            s=engineer.updateInterventionDetail(interventionmodel.Id,new_comments,new_liferemaining,new_recentvisit);
-           
+            engineer.updateInterventionDetail(interventionmodel.Id,new_comments,new_liferemaining,new_recentvisit);
 
-            var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
-            var interventions = new List<InterventionViewModel>();
+
+           // List<InterventionViewModel> interventions = new List<InterventionViewModel>();
+            var interventionList = engineer.getInterventionsByClient(interventionmodel.ClientId);
+            List<InterventionViewModel> interventions = new List<InterventionViewModel>();
             BindIntervention(interventionList, interventions);
-            var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
+
+            //var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
+            //var interventions = new List<InterventionViewModel>();
+            //BindIntervention(interventionList, interventions);
+            //var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
             //return View(model);
-            return View("InterventionList",model);
+            return View("ClientInterventionList", interventions);
           }
 
+
+        // GET: SiteEngineer/ClientInterventionList/ClientId
+        public ActionResult ClientInterventionList(Guid id)
+        {
+
+            IEngineerService engineer = GetEngineerService();
+          //  Client client = engineer.getClientById(clientId);
+            var interventionList = engineer.getInterventionsByClient(id);
+            List<InterventionViewModel> interventions = new List<InterventionViewModel>();
+            BindIntervention(interventionList,interventions);
+           
+
+            return View(interventions);
+
+
+
+        }
+
+        // POST: SiteEngineer/InterventionList
+        [HttpPost]
+        public ActionResult ClietnInterventionList(SiteEngineerViewClientModel SE_VclientModel)
+        {
+            List<InterventionViewModel> ClientList=new List<InterventionViewModel>();
+           // SE_VclientModel.Clients
+            return View();
+            //InterventionViewModel selectedIntervention = b.Intervention;
+
+            //return View("EditIntervention", selectedIntervention);
+
+        }
 
 
         // GET: SiteEngineer/InterventionList
@@ -177,48 +238,11 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         public ActionResult InterventionList(SiteEngineerViewInterventionModel b)
         {
             
-           // if (command == "Edit")
-           // {
+       
                 InterventionViewModel selectedIntervention = b.Intervention;
-       //     var interventionModel = new InterventionViewModel();
-      //     interventionModel = BindSingleIntervention(selectedIntervention);
-            //  if (command == "Edit"){
-
+    
             return View("EditIntervention", selectedIntervention);
-           // return View(selectedIntervention);
-
-
-            //    }
-            //     return View();
-
-
-
-            //  RedirectToAction("InterventionList", "SiteEngineer");
-            //    }
-
-            //if (form["SelectedType"].ToString().Equals("Approved"))
-            //{
-            //    return RedirectToAction("InterventionList", "SiteEngineer");
-            //}
-            //else
-            //{
-
-            //    IEngineerService engineer = GetEngineerService();
-            //    //var user = engineer.GetDetail();
-            //    var interventionList = engineer.GetInterventionsByState(IMSLogicLayer.Enums.InterventionState.Proposed);
-            //    var interventions = new List<InterventionViewModel>();
-            //    var viewList = new List<SelectListItem>()
-            //    {
-            //        new SelectListItem(){ Text="Proposed", Value="Proposed",Selected=true },
-            //        new SelectListItem(){ Text ="Approved",Value="Approved"},
-
-            //    };
-            //    BindIntervention(interventionList, interventions);
-            //    var model = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions };
-            //    return View(model);
-
-            //}
-            //     return View();
+          
         }
 
         private IEngineerService GetEngineerService()
@@ -228,6 +252,27 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             return engineer;
         }
 
+        public void BindClient(IEnumerable<IMSLogicLayer.Models.Client> clientList, List<ClientViewModel> clients) {
+            foreach (var client in clientList)
+            {
+                IEngineerService engineer = GetEngineerService();
+
+                clients.Add(new ClientViewModel()
+                {
+                    Id = client.Id,
+                    DistrictName = engineer.getDistrictName(client.DistrictId),
+                    Location = client.Location,
+                    Name = client.Name
+                    
+                
+
+
+            
+                });
+            }
+        }
+
+
         private void BindIntervention(IEnumerable<IMSLogicLayer.Models.Intervention> interventionList, List<InterventionViewModel> interventions)
         {
             foreach (var intervention in interventionList)
@@ -235,11 +280,13 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 interventions.Add(new InterventionViewModel()
                 {
                     InterventionTypeName = intervention.InterventionType.Name,
+                    ClientId = (Guid)intervention.ClientId,
                     Id = (Guid)intervention.Id,
-                    // client id
                     ClientName = intervention.Client.Name,
                     DateCreate = intervention.DateCreate,
                     InterventionState = intervention.InterventionState.ToString(),
+                    LifeRemaining = (int)intervention.LifeRemaining,
+                    RecentiVisit = (DateTime)intervention.DateRecentVisit,
 
                     // ??
                     DistrictName = intervention.District.Name,
@@ -247,6 +294,21 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                     Hours = intervention.Hours,
                     DateFinish = intervention.DateFinish,
                     Comments = intervention.Comments
+
+
+                    //InterventionTypeName = intervention.InterventionType.Name,
+                    //Id = (Guid)intervention.Id,
+                    //ClientId = (Guid)intervention.ClientId,
+                    //ClientName = intervention.Client.Name,
+                    //DateCreate = intervention.DateCreate,
+                    //InterventionState = intervention.InterventionState.ToString(),
+
+                    //// ??
+                    //DistrictName = intervention.District.Name,
+                    //Costs = intervention.Costs,
+                    //Hours = intervention.Hours,
+                    //DateFinish = intervention.DateFinish,
+                    //Comments = intervention.Comments
 
                 });
             }
@@ -257,8 +319,8 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             InterventionViewModel interventionmodel = new InterventionViewModel()
             {
                 InterventionTypeName = intervention.InterventionType.Name,
-
-                // client id
+                ClientId = (Guid)intervention.ClientId,
+              
                 ClientName = intervention.Client.Name,
                 DateCreate = intervention.DateCreate,
                 InterventionState = intervention.InterventionState.ToString(),
