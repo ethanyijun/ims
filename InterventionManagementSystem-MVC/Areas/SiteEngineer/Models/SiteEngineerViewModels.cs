@@ -35,7 +35,9 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
         //[Key]
         //public int Id { get; set; }
         //public int SelectedType { get; set; }
-        public IEnumerable<ClientViewModel> Clients { get; set; }
+         public InterventionViewModel Intervention { get; set; }
+        public ClientViewModel Client { get; set; }
+        public IEnumerable<InterventionViewModel> Interventions { get; set; }
 
      //   public IEnumerable<SelectListItem> ViewList { get; set; }
     }

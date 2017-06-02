@@ -244,9 +244,9 @@
     <Content Include="Areas\SiteEngineer\Views\SiteEngineer\CreateIntervention.cshtml" />
     <Content Include="Areas\SiteEngineer\Views\SiteEngineer\EditClient.cshtml" />
     <Content Include="Areas\SiteEngineer\Views\SiteEngineer\InterventionList.cshtml" />
-    <Content Include="Areas\SiteEngineer\Views\SiteEngineer\EditIntervention.cshtml" />
     <Content Include="Areas\SiteEngineer\Views\SiteEngineer\ClientList.cshtml" />
-    <Content Include="Areas\SiteEngineer\Views\SiteEngineer\ClientInterventionList.cshtml" />
+    <Content Include="Areas\SiteEngineer\Views\SiteEngineer\ClientDetails.cshtml" />
+    <Content Include="Areas\SiteEngineer\Views\SiteEngineer\EditIntervention.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

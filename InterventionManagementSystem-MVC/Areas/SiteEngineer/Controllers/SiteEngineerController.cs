@@ -150,60 +150,69 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         {
             
             IEngineerService engineer = GetEngineerService();
-              Intervention inter= engineer.getNonGuidInterventionById(id);
-            InterventionViewModel mo=BindSingleIntervention(inter);
+              Intervention interention= engineer.getNonGuidInterventionById(id);
+            InterventionViewModel model=BindSingleIntervention(interention);
             
-             return View(mo);
+             return View(model);
      
              }
 
         // POST: SiteEngineer/EditIntervention
         [HttpPost]
         public ActionResult EditIntervention(InterventionViewModel interventionmodel){
+
+
+
+
             IEngineerService engineer = GetEngineerService();
             String new_comments = interventionmodel.Comments;
             int new_liferemaining = interventionmodel.LifeRemaining;
             DateTime new_recentvisit = interventionmodel.RecentiVisit;
-            //bool s;
-          //  Guid interventionId = interventionmodel.Id;
-         //   Intervention intervention = engineer.getNonGuidInterventionById(interventionmodel.Id);
+        
             engineer.updateInterventionDetail(interventionmodel.Id,new_comments,new_liferemaining,new_recentvisit);
 
 
-           // List<InterventionViewModel> interventions = new List<InterventionViewModel>();
+          
             var interventionList = engineer.getInterventionsByClient(interventionmodel.ClientId);
             List<InterventionViewModel> interventions = new List<InterventionViewModel>();
-            BindIntervention(interventionList, interventions);
+           BindIntervention(interventionList, interventions);
 
-            //var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
-            //var interventions = new List<InterventionViewModel>();
-            //BindIntervention(interventionList, interventions);
-            //var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
-            //return View(model);
-            return View("ClientInterventionList", interventions);
+    
+            Client client = engineer.getClientById(interventionmodel.ClientId);
+            ClientViewModel clientViewModel=  BindSingleClient(client);
+            var model = new SiteEngineerViewClientModel() { Interventions = interventions,Client= clientViewModel };
+          
+            return View("ClientDetails", model);
           }
 
 
-        // GET: SiteEngineer/ClientInterventionList/ClientId
-        public ActionResult ClientInterventionList(Guid id)
+        // GET: SiteEngineer/ClientDetails/ClientId
+        public ActionResult ClientDetails(Guid id)
         {
 
             IEngineerService engineer = GetEngineerService();
-          //  Client client = engineer.getClientById(clientId);
+            var client= engineer.getClientById(id);
             var interventionList = engineer.getInterventionsByClient(id);
-            List<InterventionViewModel> interventions = new List<InterventionViewModel>();
+             List<InterventionViewModel> interventions = new List<InterventionViewModel>();
             BindIntervention(interventionList,interventions);
-           
+           ClientViewModel clientViewModel=BindSingleClient(client);
 
-            return View(interventions);
 
+            //  SiteEngineerViewClientModel SE_VclientModel = new SiteEngineerViewClientModel();
+
+            //  SE_VclientModel
+
+            //  return View(interventions);
+            InterventionViewModel interview = new InterventionViewModel();
+            var model = new SiteEngineerViewClientModel() {Interventions= interventions, Client= clientViewModel,Intervention= interview };
+            return View(model);
 
 
         }
 
         // POST: SiteEngineer/InterventionList
         [HttpPost]
-        public ActionResult ClietnInterventionList(SiteEngineerViewClientModel SE_VclientModel)
+        public ActionResult ClientDetails(SiteEngineerViewClientModel SE_VclientModel)
         {
             List<InterventionViewModel> ClientList=new List<InterventionViewModel>();
            // SE_VclientModel.Clients
@@ -253,9 +262,10 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         }
 
         public void BindClient(IEnumerable<IMSLogicLayer.Models.Client> clientList, List<ClientViewModel> clients) {
+            IEngineerService engineer = GetEngineerService();
             foreach (var client in clientList)
             {
-                IEngineerService engineer = GetEngineerService();
+               
 
                 clients.Add(new ClientViewModel()
                 {
@@ -336,6 +346,17 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             };
             return interventionmodel;
         }
-
+        private ClientViewModel BindSingleClient(Client client)
+        {
+            IEngineerService engineer = GetEngineerService();
+            ClientViewModel clientmodel = new ClientViewModel()
+            {
+                Id = client.Id,
+                DistrictName = engineer.getDistrictName(client.DistrictId),
+                Location = client.Location,
+                Name = client.Name
+            };
+            return clientmodel;
+        }
     }
 }
