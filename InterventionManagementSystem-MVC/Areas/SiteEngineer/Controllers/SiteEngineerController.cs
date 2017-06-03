@@ -31,6 +31,62 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             };
             return View(model);
         }
+
+
+
+        public ActionResult CreateClient()
+        {
+            IEngineerService engineer = GetEngineerService();
+            String districtName = engineer.getDetail().District.Name;
+
+            ClientViewModel clientViewmodel = new ClientViewModel() { DistrictName=districtName};
+            return View(clientViewmodel);
+
+
+
+        }
+
+        // POST: SiteEngineer/Create
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult CreateClient(ClientViewModel clientVmodel)/*([Bind(Include = "Id,Name,Description,Length,Price,Rating,IncludesMeals")] Tour tour)*/
+        {
+            if (ModelState.IsValid)
+            {
+
+                IEngineerService engineer = GetEngineerService();
+                Client client=engineer.createClient(clientVmodel.Name,clientVmodel.Location);
+
+                var clientList = engineer.getClients();
+                var clients = new List<ClientViewModel>();
+                BindClient(clientList, clients);
+                return View("ClientList", clients);
+
+     
+
+            }
+            return View(clientVmodel);
+        }
+
+
+
+        public ActionResult EditClient()
+        {
+            IEngineerService engineer = GetEngineerService();
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EditClient(FormCollection form)
+        {
+            return View();
+        }
+
+
+        // GET : SiteEngineer/ClientList
+       
         public ActionResult ClientList() {
 
             IEngineerService engineer = GetEngineerService();
@@ -51,6 +107,9 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
         }
 
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -62,13 +121,13 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         }
 
 
+
+
+
             // GET: SiteEngineer/Create
             public ActionResult CreateIntervention()
         {
             IEngineerService engineer = GetEngineerService();
-            //mockup data
-        //    List<Client> Clients = new List<Client>();
-         //   Clients.Add(new Client("jammie", "chatswood", new Guid()));
 
             var Clients = engineer.getClients();
             var viewClientsList = new List<SelectListItem>();
@@ -118,8 +177,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 Guid typeId = new Guid(Request.Form["InterventionTypes"]);   
                 Intervention new_intervention = new Intervention(hours, costs, lifeRemaining, comments, state,
                 dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, null);
-                Boolean s;
-                 s= engineer.createIntervention(new_intervention);          
+                engineer.createIntervention(new_intervention);          
                 var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
                 var interventions = new List<InterventionViewModel>();
                 BindIntervention(interventionList, interventions);
@@ -130,17 +188,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             return View(viewmodel);
         }
 
-        public ActionResult EditClient()
-        {
-            IEngineerService engineer = GetEngineerService();
-           
-            return View();
-        }
-        [HttpPost]
-        public ActionResult EditClient(FormCollection form)
-        {
-            return View();
-        }
+
 
 
 

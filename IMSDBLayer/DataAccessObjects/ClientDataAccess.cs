@@ -18,7 +18,7 @@ namespace IMSDBLayer.DataAccessObjects
             {
                 context.Clients.Add(new Client(client));
                 context.SaveChanges();
-                return context.Clients.Find(client);
+                return context.Clients.Find(client.Id);
             }
 
         }
