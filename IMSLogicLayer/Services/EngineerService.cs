@@ -56,9 +56,10 @@ namespace IMSLogicLayer.Services
         /// <returns>A client instance created</returns>
         public Client createClient(string clientName, string clientLocation)
         {
-
-            return new Client(Clients.createClient(new Client(clientName, clientLocation, getDetail().DistrictId.Value)));
-
+            
+             Client client= new Client(Clients.createClient(new Client(clientName, clientLocation, getDetail().DistrictId.Value)));
+            Guid id = client.Id;
+            return client;
         }
         /// <summary>
         /// Get All intervention Types
