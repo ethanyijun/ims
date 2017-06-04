@@ -79,7 +79,24 @@ namespace InterventionManagementSystem_MVC.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (SignInManager.UserManager.IsInRole(SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId(),"SiteEngineer"))
+                    {
+                        return RedirectToAction("Index", "SiteEngineer", new { area = "SiteEngineer" });
+                    }
+                    else if (SignInManager.UserManager.IsInRole(SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId(), "Manager"))
+                    {
+                        return RedirectToAction("Index", "Manager", new { area = "Manager" });
+                    }
+                    else if (SignInManager.UserManager.IsInRole(SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId(), "Accountant"))
+                    {
+                        return RedirectToAction("Index", "Accountant", new { area = "Accountant" });
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+
+                           
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
