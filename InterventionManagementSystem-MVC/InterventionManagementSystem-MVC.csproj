@@ -192,14 +192,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Accountant\AccountantAreaRegistration.cs" />
+    <Compile Include="Areas\Accountant\AccountantAuthorize.cs" />
     <Compile Include="Areas\Accountant\Controllers\AccountantController.cs" />
     <Compile Include="Areas\Accountant\Models\AccountantViewModels.cs" />
     <Compile Include="Areas\Manager\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Manager\ManagerAreaRegistration.cs" />
     <Compile Include="Areas\Manager\Models\ManagerViewModels.cs" />
+    <Compile Include="Areas\Manager\ManagerAuthorize.cs" />
     <Compile Include="Areas\SiteEngineer\Controllers\SiteEngineerController.cs" />
     <Compile Include="Areas\SiteEngineer\Models\SiteEngineerViewModels.cs" />
     <Compile Include="Areas\SiteEngineer\SiteEngineerAreaRegistration.cs" />
+    <Compile Include="Areas\SiteEngineer\SiteEngineerAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
