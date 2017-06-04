@@ -81,37 +81,30 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
                 Name = "Po"
             };
 
-            var view = controller.CreateClient(viewModel);
+            var view = controller.CreateClient(viewModel) as ViewResult;
+            var model = view.ViewData.Model as List<ClientViewModel>;
 
+            Assert.IsNotNull(model);
         }
         
         [TestMethod]
-        public void SiteEngineer_IndexViewCreateInterventionViewModel()
+        public void SiteEngineer_CreateInterventionViewModel()
         {
             var view = controller.CreateIntervention() as ViewResult;
             var model = (SiteEngineerViewInterventionModel)view.ViewData.Model;
-
-            //Assert.IsNotNull(model.Interventions);
-            //Assert.IsNotNull(model.SelectedType);
+            
             Assert.IsNotNull(model.ViewClientsList);
             Assert.IsNotNull(model.ViewInterventionTypeList);
         }
 
         [TestMethod]
-        public void SiteEngineer_IndexViewCreateInterventionViewPost()
+        public void SiteEngineer_CreateInterventionViewPost()
         {
 
         }
-
-        //[TestMethod]
-        //public void SiteEngineer_IndexViewInterventionListView()
-        //{
-        //    var view = controller.InterventionList() as ViewResult;
-        //    Assert.AreEqual("Interventions", view.ViewName);
-        //}
-
+        
         [TestMethod]
-        public void SiteEngineer_IndexViewInterventionListViewModel()
+        public void SiteEngineer_InterventionListViewModel()
         {
             var view = controller.InterventionList() as ViewResult;
             var model = (SiteEngineerViewInterventionModel)view.ViewData.Model;
