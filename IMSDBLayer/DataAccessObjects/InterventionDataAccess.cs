@@ -117,7 +117,8 @@ namespace IMSDBLayer.DataAccessObjects
             }
         }
 
-        public bool ApproveIntervention(Intervention intervention) {
+        public bool ApproveIntervention(Intervention intervention)
+        {
             using (IMSEntities context = new IMSEntities())
             {
                 intervention = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault<Intervention>();
@@ -135,32 +136,20 @@ namespace IMSDBLayer.DataAccessObjects
                 }
                 return false;
             }
-           }
+        }
+
         public bool update(Intervention intervention)
         {
-            Intervention old;
             using (IMSEntities context = new IMSEntities())
             {
-<<<<<<< HEAD
                 var old = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault();
                 context.Entry(old).CurrentValues.SetValues(intervention);
+
                 if (context.SaveChanges() > 0)
-=======
-                 old = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault<Intervention>();
-            }
-            if (old != null) {
-                old.Comments = intervention.Comments;
-                old.LifeRemaining = intervention.LifeRemaining;
-                old.DateRecentVisit = intervention.DateRecentVisit;
-            }
-            using (IMSEntities dbcontext = new IMSEntities())
-            {
-                dbcontext.Entry(old).State = System.Data.Entity.EntityState.Modified;
-                if (dbcontext.SaveChanges() > 0)
->>>>>>> G
                 {
                     return true;
                 }
+
                 return false;
             }
         }

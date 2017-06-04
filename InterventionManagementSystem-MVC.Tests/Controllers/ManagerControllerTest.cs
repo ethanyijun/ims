@@ -41,7 +41,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Mock<IManagerService> managerService = new Mock<IManagerService>();
             managerService.Setup(m => m.GetDetail()).Returns(manager);
             managerService.Setup(m => m.GetApprovedInterventions()).Returns(new List<IMSLogicLayer.Models.Intervention>());
-            managerService.SetUp(m => m.GetInterventionsByState(It.Is(IMSLogicLayer.Enums.InterventionState.Proposed))).Returns(new List<IMSLogicLayer.Models.Intervention>());
+            //managerService.Setup(m => m.GetInterventionsByState(It.Is(IMSLogicLayer.Enums.InterventionState.Proposed))).Returns(new List<IMSLogicLayer.Models.Intervention>());
 
             controller = new ManagerController(managerService.Object);
         }
@@ -119,7 +119,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         {
             Mock<IManagerService> managerService = new Mock<IManagerService>();
 
-            managerService.Setup(m => m.AppproveAnIntervention(It.IsAny<Guid>())).Returns(true);
+            managerService.Setup(m => m.ApproveAnIntervention(It.IsAny<Guid>())).Returns(true);
 
             var controller = new ManagerController(managerService.Object);
 
@@ -135,11 +135,11 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         {
             Mock<IManagerService> managerService = new Mock<IManagerService>();
 
-            managerService.Setup(m => m.AppproveAnIntervention(It.IsAny<Guid>())).Returns(false);
+            managerService.Setup(m => m.ApproveAnIntervention(It.IsAny<Guid>())).Returns(false);
 
             var controller = new ManagerController(managerService.Object);
 
-            var view = controller.ApproveIntervention("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea");
+            var view = controller.ApproveIntervention("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea") as ViewResult;
 
             Assert.AreEqual("Error", view.ViewName);
         }

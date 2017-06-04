@@ -9,22 +9,23 @@ namespace InterventionManagementSystem_MVC.Models
 {
     public class InterventionViewModel
     {
-<<<<<<< HEAD
-        public string Id { get; set; }
-=======
-
         [Key]
         public Guid Id { get; set; }
+
         [Display (Name = "Intervention Type")]
->>>>>>> G
         public string InterventionTypeName { get; set; }
+
         [Display(Name = "Client")]
         public string ClientName { get; set; }
+
         public Guid ClientId { get; set; }
+
         [Display (Name ="Create Date")]
         public Nullable<System.DateTime> DateCreate { get; set; }
+
         [Display(Name = "Perform Date")]
         public Nullable<System.DateTime> DateFinish { get; set; }
+
         public string InterventionState { get; set; }
 
         public string DistrictName { get; set; }
