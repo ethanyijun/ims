@@ -95,6 +95,7 @@
     <Compile Include="Controllers\ManagerControllerTest.cs" />
     <Compile Include="Controllers\AccountantControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\EmailServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

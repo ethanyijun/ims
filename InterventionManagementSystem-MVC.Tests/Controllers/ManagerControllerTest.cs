@@ -105,9 +105,11 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         {
             Mock<IManagerService> managerService = new Mock<IManagerService>();
 
+            managerService.Setup(m => m.GetDetail()).Returns(manager);
             managerService.Setup(m => m.ApproveAnIntervention(It.IsAny<Guid>())).Returns(true);
             managerService.Setup(m => m.SendEmailNotification(It.IsAny<IMSLogicLayer.Models.Intervention>(), It.IsAny<string>()));
-            managerService.Setup(m => m.GetInterventionById(It.IsAny<Guid>())).Returns(new IMSLogicLayer.Models.Intervention());
+            managerService.Setup(m => m.GetInterventionById(It.IsAny<Guid>())).Returns(new IMSLogicLayer.Models.Intervention(40, 40, 4, "comments", IMSLogicLayer.Enums.InterventionState.Approved, new DateTime(), new DateTime(), new DateTime(), new Guid(), new Guid(), new Guid(), new Guid()));
+
             var controller = new ManagerController(managerService.Object);
 
             var result = controller.ApproveIntervention("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea") as RedirectToRouteResult;
