@@ -30,5 +30,7 @@ namespace IMSDBLayer.Models
         public virtual DbSet<Intervention> Interventions { get; set; }
         public virtual DbSet<InterventionType> InterventionTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+      //  public System.Data.Entity.DbSet<InterventionManagementSystem_MVC.Models.InterventionViewModel> InterventionViewModels { get; set; }
     }
 }

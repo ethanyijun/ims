@@ -13,13 +13,14 @@
 
                 <th class="col-md-2 col-lg-2">Intervention Type Name</th>
 
-                <th class="col-md-2 col-lg-2">Client Name</th>
+                @*<th class="col-md-2 col-lg-2">Client Name</th>
 
-                <th class="col-md-1 col-lg-1">Created Date</th>
+                <th class="col-md-1 col-lg-1">Created Date</th>*@
 
-                <th class="col-md-2 col-lg-2">Status</th>
-                <th class="col-md-2 col-lg-2">Comments</th>
+                <th class="col-md-2 col-lg-2">Intervention State</th>
+                @*<th class="col-md-2 col-lg-2">Comments</th>*@
                 @*<th class="col-md-2 col-lg-2">Edit</th>*@
+                <th class="col-md-2 col-lg-2">Edit State</th>
             </tr>
 
         </thead>
@@ -34,23 +35,23 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.InterventionTypeName)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.ClientName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DateCreate);
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.InterventionState)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Comments)
-                    </td>
+                    </td>*@
                
                    
-                    @*<td>
-                        @Html.ActionLink("Edit", "EditIntervention", new { id = item.Id })
-                    </td>*@
+                    <td>
+                        @Html.ActionLink("Edit", "EditInterventionState", new { id = item.Id })
+                    </td>
                 </tr>
             }
 

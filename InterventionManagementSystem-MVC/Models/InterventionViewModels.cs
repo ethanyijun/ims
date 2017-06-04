@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace InterventionManagementSystem_MVC.Models
 {
@@ -34,6 +35,8 @@ namespace InterventionManagementSystem_MVC.Models
 
         public DateTime RecentiVisit { get; set; }
         public int LifeRemaining { get; set; }
+        public IEnumerable<SelectListItem> InterventionStates { get; set; }
+
     }
 
 }

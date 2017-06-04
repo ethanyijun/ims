@@ -189,6 +189,49 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         }
 
 
+        // GET: SiteEngineer/EditIntervention
+        public ActionResult EditInterventionState(Guid id)
+        {
+
+            IEngineerService engineer = GetEngineerService();
+            Intervention interention = engineer.getNonGuidInterventionById(id);
+            InterventionViewModel model = BindSingleIntervention(interention);
+            return View(model);
+
+        }
+
+        // POST: SiteEngineer/EditIntervention
+        [HttpPost]
+        public ActionResult EditInterventionState(InterventionViewModel interventionmodel)
+        {
+
+
+
+
+            IEngineerService engineer = GetEngineerService();
+           
+            //String new_comments = interventionmodel.Comments;
+            //int new_liferemaining = interventionmodel.LifeRemaining;
+            //DateTime new_recentvisit = interventionmodel.RecentiVisit;
+
+         //   engineer.updateInterventionDetail(interventionmodel.Id, new_comments, new_liferemaining, new_recentvisit);
+
+
+
+            var interventionList = engineer.getInterventionsByClient(interventionmodel.ClientId);
+            List<InterventionViewModel> interventions = new List<InterventionViewModel>();
+            BindIntervention(interventionList, interventions);
+
+
+            Client client = engineer.getClientById(interventionmodel.ClientId);
+            ClientViewModel clientViewModel = BindSingleClient(client);
+            var model = new SiteEngineerViewClientModel() { Interventions = interventions, Client = clientViewModel };
+
+            return View("ClientDetails", model);
+        }
+
+
+
 
 
 
@@ -374,23 +417,30 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
         private InterventionViewModel BindSingleIntervention(Intervention intervention)
         {
+            var viewInterventionStates = new List<SelectListItem>();
+            viewInterventionStates.Add(new SelectListItem() { Text = InterventionState.Approved.ToString(), Value = InterventionState.Approved.ToString() });
+            viewInterventionStates.Add(new SelectListItem() { Text = InterventionState.Cancelled.ToString(), Value = InterventionState.Cancelled.ToString() });
+            viewInterventionStates.Add(new SelectListItem() { Text = InterventionState.Completed.ToString(), Value = InterventionState.Completed.ToString() });
+            viewInterventionStates.Add(new SelectListItem() { Text = InterventionState.Proposed.ToString(), Value = InterventionState.Proposed.ToString() });
+
             InterventionViewModel interventionmodel = new InterventionViewModel()
             {
                 InterventionTypeName = intervention.InterventionType.Name,
                 ClientId = (Guid)intervention.ClientId,
-              
+
                 ClientName = intervention.Client.Name,
                 DateCreate = intervention.DateCreate,
                 InterventionState = intervention.InterventionState.ToString(),
                 LifeRemaining = (int)intervention.LifeRemaining,
                 RecentiVisit = (DateTime)intervention.DateRecentVisit,
-                
+
                 // ??
                 DistrictName = intervention.District.Name,
                 Costs = intervention.Costs,
                 Hours = intervention.Hours,
                 DateFinish = intervention.DateFinish,
-                Comments = intervention.Comments
+                Comments = intervention.Comments,
+                InterventionStates = viewInterventionStates
             };
             return interventionmodel;
         }
