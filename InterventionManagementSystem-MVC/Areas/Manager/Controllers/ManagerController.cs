@@ -20,6 +20,7 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
     public class ManagerController : Controller
     {
         private IManagerService manager;
+<<<<<<< HEAD
 
         public ManagerController() {
 
@@ -31,6 +32,18 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
         public ManagerController(IManagerService manager) {
             this.manager = manager;
         }
+=======
+        public ManagerController()
+        {
+            manager = GetManagerService();
+        }
+
+        public ManagerController(IManagerService manager)
+        {
+            manager = GetManagerService();
+        }
+
+>>>>>>> G
         // GET: Manager/Manager
         public ActionResult Index()
         {
