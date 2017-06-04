@@ -63,16 +63,12 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
         public ActionResult CreateClient(ClientViewModel clientVmodel)/*([Bind(Include = "Id,Name,Description,Length,Price,Rating,IncludesMeals")] Tour tour)*/
         {
-            if (ModelState.IsValid)
-            {
-                Client client=engineer.createClient(clientVmodel.Name,clientVmodel.Location);
+            Client client=engineer.createClient(clientVmodel.Name,clientVmodel.Location);
 
-                var clientList = engineer.getClients();
-                var clients = new List<ClientViewModel>();
-                BindClient(clientList, clients);
-                return View("ClientList", clients);
-            }
-            return View(clientVmodel);
+            var clientList = engineer.getClients();
+            var clients = new List<ClientViewModel>();
+            BindClient(clientList, clients);
+            return View("ClientList", clients);
         }
         
         public ActionResult EditClient()

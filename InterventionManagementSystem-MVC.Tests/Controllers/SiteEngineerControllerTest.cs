@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers;
 using System.Web.Mvc;
 using InterventionManagementSystem_MVC.Areas.SiteEngineer.Models;
 using IMSLogicLayer.ServiceInterfaces;
 using Moq;
+using InterventionManagementSystem_MVC.Models;
 
 namespace InterventionManagementSystem_MVC.Tests.Controllers
 {
@@ -12,22 +14,39 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
     public class SiteEngineerControllerTest
     {
         private SiteEngineerController controller;
+        private IMSLogicLayer.Models.User engineer;
 
         [TestInitialize]
         public void SetUp()
         {
-            Mock<IEngineerService> engineerService = new Mock<IEngineerService>();
+            IMSDBLayer.Models.User db_engineer = new IMSDBLayer.Models.User()
+            {
+                Id = new Guid(),
+                Name = "John Smith",
+                Type = 1,
+                AuthorisedCosts = 40,
+                AuthorisedHours = 40,
+                IdentityId = "",
+                DistrictId = new Guid()
+            };
 
+            IMSDBLayer.Models.District db_district = new IMSDBLayer.Models.District()
+            {
+                Id = new Guid(),
+                Name = "NSW"
+            };
+
+            engineer = new IMSLogicLayer.Models.User(db_engineer);
+            engineer.District = new IMSLogicLayer.Models.District(db_district);
+
+            Mock<IEngineerService> engineerService = new Mock<IEngineerService>();
+            engineerService.Setup(e => e.getDetail()).Returns(engineer);
+            engineerService.Setup(e => e.getInterventionTypes()).Returns(new List<IMSLogicLayer.Models.InterventionType>());
+            engineerService.Setup(e => e.createClient(It.IsAny<string>(), It.IsAny<string>())).Returns(new IMSLogicLayer.Models.Client("","",new Guid()));
+            engineerService.Setup(e => e.getClients()).Returns(new List<IMSLogicLayer.Models.Client>());
 
             controller = new SiteEngineerController(engineerService.Object);
         }
-
-        //[TestMethod]
-        //public void SiteEngineer_IndexView()
-        //{
-        //    var view = controller.Index() as ViewResult;
-        //    Assert.AreEqual("Index", view.ViewName);
-        //}
 
         [TestMethod]
         public void SiteEngineer_IndexViewIndexViewModel()
@@ -40,14 +59,32 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.AuthorisedHours);
             Assert.IsNotNull(model.AuthorisedCosts);
         }
+        
+        [TestMethod]
+        public void SiteEngineer_CreateClientViewModel()
+        {
+            var view = controller.CreateClient() as ViewResult;
+            var model = view.ViewData.Model as ClientViewModel;
 
-        //[TestMethod]
-        //public void SiteEngineer_IndexViewCreateInterventionView()
-        //{
-        //    var view = controller.CreateIntervention() as ViewResult;
-        //    Assert.AreEqual("Create", view.ViewName);
-        //}
+            Assert.IsNotNull(model.DistrictName);
+            Assert.AreEqual(model.DistrictName, engineer.District.Name);
+        }
 
+        [TestMethod]
+        public void SiteEngineer_CreateClientPost()
+        {
+            ClientViewModel viewModel = new ClientViewModel()
+            {
+                DistrictName = "NSW",
+                Id = new Guid(),
+                Location = "NSW",
+                Name = "Po"
+            };
+
+            var view = controller.CreateClient(viewModel);
+
+        }
+        
         [TestMethod]
         public void SiteEngineer_IndexViewCreateInterventionViewModel()
         {
