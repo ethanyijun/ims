@@ -83,8 +83,8 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
                 var interventions = new List<InterventionViewModel>();
                 var viewList = new List<SelectListItem>()
                 {
-                    new SelectListItem(){ Text="Proposed", Value="Proposed",Selected=true },
-                    new SelectListItem(){ Text ="Approved",Value="Approved"},
+                    new SelectListItem(){ Text="Proposed", Value="Proposed", Selected=true },
+                    new SelectListItem(){ Text ="Approved", Value="Approved"},
 
                 };
                 BindIntervention(interventionList, interventions);

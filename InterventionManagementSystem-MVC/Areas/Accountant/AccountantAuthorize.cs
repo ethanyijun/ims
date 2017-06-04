@@ -7,10 +7,7 @@ using System.Web.Mvc;
 namespace InterventionManagementSystem_MVC.Areas.Accountant
 {
     public class AccountantAuthorizeAttribute :AuthorizeAttribute
-
     {
-
-
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var routeData = httpContext.Request.RequestContext.RouteData;
@@ -22,8 +19,6 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant
                     return true;
             }
             return false;
-
-
         }
     }
 }
