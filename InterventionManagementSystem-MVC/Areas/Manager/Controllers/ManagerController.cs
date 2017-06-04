@@ -99,8 +99,7 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             {
                 Intervention intervention = Manager.GetInterventionById(new Guid(id));
 
-                string sendTo = System.Web.HttpContext.Current.GetOwinContext()
-                    .GetUserManager<ApplicationUserManager>().FindById(intervention.CreatedBy.ToString()).Email;
+                string sendTo = "BurningGroupTestMail@gmail.com";
 
                 Manager.SendEmailNotification(intervention, sendTo);
 
