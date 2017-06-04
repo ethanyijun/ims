@@ -5,15 +5,17 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using IMSLogicLayer.Models;
+using IMSLogicLayer.ServiceInterfaces;
 
 namespace IMSLogicLayer.Services
 {
-    public class EmailService : ServiceInterfaces.IEmailService
+    public class EmailService : IEmailService
     {
+        public EmailService() { }
         public MailMessage CreateMessage(string FromAddress, string ToAddress, string UserFrom, string UserTo,Intervention intervention)
         {
             MailMessage message = new MailMessage();
-            message.From = new MailAddress("FromAddress");
+            message.From = new MailAddress(FromAddress);
             message.To.Add(ToAddress);
             message.Subject = "Approval Notification";
 
