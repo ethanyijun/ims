@@ -18,11 +18,20 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
     public class SiteEngineerController : Controller
     {
         private IEngineerService engineer;
-
-        public SiteEngineerController()
+        
+        private IEngineerService Engineer
         {
-            engineer = new EngineerService(User.Identity.GetUserId());
+            get
+            {
+                if (engineer == null)
+                {
+                    engineer = new EngineerService(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                }
+                return engineer;
+            }
         }
+
+        public SiteEngineerController() { }
 
         public SiteEngineerController(IEngineerService engineer)
         {
@@ -32,7 +41,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/SiteEngineer
         public ActionResult Index()
         {
-            var user = engineer.getDetail();
+            var user = Engineer.getDetail();
             var model = new SiteEngineerViewModel()
             {
                 Name = user.Name,
@@ -42,18 +51,13 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             };
             return View(model);
         }
-
-
-
+        
         public ActionResult CreateClient()
         {
-            String districtName = engineer.getDetail().District.Name;
+            String districtName = Engineer.getDetail().District.Name;
 
             ClientViewModel clientViewmodel = new ClientViewModel() { DistrictName=districtName};
             return View(clientViewmodel);
-
-
-
         }
 
         // POST: SiteEngineer/Create
@@ -87,7 +91,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
        
         public ActionResult ClientList() {
             
-            var clientList = engineer.getClients();
+            var clientList = Engineer.getClients();
             List<ClientViewModel> clients = new List<ClientViewModel>();
             BindClient(clientList, clients);
             return View(clients);
@@ -105,14 +109,14 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/Create
         public ActionResult CreateIntervention()
         {
-            var Clients = engineer.getClients();
+            var Clients = Engineer.getClients();
             var viewClientsList = new List<SelectListItem>();
             foreach (var client in Clients)
             {
                 viewClientsList.Add(new SelectListItem() { Text = client.Name, Value = client.Id.ToString() });
             }
 
-            var InterventionTypes = engineer.getInterventionTypes();
+            var InterventionTypes = Engineer.getInterventionTypes();
             var viewInterventionTypes = new List<SelectListItem>();
             foreach (var type in InterventionTypes)
             {
@@ -143,13 +147,13 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 DateTime dateRecentVisit = DateTime.Now;
 
 
-                Guid createdBy = (Guid)engineer.getDetail().Id;
-                Guid approvedBy = (Guid)engineer.getDetail().DistrictId;
+                Guid createdBy = (Guid)Engineer.getDetail().Id;
+                Guid approvedBy = (Guid)Engineer.getDetail().DistrictId;
                 Guid typeId = new Guid(Request.Form["InterventionTypes"]);   
                 Intervention new_intervention = new Intervention(hours, costs, lifeRemaining, comments, state,
                 dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, null);
-                engineer.createIntervention(new_intervention);          
-                var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
+                Engineer.createIntervention(new_intervention);          
+                var interventionList = Engineer.GetAllInterventions(Engineer.getDetail().Id).ToList();
                 var interventions = new List<InterventionViewModel>();
                 BindIntervention(interventionList, interventions);
                 var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
@@ -163,7 +167,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/EditIntervention
         public ActionResult EditInterventionState(Guid id)
         {
-            Intervention interention = engineer.getNonGuidInterventionById(id);
+            Intervention interention = Engineer.getNonGuidInterventionById(id);
             InterventionViewModel model = BindSingleIntervention(interention);
             return View(model);
         }
@@ -172,11 +176,11 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         [HttpPost]
         public ActionResult EditInterventionState(InterventionViewModel interventionmodel)
         {
-            var interventionList = engineer.getInterventionsByClient(interventionmodel.ClientId);
+            var interventionList = Engineer.getInterventionsByClient(interventionmodel.ClientId);
             List<InterventionViewModel> interventions = new List<InterventionViewModel>();
             BindIntervention(interventionList, interventions);
 
-            Client client = engineer.getClientById(interventionmodel.ClientId);
+            Client client = Engineer.getClientById(interventionmodel.ClientId);
             ClientViewModel clientViewModel = BindSingleClient(client);
             var model = new SiteEngineerViewClientModel() { Interventions = interventions, Client = clientViewModel };
 
@@ -186,7 +190,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/EditIntervention
         public ActionResult EditIntervention(Guid id)
         {
-            Intervention interention= engineer.getNonGuidInterventionById(id);
+            Intervention interention= Engineer.getNonGuidInterventionById(id);
             InterventionViewModel model=BindSingleIntervention(interention);
             
             return View(model);
@@ -200,13 +204,13 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             int new_liferemaining = interventionmodel.LifeRemaining;
             DateTime new_recentvisit = interventionmodel.RecentiVisit;
         
-            engineer.updateInterventionDetail(interventionmodel.Id,new_comments,new_liferemaining,new_recentvisit);
+            Engineer.updateInterventionDetail(interventionmodel.Id,new_comments,new_liferemaining,new_recentvisit);
             
-            var interventionList = engineer.getInterventionsByClient(interventionmodel.ClientId);
+            var interventionList = Engineer.getInterventionsByClient(interventionmodel.ClientId);
             List<InterventionViewModel> interventions = new List<InterventionViewModel>();
             BindIntervention(interventionList, interventions);
             
-            Client client = engineer.getClientById(interventionmodel.ClientId);
+            Client client = Engineer.getClientById(interventionmodel.ClientId);
             ClientViewModel clientViewModel=  BindSingleClient(client);
             var model = new SiteEngineerViewClientModel() { Interventions = interventions,Client= clientViewModel };
           
@@ -217,8 +221,8 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/ClientDetails/ClientId
         public ActionResult ClientDetails(Guid id)
         {
-            var client= engineer.getClientById(id);
-            var interventionList = engineer.getInterventionsByClient(id);
+            var client= Engineer.getClientById(id);
+            var interventionList = Engineer.getInterventionsByClient(id);
             List<InterventionViewModel> interventions = new List<InterventionViewModel>();
             BindIntervention(interventionList,interventions);
             ClientViewModel clientViewModel=BindSingleClient(client);
@@ -241,8 +245,8 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/InterventionList
         public ActionResult InterventionList()
         {
-            Guid enigerrId = engineer.getDetail().Id;
-            var interventionList = engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
+            Guid enigerrId = Engineer.getDetail().Id;
+            var interventionList = Engineer.GetAllInterventions(Engineer.getDetail().Id).ToList();
             
             var interventions = new List<InterventionViewModel>();
             BindIntervention(interventionList, interventions);
@@ -265,7 +269,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 clients.Add(new ClientViewModel()
                 {
                     Id = client.Id,
-                    DistrictName = engineer.getDistrictName(client.DistrictId),
+                    DistrictName = Engineer.getDistrictName(client.DistrictId),
                     Location = client.Location,
                     Name = client.Name
                 });
@@ -331,7 +335,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             ClientViewModel clientmodel = new ClientViewModel()
             {
                 Id = client.Id,
-                DistrictName = engineer.getDistrictName(client.DistrictId),
+                DistrictName = Engineer.getDistrictName(client.DistrictId),
                 Location = client.Location,
                 Name = client.Name
             };

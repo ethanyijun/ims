@@ -21,11 +21,20 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
     {
         private IManagerService manager;
 
-        public ManagerController()
+        private IManagerService Manager
         {
-            manager = new ManagerService(User.Identity.GetUserId());
+            get
+            {
+                if (manager == null)
+                {
+                    manager = new ManagerService(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                }
+                return manager;
+            }
         }
 
+        public ManagerController() { }
+        
         public ManagerController(IManagerService manager)
         {
             this.manager = manager;
@@ -34,8 +43,7 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
         // GET: Manager/Manager
         public ActionResult Index()
         {
-
-            var user = manager.GetDetail();
+            var user = Manager.GetDetail();
             var model = new ManagerViewModel()
             {
                 Name = user.Name,
@@ -48,9 +56,8 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 
         public ActionResult InterventionList()
         {
-
-            var user = manager.GetDetail();
-            var interventionList = manager.GetApprovedInterventions();
+            var user = Manager.GetDetail();
+            var interventionList = Manager.GetApprovedInterventions();
             var interventions = new List<InterventionViewModel>();
             var viewList = new List<SelectListItem>()
             {
@@ -61,8 +68,7 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             var model = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions, AuthorisedCosts = user.AuthorisedCosts, AuthorisedHours = user.AuthorisedHours };
             return View(model);
         }
-
-
+        
         [HttpPost]
         public ActionResult InterventionList(ManagerViewInterventionModel model)
         {
@@ -72,8 +78,8 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             }
             else
             {
-                var user = manager.GetDetail();
-                var interventionList = manager.GetInterventionsByState(IMSLogicLayer.Enums.InterventionState.Proposed);
+                var user = Manager.GetDetail();
+                var interventionList = Manager.GetInterventionsByState(IMSLogicLayer.Enums.InterventionState.Proposed);
                 var interventions = new List<InterventionViewModel>();
                 var viewList = new List<SelectListItem>()
                 {
@@ -89,40 +95,18 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
         
         public ActionResult ApproveIntervention(string id)
         {
-            if(manager.ApproveAnIntervention(new Guid(id)))
+            if (Manager.ApproveAnIntervention(new Guid(id)))
             {
-                sendEmailNotification(id);
-                
+                Intervention intervention = Manager.GetInterventionById(new Guid(id));
+
+                string sendTo = System.Web.HttpContext.Current.GetOwinContext()
+                    .GetUserManager<ApplicationUserManager>().FindById(intervention.CreatedBy.ToString()).Email;
+
+                Manager.SendEmailNotification(intervention, sendTo);
+
                 return RedirectToAction("InterventionList","Manager");
             }
             return View("Error");
-        }
-
-      
-        private void sendEmailNotification(string id)
-        {
-            Intervention intervention = manager.GetInterventionById(new Guid(id));
-
-            IEmailService email = new IMSLogicLayer.Services.EmailService();
-            ApplicationUser fromUser = System.Web.HttpContext.Current.GetOwinContext()
-                                    .GetUserManager<ApplicationUserManager>()
-                                    .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            //string from = fromUser.Email;
-            string from = "BurningGroupTestMail@gmail.com";
-            string fromName = fromUser.UserName;
-
-            ApplicationUser toUser = System.Web.HttpContext.Current.GetOwinContext()
-                                    .GetUserManager<ApplicationUserManager>()
-                                    .FindById(intervention.CreatedBy.ToString());
-
-            string to = "11998402@student.uts.edu.au";
-            //string to=toUser.Email;
-            //string toName = toUser.UserName;
-            string toName = "Test";
-            
-            MailMessage message = email.CreateMessage(from,to,fromName,toName,intervention);
-            email.SendEmail(message);
-
         }
 
         private void BindIntervention(IEnumerable<IMSLogicLayer.Models.Intervention> interventionList, List<InterventionViewModel> interventions)
