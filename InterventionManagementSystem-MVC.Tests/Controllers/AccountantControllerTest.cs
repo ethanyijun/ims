@@ -101,7 +101,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         //}
 
         [TestMethod]
-        public void TestEditDistrictViewModel()
+        public void Accountant_EditDistrictViewModel()
         {
             var view = controller.EditDistrict("9D2B0228-4444-4C23-8B49-01A698857709") as ViewResult;
             var model = (EditDistrictViewModel)view.ViewData.Model;
@@ -113,7 +113,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestEditDistrictViewPostSuccess()
+        public void Accountant_EditDistrictViewPostSuccess()
         {
             Mock<IAccountantService> accountantService = new Mock<IAccountantService>();
             accountantService.Setup(a => a.changeDistrict(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(true);
@@ -137,7 +137,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestEditDistrictViewPostFailed()
+        public void Accountant_EditDistrictViewPostFailed()
         {
             Mock<IAccountantService> accountantService = new Mock<IAccountantService>();
             accountantService.Setup(a => a.changeDistrict(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(false);
@@ -156,7 +156,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestReportListViewModel()
+        public void Accountant_ReportListViewModel()
         {
             var view = controller.ReportList() as ViewResult;
             var model = view.ViewData.Model as ReportListViewModel;
