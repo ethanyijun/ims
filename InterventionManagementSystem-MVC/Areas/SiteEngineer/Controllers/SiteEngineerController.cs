@@ -74,18 +74,6 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             BindClient(clientList, clients);
             return View("ClientList", clients);
         }
-        
-        public ActionResult EditClient()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult EditClient(FormCollection form)
-        {
-            return View();
-        }
-
 
         // GET : SiteEngineer/ClientList
        
@@ -96,15 +84,6 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             BindClient(clientList, clients);
             return View(clients);
         }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-
-        public ActionResult ClientList(FormCollection form)
-        {
-            return View();
-        }
-        
 
         // GET: SiteEngineer/Create
         public ActionResult CreateIntervention()
