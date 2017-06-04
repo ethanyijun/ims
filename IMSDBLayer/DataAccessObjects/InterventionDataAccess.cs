@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using IMSDBLayer.Models;
 using IMSDBLayer.DataAccessInterfaces;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace IMSDBLayer.DataAccessObjects
 {
@@ -15,11 +17,30 @@ namespace IMSDBLayer.DataAccessObjects
         {
             using (IMSEntities context = new IMSEntities())
             {
-
-                context.Interventions.Add(new Intervention(intervention));
+                Intervention newIntervention = new Intervention(intervention);
+                context.Interventions.Add(newIntervention);
                 context.SaveChanges();
-                return context.Interventions.Find(intervention);
 
+                return newIntervention;
+           //     Intervention inter=context.Interventions.Add(new Intervention(intervention));
+                //try
+                //{
+                //    context.SaveChanges();
+                //}
+                //catch (DbEntityValidationException dbEx)
+                //{
+                //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                //    {
+                //        foreach (var validationError in validationErrors.ValidationErrors)
+                //        {
+                //            Trace.TraceInformation("Property: {0} Error: {1}",
+                //                                    validationError.PropertyName,
+                //                                    validationError.ErrorMessage);
+                //        }
+                //    }
+                //}
+                //return (Intervention)context.Interventions.Find(intervention.Id);
+              //  return intervention;
             }
         }
 
@@ -63,6 +84,14 @@ namespace IMSDBLayer.DataAccessObjects
                 return context.Interventions.Where(i => i.Id == interventionId).FirstOrDefault();
             }
         }
+        //public IEnumerable<Intervention> fetchInterventionsListById(Guid interventionId)
+        //{
+        //    using (IMSEntities context = new IMSEntities())
+        //    {
+        //        return context.Interventions.Where(i => i.Id == interventionId).ToList();
+        //    }
+        //}
+
 
         public IEnumerable<Intervention> fetchInterventionsByInterventionType(Guid interventionTypeId)
         {
@@ -88,16 +117,39 @@ namespace IMSDBLayer.DataAccessObjects
             }
         }
 
+        public bool ApproveIntervention(Intervention intervention)
+        {
+            using (IMSEntities context = new IMSEntities())
+            {
+                intervention = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault<Intervention>();
+
+            }
+            if (intervention != null) {
+                intervention.State = 1;
+            }
+            using (IMSEntities dbcontext = new IMSEntities())
+            {
+                dbcontext.Entry(intervention).State = System.Data.Entity.EntityState.Modified;
+                if (dbcontext.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public bool update(Intervention intervention)
         {
             using (IMSEntities context = new IMSEntities())
             {
                 var old = context.Interventions.Where(i => i.Id == intervention.Id).FirstOrDefault();
                 context.Entry(old).CurrentValues.SetValues(intervention);
+
                 if (context.SaveChanges() > 0)
                 {
                     return true;
                 }
+
                 return false;
             }
         }

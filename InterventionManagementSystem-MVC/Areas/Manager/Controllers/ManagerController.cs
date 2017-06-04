@@ -21,16 +21,16 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
     {
         private IManagerService manager;
 
-        public ManagerController() {
-
-            //var identityId = User.Identity.GetUserId();
-
-             manager = new ManagerService("2b8dbe21-cc7b-4794-bf3e-4a2d3a7b68e0");
+        public ManagerController()
+        {
+            manager = new ManagerService(User.Identity.GetUserId());
         }
 
-        public ManagerController(IManagerService manager) {
+        public ManagerController(IManagerService manager)
+        {
             this.manager = manager;
         }
+
         // GET: Manager/Manager
         public ActionResult Index()
         {
@@ -72,8 +72,6 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             }
             else
             {
-
-
                 var user = manager.GetDetail();
                 var interventionList = manager.GetInterventionsByState(IMSLogicLayer.Enums.InterventionState.Proposed);
                 var interventions = new List<InterventionViewModel>();
@@ -86,24 +84,17 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
                 BindIntervention(interventionList, interventions);
                 var m = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions, AuthorisedCosts = user.AuthorisedCosts, AuthorisedHours = user.AuthorisedHours };
                 return View(m);
-
             }
-
         }
-
-
-       
+        
         public ActionResult ApproveIntervention(string id)
         {
-
             if(manager.ApproveAnIntervention(new Guid(id)))
             {
-
                 sendEmailNotification(id);
                 
                 return RedirectToAction("InterventionList","Manager");
             }
-
             return View("Error");
         }
 
@@ -134,14 +125,13 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 
         }
 
-
         private void BindIntervention(IEnumerable<IMSLogicLayer.Models.Intervention> interventionList, List<InterventionViewModel> interventions)
         {
             foreach (var intervention in interventionList)
             {
                 interventions.Add(new InterventionViewModel()
                 {
-                    Id=intervention.Id.ToString(),
+                    Id = intervention.Id,
                     InterventionTypeName = intervention.InterventionType.Name,
                     ClientName = intervention.Client.Name,
                     DateCreate = intervention.DateCreate,

@@ -21,27 +21,33 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Models
 
     public class SiteEngineerViewInterventionModel
     {
-        public int SelectedType { get; set; }
+        //[Key]
+        //public int Id { get; set; }
+       // public int SelectedType { get; set; }
         public IEnumerable<InterventionViewModel> Interventions { get; set; }
         public IEnumerable<SelectListItem> ViewInterventionTypeList { get; set; }
         public IEnumerable<SelectListItem> ViewClientsList { get; set; }
-
+        public InterventionViewModel Intervention { get; set; }
     }
 
     public class SiteEngineerViewClientModel
     {
+        //[Key]
+        //public int Id { get; set; }
         //public int SelectedType { get; set; }
-        public IEnumerable<ClientViewModel> Clients { get; set; }
+         public InterventionViewModel Intervention { get; set; }
+        public ClientViewModel Client { get; set; }
+        public IEnumerable<InterventionViewModel> Interventions { get; set; }
 
-        public IEnumerable<SelectListItem> ViewList { get; set; }
+     //   public IEnumerable<SelectListItem> ViewList { get; set; }
     }
 
-    public class ClientViewModel
-    {
-        public string Name { get; set; }
+    //public class ClientViewModel
+    //{
+    //    public string Name { get; set; }
 
-        public string Location { get; set; }
-        public string DistrictName { get; set; }
-    }
+    //    public string Location { get; set; }
+    //    public string DistrictName { get; set; }
+    //}
 
 }
