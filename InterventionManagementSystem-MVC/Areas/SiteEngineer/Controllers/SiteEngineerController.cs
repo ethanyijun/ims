@@ -67,12 +67,15 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
         public ActionResult CreateClient(ClientViewModel clientVmodel)/*([Bind(Include = "Id,Name,Description,Length,Price,Rating,IncludesMeals")] Tour tour)*/
         {
-            Client client=engineer.createClient(clientVmodel.Name,clientVmodel.Location);
-
-            var clientList = engineer.getClients();
-            var clients = new List<ClientViewModel>();
-            BindClient(clientList, clients);
-            return View("ClientList", clients);
+            if (ModelState.IsValid)
+            {
+                Client client = Engineer.createClient(clientVmodel.Name, clientVmodel.Location);
+                var clientList = Engineer.getClients();
+                var clients = new List<ClientViewModel>();
+                BindClient(clientList, clients);
+                return View("ClientList", clients);
+            }
+            return View(clientVmodel);
         }
 
         // GET : SiteEngineer/ClientList
@@ -126,7 +129,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             InterventionState newState = (InterventionState)interventionStateInt;
             bool result = Engineer.updateInterventionState(interventionmodel.Id, newState);
             
-            var interventionList = Engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
+            var interventionList = Engineer.GetAllInterventions(Engineer.getDetail().Id).ToList();
             var interventions = new List<InterventionViewModel>();
             BindIntervention(interventionList, interventions);
             var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
@@ -136,7 +139,6 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // POST: SiteEngineer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public ActionResult CreateIntervention(SiteEngineerViewInterventionModel viewmodel)/*([Bind(Include = "Id,Name,Description,Length,Price,Rating,IncludesMeals")] Tour tour)*/
         {
             if (ModelState.IsValid)

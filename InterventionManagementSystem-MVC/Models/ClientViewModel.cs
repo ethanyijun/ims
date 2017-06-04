@@ -10,8 +10,13 @@ namespace InterventionManagementSystem_MVC.Models
     {
         [Key]
         public Nullable<Guid> Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public string Location { get; set; }
+
         public string DistrictName { get; set; }
     }
 }
