@@ -42,16 +42,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             managerService.Setup(m => m.GetDetail()).Returns(manager);
             managerService.Setup(m => m.GetApprovedInterventions()).Returns(new List<IMSLogicLayer.Models.Intervention>());
             //managerService.Setup(m => m.GetInterventionsByState(It.Is(IMSLogicLayer.Enums.InterventionState.Proposed))).Returns(new List<IMSLogicLayer.Models.Intervention>());
+            managerService.Setup(m => m.SendEmailNotification(It.IsAny<IMSLogicLayer.Models.Intervention>(), It.IsAny<string>()));
 
             controller = new ManagerController(managerService.Object);
         }
-        //[TestMethod]
-        //public void Manager_IndexView()
-        //{
-        //    var view = controller.Index() as ViewResult;
-
-        //    Assert.AreEqual("Index", view.ViewName);
-        //}
 
         [TestMethod]
         public void Manager_IndexViewModel()
@@ -64,14 +58,6 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.AuthorisedCosts);
             Assert.IsNotNull(model.AuthorisedHours);
         }
-
-        //[TestMethod]
-        //public void Manager_InterventionListView()
-        //{
-        //    var view = controller.InterventionList() as ViewResult;
-
-        //    Assert.AreEqual("InterventionList", view.ViewName);
-        //}
 
         [TestMethod]
         public void Manager_InterventionListViewModel()
@@ -119,7 +105,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         {
             Mock<IManagerService> managerService = new Mock<IManagerService>();
 
+            managerService.Setup(m => m.GetDetail()).Returns(manager);
             managerService.Setup(m => m.ApproveAnIntervention(It.IsAny<Guid>())).Returns(true);
+            managerService.Setup(m => m.SendEmailNotification(It.IsAny<IMSLogicLayer.Models.Intervention>(), It.IsAny<string>()));
+            managerService.Setup(m => m.GetInterventionById(It.IsAny<Guid>())).Returns(new IMSLogicLayer.Models.Intervention(40, 40, 4, "comments", IMSLogicLayer.Enums.InterventionState.Approved, new DateTime(), new DateTime(), new DateTime(), new Guid(), new Guid(), new Guid(), new Guid()));
 
             var controller = new ManagerController(managerService.Object);
 
