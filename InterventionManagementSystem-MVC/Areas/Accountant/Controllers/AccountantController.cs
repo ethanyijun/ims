@@ -18,34 +18,39 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
     {
         private IAccountantService accountant;
 
-        // GET: Accountant/Accountants
-        public AccountantController() {
-
-            //var identityId = User.Identity.GetUserId();
-
-            accountant = new AccountantService("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea");
-            
+        private IAccountantService Accountant
+        {
+            get
+            {
+                if (accountant == null)
+                {
+                    accountant = new AccountantService(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                }
+                return accountant;
+            }
         }
 
-        public AccountantController(IAccountantService accountant) {
+        // GET: Accountant/Accountants
+        public AccountantController() { }
+
+        public AccountantController(IAccountantService accountant)
+        {
             this.accountant = accountant;
         }
 
         public ActionResult Index()
         {
-            var user = accountant.getDetail();
+            var user = Accountant.getDetail();
             var model = new AccountantViewModel()
             {
                 Name = user.Name,
             };
             return View(model);
-         
         }
         
         public ActionResult AccountListView()
         {
-           
-            var siteEngineerList = accountant.getAllSiteEngineer();
+            var siteEngineerList = Accountant.getAllSiteEngineer();
             var siteEnigeerVMList = new List<SiteEngineerViewModel>();
             foreach (var siteEngineer in siteEngineerList)
             {
@@ -54,11 +59,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
                     Id = siteEngineer.Id.ToString(),
                     Name = siteEngineer.Name
                 });
-
             }
 
-            var managerList = accountant.getAllManger();
+            var managerList = Accountant.getAllManger();
             var managerVMList = new List<ManagerViewModel>();
+
             foreach (var manager in managerList)
             {
                 managerVMList.Add(new ManagerViewModel()
@@ -66,7 +71,6 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
                     Id = manager.Id.ToString(),
                     Name = manager.Name
                 });
-
             }
 
             var model = new AccountListViewModel()
@@ -74,8 +78,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
                 SiteEngineers = siteEnigeerVMList,
                 Managers = managerVMList
             };
-
-
+            
             return View(model);
         }
 
@@ -83,12 +86,10 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         //GET Default information of an User
         public ActionResult EditDistrict(string id)
         {
-         
+            var user = Accountant.getUserById(new Guid(id));
+            user.District = Accountant.getDistrictForUser(user.Id);
 
-            var user = accountant.getUserById(new Guid(id));
-            user.District = accountant.getDistrictForUser(user.Id);
-
-            var districts = accountant.getDistricts().Select(d=> new SelectListItem {Value = d.Id.ToString() ,Text=d.Name }).ToList();
+            var districts = Accountant.getDistricts().Select(d=> new SelectListItem {Value = d.Id.ToString() ,Text=d.Name }).ToList();
          
             var model = new EditDistrictViewModel()
             {
@@ -97,18 +98,15 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
                 CurrentDistrict = user.District.Name,
                 DistrictList= districts
             };
-
-
+            
             return View(model);
         }
-
-   
-
+        
         [HttpPost]
         public ActionResult EditDistrict(EditDistrictViewModel model)
         {
         
-            if(accountant.changeDistrict(new Guid(model.Id), new Guid(model.SelectedDistrict)))
+            if(Accountant.changeDistrict(new Guid(model.Id), new Guid(model.SelectedDistrict)))
             {
                 return RedirectToAction("EditDistrict","Accountant",model.Id);
             }
@@ -118,31 +116,23 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
         public ActionResult ReportList()
         {
-            
-
-            var reportList = Enum.GetValues(typeof(ReportType))
-                                .Cast<ReportType>()
-                                .Select(v => v.ToString())
-                                .ToList();
+            var reportList = Enum.GetValues(typeof(ReportType)).Cast<ReportType>().Select(v => v.ToString()).ToList();
          
             var model = new ReportListViewModel()
             {
                 ReportList = reportList
             };
-
-
+            
             return View(model);
         }
-
-
+        
         public ActionResult PrintReport(string name)
         {
-           
             ReportType reportType = (ReportType)Enum.Parse(typeof(ReportType), name);
             var report = new List<IMSLogicLayer.Models.ReportRow>();
             if (reportType == ReportType.AverageCostByEngineer)
             {
-                report = accountant.printAverageCostByEngineer().ToList();
+                report = Accountant.printAverageCostByEngineer().ToList();
                 foreach (var reportrow in report)
                 {
                     reportrow.Hours = decimal.Round(reportrow.Hours.Value, 2, MidpointRounding.AwayFromZero);
@@ -157,7 +147,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             }
             else if (reportType == ReportType.TotalCostByDistrict)
             {
-                report = accountant.printTotalCostByDistrict().ToList();
+                report = Accountant.printTotalCostByDistrict().ToList();
                 var m = new DistrictReportViewModel()
                 {
                     Report = report,
@@ -168,7 +158,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             }
             else if (reportType == ReportType.TotalCostByEngineer)
             {
-                report = accountant.printTotalCostByEngineer().ToList();
+                report = Accountant.printTotalCostByEngineer().ToList();
             }
             var model = new ReportViewModel() {
                 Report = report
@@ -177,16 +167,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
             return View("Report", model);
         }
-
-
-
+        
         public ActionResult PrintMonthlyReport()
         {
-            
             var report = new List<IMSLogicLayer.Models.ReportRow>();
-           
-
-            var districts = accountant.getDistricts().Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }).ToList();
+            var districts = Accountant.getDistricts().Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }).ToList();
 
             var model = new MonthlyDistrictReportViewModel()
             {
@@ -204,31 +189,20 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             {
                 return PrintMonthlyReport();
             }
-
-    
+            
             var report = new List<IMSLogicLayer.Models.ReportRow>();
             var districtId = new Guid(district.SelectedDistrict);
-            report = accountant.printMonthlyCostByDistrict(districtId).ToList();
+            report = Accountant.printMonthlyCostByDistrict(districtId).ToList();
 
-            var districts = accountant.getDistricts().Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }).ToList();
+            var districts = Accountant.getDistricts().Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }).ToList();
 
             var model = new MonthlyDistrictReportViewModel()
             {
                 DistrictList = districts,
                 Report= report
             };
-
-
+            
             return View("MonthlyDistrictReport", model);
         }
-        private IAccountantService GetAccountantService()
-        {
-            //var identityId = User.Identity.GetUserId();
-
-            IAccountantService accountant = new AccountantService("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea");
-            
-            return accountant;
-        }
-
     }
 }
