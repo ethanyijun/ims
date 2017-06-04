@@ -126,6 +126,22 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             return View(model);
         }
 
+        // POST: SiteEngineer/EditIntervention
+        [HttpPost]
+        public ActionResult EditInterventionState(InterventionViewModel interventionmodel)
+        {
+            string interventionState = Request.Form["StatesList"];
+            int interventionStateInt = Int32.Parse(interventionState);
+            InterventionState newState = (InterventionState)interventionStateInt;
+            bool result = Engineer.updateInterventionState(interventionmodel.Id, newState);
+            
+            var interventionList = Engineer.GetAllInterventions(engineer.getDetail().Id).ToList();
+            var interventions = new List<InterventionViewModel>();
+            BindIntervention(interventionList, interventions);
+            var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
+            return View("InterventionList", model);
+        }
+
         // POST: SiteEngineer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
