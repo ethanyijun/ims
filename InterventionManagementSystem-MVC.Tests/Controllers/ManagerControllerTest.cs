@@ -9,6 +9,9 @@ using Moq;
 
 namespace InterventionManagementSystem_MVC.Tests.Controllers
 {
+    /// <summary>
+    /// Unit testing class for manager controller
+    /// </summary>
     [TestClass]
     public class ManagerControllerTest
     {
@@ -16,6 +19,9 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         private Mock<IManagerService> managerService;
         private IMSLogicLayer.Models.User manager;
 
+        /// <summary>
+        /// test set up initialization
+        /// </summary>
         [TestInitialize]
         public void SetUp()
         {
@@ -47,6 +53,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             controller = new ManagerController(managerService.Object);
         }
 
+        /// <summary>
+        /// test for Index()
+        /// the view model should contain the detail of the manager;
+        /// </summary>
         [TestMethod]
         public void Manager_IndexViewModel()
         {
@@ -57,8 +67,13 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.DistrictName);
             Assert.IsNotNull(model.AuthorisedCosts);
             Assert.IsNotNull(model.AuthorisedHours);
+            Assert.AreEqual(manager.Name, model.Name);
         }
 
+        /// <summary>
+        /// test for InterventionList()
+        /// the view model should contain a list of view and intervention
+        /// </summary>
         [TestMethod]
         public void Manager_InterventionListViewModel()
         {
@@ -69,6 +84,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.Interventions);
         }
 
+        /// <summary>
+        /// test for InterventionList() with post data, Approved case
+        /// the user should be redirect to the homeoage of intervention, which is InterventionList
+        /// </summary>
         [TestMethod]
         public void Manager_InterventionListViewPostSelectedApproved()
         {
@@ -82,6 +101,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual("Manager", result.RouteValues["Controller"]);
         }
 
+        /// <summary>
+        /// test for InterventionList() with post data, other SelectedTypes
+        /// the return view should contain model with the detail of manager and interentions
+        /// </summary>
         [TestMethod]
         public void Manager_InterventionListViewPostSelectedOthers()
         {
@@ -100,6 +123,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual(model.AuthorisedHours, manager.AuthorisedHours);
         }
 
+        /// <summary>
+        /// test for ApproveIntervention(), success case
+        /// the user should be redirect to the InterventionList page after successfully approving the intervention
+        /// </summary>
         [TestMethod]
         public void Manager_ApproveInterventionSuccess()
         {
@@ -119,6 +146,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual("Manager", result.RouteValues["Controller"]);
         }
 
+        /// <summary>
+        /// test for ApproveIntervention(), failed case
+        /// the user should get an error page if the operation failed
+        /// </summary>
         [TestMethod]
         public void Manager_ApproveInterventionFailed()
         {

@@ -9,6 +9,9 @@ using System.Collections.Generic;
 
 namespace InterventionManagementSystem_MVC.Tests.Controllers
 {
+    /// <summary>
+    /// Unit Testing class for Accountant Controller
+    /// </summary>
     [TestClass]
     public class AccountantControllerTest
     {
@@ -16,6 +19,9 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         private Mock<IAccountantService> accountantService;
         private IMSLogicLayer.Models.User user;
 
+        /// <summary>
+        /// test set up initialization
+        /// </summary>
         [TestInitialize]
         public void SetUp()
         {
@@ -63,6 +69,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             controller = new AccountantController(accountantService.Object);
         }
         
+        /// <summary>
+        /// test for Index()
+        /// the view should contain the model with the detail of the accountant
+        /// </summary>
         [TestMethod]
         public void Accountant_IndexViewModel()
         {
@@ -70,8 +80,13 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             var model = (AccountantViewModel)view.ViewData.Model;
 
             Assert.IsNotNull(model.Name);
+            Assert.AreEqual("John Smith", model.Name);
         }
         
+        /// <summary>
+        /// test for AccountListView()
+        /// the view should contain a list of managers and site engineers
+        /// </summary>
         [TestMethod]
         public void Accountant_AccountListViewModel()
         {
@@ -81,7 +96,11 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.Managers);
             Assert.IsNotNull(model.SiteEngineers);
         }
-        
+
+        /// <summary>
+        /// test for EditDistrict()
+        /// the view should contain a model with district details and list of district
+        /// </summary>
         [TestMethod]
         public void Accountant_EditDistrictViewModel()
         {
@@ -94,6 +113,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.DistrictList);
         }
 
+        /// <summary>
+        /// test for success case of EditDistrict() with posting data
+        /// if the changedistrict() success, the user should be redirect to the EditDistrict page
+        /// </summary>
         [TestMethod]
         public void Accountant_EditDistrictViewPostSuccess()
         {
@@ -115,6 +138,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual("Accountant", result.RouteValues["Controller"]);
         }
 
+        /// <summary>
+        /// test for failed case of EditDistrict() with posting data
+        /// if the changedistrict() failed, the user should be redirect to the Error page
+        /// </summary>
         [TestMethod]
         public void Accountant_EditDistrictViewPostFailed()
         {
@@ -135,6 +162,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual("Error", view.ViewName);
         }
 
+        /// <summary>
+        /// test for ReportList()
+        /// the view should containt a model with a list of Report generated from Database
+        /// </summary>
         [TestMethod]
         public void Accountant_ReportListViewModel()
         {
@@ -145,6 +176,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.ReportList);
         }
 
+        /// <summary>
+        /// test for PrintReport(), failed case
+        /// if no type of report is specified, the user is direct to an error page
+        /// </summary>
         [TestMethod]
         public void Accountant_PrintReportFailed()
         {
@@ -153,6 +188,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual("Error", view.ViewName);
         }
 
+        /// <summary>
+        /// test for PrintReport("AverageCostByEngineer")
+        /// the return view should be the Report page with view model data populate by printAverageCostByEngineer();
+        /// </summary>
         [TestMethod]
         public void Accountant_PrintReportAverageCostByEngineer()
         {
@@ -163,6 +202,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             accountantService.Verify(a => a.printAverageCostByEngineer(), Times.AtLeastOnce());
         }
 
+        /// <summary>
+        /// test for PrintReport("TotalCostByDistrict")
+        /// the return view should be the TotalDistrictReport page with view model data populate by printTotalCostByDistrict();
+        /// </summary>
         [TestMethod]
         public void Accountant_PrintReportTotalCostByDistrict()
         {
@@ -173,6 +216,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             accountantService.Verify(a => a.printTotalCostByDistrict(), Times.AtLeastOnce());
         }
 
+        /// <summary>
+        /// test for PrintReport("TotalCostByEngineer")
+        /// the return view should be the Report page with view model data populate by printTotalCostByEngineer();
+        /// </summary>
         [TestMethod]
         public void Accountant_PrintReportTotalCostByEngineer()
         {
@@ -183,6 +230,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             accountantService.Verify(a => a.printTotalCostByEngineer(), Times.AtLeastOnce());
         }
 
+        /// <summary>
+        /// test for PrintReport("MonthlyCostByDistrict")
+        /// the return view should be the MonthlyDistrictReport page with view model data;
+        /// </summary>
         [TestMethod]
         public void Accountant_PrintMonthlyReport()
         {
@@ -192,6 +243,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(view.ViewData.Model);
         }
 
+        /// <summary>
+        /// test for PrintMonthlyReport() null argument
+        /// the user should be redirect to the basic view of report page, which is PrintMonthlyReport page
+        /// </summary>
         [TestMethod]
         public void Accountant_PrintMonethlyReportPostNull()
         {
@@ -202,6 +257,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual("Accountant", result.RouteValues["Controller"]);
         }
 
+        /// <summary>
+        /// test for PrintMonthlyReport() with proper view model supplied
+        /// the return view should be the MonthlyDistrictReport page with view model data populated by printMonthlycostbyDistrict();
+        /// </summary>
         [TestMethod]
         public void Accountant_PrintMonethlyReportPost()
         {
