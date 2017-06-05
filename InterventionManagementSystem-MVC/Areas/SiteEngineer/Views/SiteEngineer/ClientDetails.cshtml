@@ -46,9 +46,9 @@
 
             </table>*@
 </p>
-<table class="table">
+<table class="table table-striped table-bordered table-hover table-responsive" style="background-color: white">
     <tr>
-        <th>
+        <th class="col-md-2 col-lg-2">
             @Html.DisplayNameFor(model => model.Intervention.InterventionTypeName)
         </th>
         @*<th>
@@ -60,7 +60,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Intervention.DateFinish)
         </th>*@
-        <th>
+        <th class="col-md-2 col-lg-2">
             @Html.DisplayNameFor(model => model.Intervention.InterventionState)
         </th>
         @*<th>
@@ -72,21 +72,21 @@
         <th>
             @Html.DisplayNameFor(model => model.Intervention.Hours)
         </th>*@
-        <th>
+        <th class="col-md-2 col-lg-2">
             @Html.DisplayNameFor(model => model.Intervention.Comments)
         </th>
         @*<th>
             @Html.DisplayNameFor(model => model.Intervention.RecentiVisit)
         </th>*@
-        <th>
+        <th class="col-md-2 col-lg-2">
             @Html.DisplayNameFor(model => model.Intervention.LifeRemaining)
         </th>
-        <th></th>
+        <th class="col-md-2 col-lg-2">Edit</th>
     </tr>
 
     @foreach (var item in Model.Interventions)
     {
-        <tr>
+        <tr style="vertical-align: middle;">
             <td>
                 @Html.DisplayFor(modelItem => item.InterventionTypeName)
             </td>

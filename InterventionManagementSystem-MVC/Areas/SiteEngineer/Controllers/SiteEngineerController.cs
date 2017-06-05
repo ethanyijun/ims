@@ -158,20 +158,24 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
 
                 Guid createdBy = (Guid)Engineer.getDetail().Id;
                 Guid approvedBy = (Guid)Engineer.getDetail().DistrictId;
-                Guid typeId = new Guid(Request.Form["InterventionTypes"]);   
+                Guid typeId = new Guid(Request.Form["InterventionTypes"]);
                 Intervention new_intervention = new Intervention(hours, costs, lifeRemaining, comments, state,
                 dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, null);
-                Engineer.createIntervention(new_intervention);          
-                var interventionList = Engineer.GetAllInterventions(Engineer.getDetail().Id).ToList();
+                Engineer.createIntervention(new_intervention);
+
+                var interventionList = Engineer.getInterventionsByClient(clientId).ToList();
                 var interventions = new List<InterventionViewModel>();
                 BindIntervention(interventionList, interventions);
-                var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
-                return View("InterventionList", model);
 
+                Client client = Engineer.getClientById(clientId);
+                ClientViewModel clientVmodel = new ClientViewModel();
+                clientVmodel = BindSingleClient(client);
+                var model = new SiteEngineerViewClientModel() { Interventions = interventions, Client = clientVmodel };
+                return View("ClientDetails", model);
             }
-            return View(viewmodel);
+            return View();
         }
-        
+
         // GET: SiteEngineer/EditIntervention
         public ActionResult EditIntervention(Guid id)
         {
