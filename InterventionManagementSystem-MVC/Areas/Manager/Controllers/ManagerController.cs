@@ -66,6 +66,7 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             };
             BindIntervention(interventionList, interventions);
             var model = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions, AuthorisedCosts = user.AuthorisedCosts, AuthorisedHours = user.AuthorisedHours };
+            
             return View(model);
         }
         
@@ -83,8 +84,8 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
                 var interventions = new List<InterventionViewModel>();
                 var viewList = new List<SelectListItem>()
                 {
-                    new SelectListItem(){ Text="Proposed", Value="Proposed",Selected=true },
-                    new SelectListItem(){ Text ="Approved",Value="Approved"},
+                    new SelectListItem(){ Text="Proposed", Value="Proposed", Selected=true },
+                    new SelectListItem(){ Text ="Approved", Value="Approved"},
 
                 };
                 BindIntervention(interventionList, interventions);
@@ -95,6 +96,11 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
         
         public ActionResult ApproveIntervention(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return View("Error");
+            }
+
             if (Manager.ApproveAnIntervention(new Guid(id)))
             {
                 Intervention intervention = Manager.GetInterventionById(new Guid(id));

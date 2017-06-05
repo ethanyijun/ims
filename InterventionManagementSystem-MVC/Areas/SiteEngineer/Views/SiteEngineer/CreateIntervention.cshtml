@@ -4,7 +4,7 @@
     ViewBag.Title = "CreateIntervention";
 }
 
-<h2>CreateIntervention</h2>
+<h2>Create Intervention</h2>
 
 
 @using (Html.BeginForm())
@@ -13,24 +13,18 @@
 
 
     <div class="form-horizontal">
-        <h4>InterventionViewModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <h3>New Intervention</h3>
-        <hr />
+     
         <div class="main-body-content">
             <div class="row form-group">
                 <div class="col-md-4 col-lg-3 col-xl-2">
                     @Html.LabelFor(model => model.Intervention.InterventionTypeName, htmlAttributes: new { @class = "control-label col-md-2" })
-
                 </div>
+
                 <div class="col-md-6">
-                    @Html.DropDownList("InterventionTypes", Model.ViewInterventionTypeList, "Select Intervention Type", new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.SelectedType, Model.ViewInterventionTypeList, new { @class = "form-control" })
                     @Html.ValidationMessage("Intervention Types")
-
-
-
                 </div>
             </div>
 
@@ -38,14 +32,12 @@
                 <div class="col-md-4 col-lg-3 col-xl-2">
                     @Html.LabelFor(model => model.Intervention.ClientName, htmlAttributes: new { @class = "control-label col-md-2" })
                 </div>
+
                 <div class="col-md-6">
-                    @Html.DropDownList("ClientsList", Model.ViewClientsList, "Select Client", new { @class = "form-control" })
+                    @Html.DropDownListFor(m=>m.SelectedClient, Model.ViewClientsList, new { @class = "form-control" })
                     @Html.ValidationMessage("Clients List")
-
-
                 </div>
             </div>
-
 
             <div class="row form-group">
                 <div class="col-md-4 col-lg-3 col-xl-2">
@@ -87,11 +79,7 @@
                     @Html.ValidationMessageFor(model => model.Intervention.Comments, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-
         </div>
-
-
 
         <div class="row form-group">
             <div class="col-md-6">
@@ -100,13 +88,9 @@
 
         </div>
 
-
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

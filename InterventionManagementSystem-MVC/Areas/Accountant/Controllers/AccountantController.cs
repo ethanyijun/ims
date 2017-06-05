@@ -86,6 +86,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         //GET Default information of an User
         public ActionResult EditDistrict(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return View("Error");
+            }
+
             var user = Accountant.getUserById(new Guid(id));
             user.District = Accountant.getDistrictForUser(user.Id);
 
@@ -105,7 +110,17 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         [HttpPost]
         public ActionResult EditDistrict(EditDistrictViewModel model)
         {
-        
+            if (string.IsNullOrEmpty(model.Id))
+            {
+                return View("Error");
+            }
+
+            var user = Accountant.getUserById(new Guid(model.Id));
+            
+            if (user.DistrictId.ToString().Equals(model.SelectedDistrict))
+            {
+                return RedirectToAction("EditDistrict", "Accountant", model.Id);
+            }
             if(Accountant.changeDistrict(new Guid(model.Id), new Guid(model.SelectedDistrict)))
             {
                 return RedirectToAction("EditDistrict","Accountant",model.Id);
@@ -128,6 +143,10 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         
         public ActionResult PrintReport(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return View("Error");
+            }
             ReportType reportType = (ReportType)Enum.Parse(typeof(ReportType), name);
             var report = new List<IMSLogicLayer.Models.ReportRow>();
             if (reportType == ReportType.AverageCostByEngineer)
@@ -187,7 +206,7 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         {
             if (district.SelectedDistrict ==null)
             {
-                return PrintMonthlyReport();
+                return RedirectToAction("PrintMonthlyReport","Accountant");
             }
             
             var report = new List<IMSLogicLayer.Models.ReportRow>();
