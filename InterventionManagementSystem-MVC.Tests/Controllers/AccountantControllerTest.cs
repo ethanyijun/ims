@@ -13,6 +13,8 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
     public class AccountantControllerTest
     {
         private AccountantController controller;
+        private Mock<IAccountantService> accountantService;
+        private IMSLogicLayer.Models.User user;
 
         [TestInitialize]
         public void SetUp()
@@ -43,28 +45,24 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
                 Name = "NSW"
             };
             IMSLogicLayer.Models.User accountant = new IMSLogicLayer.Models.User(db_accountant);
-            IMSLogicLayer.Models.User user = new IMSLogicLayer.Models.User(db_user);
+            user = new IMSLogicLayer.Models.User(db_user);
             IMSLogicLayer.Models.District district = new IMSLogicLayer.Models.District(db_district);
 
-            Mock<IAccountantService> accountantService = new Mock<IAccountantService>();
+            accountantService = new Mock<IAccountantService>();
             accountantService.Setup(a => a.getDetail()).Returns(accountant);
             accountantService.Setup(a => a.getAllManger()).Returns(new List<IMSLogicLayer.Models.User>());
             accountantService.Setup(a => a.getAllSiteEngineer()).Returns(new List<IMSLogicLayer.Models.User>());
             accountantService.Setup(a => a.getUserById(It.IsAny<Guid>())).Returns(user);
             accountantService.Setup(a => a.getDistrictForUser(It.IsAny<Guid>())).Returns(district);
             accountantService.Setup(a => a.getDistricts()).Returns(new List<IMSLogicLayer.Models.District>());
+            accountantService.Setup(a => a.printAverageCostByEngineer()).Returns(new List<IMSLogicLayer.Models.ReportRow>());
+            accountantService.Setup(a => a.printMonthlyCostByDistrict(It.IsAny<Guid>())).Returns(new List<IMSLogicLayer.Models.ReportRow>());
+            accountantService.Setup(a => a.printTotalCostByDistrict()).Returns(new List<IMSLogicLayer.Models.ReportRow>());
+            accountantService.Setup(a => a.printTotalCostByEngineer()).Returns(new List<IMSLogicLayer.Models.ReportRow>());
 
             controller = new AccountantController(accountantService.Object);
         }
-
-        //[TestMethod]
-        //public void Accountant_IndexView()
-        //{
-        //    var view = controller.Index() as ViewResult;
-
-        //    Assert.AreEqual("Index", view.ViewName);
-        //}
-
+        
         [TestMethod]
         public void Accountant_IndexViewModel()
         {
@@ -73,15 +71,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
 
             Assert.IsNotNull(model.Name);
         }
-
-        //[TestMethod]
-        //public void Accountant_AccountListView()
-        //{
-        //    var view = controller.AccountListView() as ViewResult;
-
-        //    Assert.AreEqual("AccountListView", view.ViewName);
-        //}
-
+        
         [TestMethod]
         public void Accountant_AccountListViewModel()
         {
@@ -91,15 +81,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.Managers);
             Assert.IsNotNull(model.SiteEngineers);
         }
-
-        //[TestMethod]
-        //public void Accountant_EditDistrictView()
-        //{
-        //    var view = controller.EditDistrict("9D2B0228-4444-4C23-8B49-01A698857709") as ViewResult;
-
-        //    Assert.AreEqual("", view.ViewName);
-        //}
-
+        
         [TestMethod]
         public void Accountant_EditDistrictViewModel()
         {
@@ -117,23 +99,20 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         {
             Mock<IAccountantService> accountantService = new Mock<IAccountantService>();
             accountantService.Setup(a => a.changeDistrict(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(true);
+            accountantService.Setup(a => a.getUserById(It.IsAny<Guid>())).Returns(user);
 
             AccountantController controller = new AccountantController(accountantService.Object);
 
             EditDistrictViewModel district = new EditDistrictViewModel()
             {
-                Id = "9D2B0228-4444-4C23-8B49-01A698857709",
-                SelectedDistrict = "9D2B0228-5555-4C23-8B49-01A698857709"
+                Id = user.Id.ToString(),
+                SelectedDistrict = user.DistrictId.ToString()
             };
             var result = controller.EditDistrict(district) as RedirectToRouteResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual("EditDistrict", result.RouteValues["Action"]);
             Assert.AreEqual("Accountant", result.RouteValues["Controller"]);
-
-            //foreach (String key in result.RouteValues.Keys)
-            //    Console.WriteLine(key);
-            //Assert.AreEqual(district.Id, result.RouteValues.Keys.Count);
         }
 
         [TestMethod]
@@ -141,6 +120,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         {
             Mock<IAccountantService> accountantService = new Mock<IAccountantService>();
             accountantService.Setup(a => a.changeDistrict(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(false);
+            accountantService.Setup(a => a.getUserById(It.IsAny<Guid>())).Returns(user);
 
             AccountantController controller = new AccountantController(accountantService.Object);
 
@@ -163,6 +143,78 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
 
             Assert.IsNotNull(model);
             Assert.IsNotNull(model.ReportList);
+        }
+
+        [TestMethod]
+        public void Accountant_PrintReportFailed()
+        {
+            var view = controller.PrintReport("") as ViewResult;
+
+            Assert.AreEqual("Error", view.ViewName);
+        }
+
+        [TestMethod]
+        public void Accountant_PrintReportAverageCostByEngineer()
+        {
+            var view = controller.PrintReport("AverageCostByEngineer") as ViewResult;
+
+            Assert.AreEqual("Report", view.ViewName);
+            Assert.IsNotNull(view.ViewData.Model);
+            accountantService.Verify(a => a.printAverageCostByEngineer(), Times.AtLeastOnce());
+        }
+
+        [TestMethod]
+        public void Accountant_PrintReportTotalCostByDistrict()
+        {
+            var view = controller.PrintReport("TotalCostByDistrict") as ViewResult;
+
+            Assert.AreEqual("TotalDistrictReport", view.ViewName);
+            Assert.IsNotNull(view.ViewData.Model);
+            accountantService.Verify(a => a.printTotalCostByDistrict(), Times.AtLeastOnce());
+        }
+
+        [TestMethod]
+        public void Accountant_PrintReportTotalCostByEngineer()
+        {
+            var view = controller.PrintReport("TotalCostByEngineer") as ViewResult;
+
+            Assert.AreEqual("Report", view.ViewName);
+            Assert.IsNotNull(view.ViewData.Model);
+            accountantService.Verify(a => a.printTotalCostByEngineer(), Times.AtLeastOnce());
+        }
+
+        [TestMethod]
+        public void Accountant_PrintMonthlyReport()
+        {
+            var view = controller.PrintReport("MonthlyCostByDistrict") as ViewResult;
+
+            Assert.AreEqual("MonthlyDistrictReport", view.ViewName);
+            Assert.IsNotNull(view.ViewData.Model);
+        }
+
+        [TestMethod]
+        public void Accountant_PrintMonethlyReportPostNull()
+        {
+            var result = controller.PrintMonthlyReport(null) as RedirectToRouteResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual("PrintMonthlyReport", result.RouteValues["Action"]);
+            Assert.AreEqual("Accountant", result.RouteValues["Controller"]);
+        }
+
+        [TestMethod]
+        public void Accountant_PrintMonethlyReportPost()
+        {
+            MonthlyDistrictReportViewModel viewModel = new MonthlyDistrictReportViewModel()
+            {
+                SelectedDistrict = "9D2B0228-5555-4C23-8B49-01A698857709"
+            };
+
+            var view = controller.PrintMonthlyReport(viewModel) as ViewResult;
+
+            Assert.AreEqual("MonthlyDistrictReport", view.ViewName);
+            Assert.IsNotNull(view.ViewData.Model);
+            accountantService.Verify(a => a.printMonthlyCostByDistrict(It.IsAny<Guid>()), Times.AtLeastOnce());
         }
     }
 }
