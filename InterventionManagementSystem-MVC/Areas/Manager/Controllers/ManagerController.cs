@@ -66,6 +66,7 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             };
             BindIntervention(interventionList, interventions);
             var model = new ManagerViewInterventionModel() { ViewList = viewList, Interventions = interventions, AuthorisedCosts = user.AuthorisedCosts, AuthorisedHours = user.AuthorisedHours };
+            
             return View(model);
         }
         

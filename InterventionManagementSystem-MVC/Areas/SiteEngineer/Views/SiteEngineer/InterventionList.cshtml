@@ -10,52 +10,35 @@
         <thead>
 
             <tr>
-
                 <th class="col-md-2 col-lg-2">Intervention Type Name</th>
-
                 <th class="col-md-2 col-lg-2">Client Name</th>
-
-                @*<th class="col-md-1 col-lg-1">Created Date</th>*@
-
                 <th class="col-md-2 col-lg-2">Intervention State</th>
-                @*<th class="col-md-2 col-lg-2">Comments</th>*@
-                @*<th class="col-md-2 col-lg-2">Edit</th>*@
                 <th class="col-md-2 col-lg-2">Edit State</th>
+                <th class="col-md-2 col-lg-2">Edit Quality</th>
             </tr>
-
         </thead>
         <tbody>
-
-
             @foreach (var item in Model.Interventions)
             {
-
                 <tr style="vertical-align: middle;">
-
                     <td>
                         @Html.DisplayFor(modelItem => item.InterventionTypeName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ClientName)
                     </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.DateCreate);
-                    </td>*@
+                
                     <td>
                         @Html.DisplayFor(modelItem => item.InterventionState)
                     </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.Comments)
-                    </td>*@
-               
-                   
                     <td>
-                        @Html.ActionLink("Edit", "EditInterventionState", new { id = item.Id })
+                        @Html.ActionLink("Edit State", "EditInterventionState", new { id = item.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit Quality", "EditIntervention", new { id = item.Id })
+
                     </td>
                 </tr>
             }
-
-
         </tbody>
-
     </table> }

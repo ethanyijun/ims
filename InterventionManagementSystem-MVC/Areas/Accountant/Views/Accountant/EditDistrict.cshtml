@@ -4,35 +4,36 @@
 <hr />
 @using (Html.BeginForm("EditDistrict", "Accountant", FormMethod.Post))
 {
-<div class="row form-group">
-    <div class="col-md-4 col-lg-3 col-xl-2">
-        <label>User:</label>
-    </div>
-    <div class="col-md-6">
-        <label>@Html.DisplayFor(modelItem=>Model.Name) </label>
+    <div class="form-horizontal">
+        <div class="row form-group">
+            <div class="col-md-10">
+                <label>User:</label>
 
-    </div>
-    <div class="col-md-4 col-lg-3 col-xl-2">
-        <label>Current District :</label>
-    </div>
-    <div class="col-md-6">
-        <label>@Html.DisplayFor(modelItem => Model.CurrentDistrict) </label>
+                <label>@Html.DisplayFor(modelItem => Model.Name) </label>
+               
+            </div>
+   
+            </div>
+            <div class="row  form-group">
+                <div class="col-md-10">
+                    <label>Current District :</label>
 
-    </div>
-    <div class="col-md-4 col-lg-3 col-xl-2">
-        <label>Change to District :</label>
-    </div>
-    <fieldset>
-        @Html.Hidden("Id", Model.Id);
-        <div class="col-md-6">
-            @Html.DropDownListFor(m => m.SelectedDistrict, Model.DistrictList)
-
+                    <label>@Html.DisplayFor(modelItem => Model.CurrentDistrict) </label>
+                </div>
+            
+            </div>
+            <div class="row  form-group">
+                <fieldset>
+                    <div class="col-md-10">
+                        <label>Change to District :</label>
+                        @Html.DropDownListFor(m => m.SelectedDistrict, Model.DistrictList)
+                    </div>
+                    <div class="col-md-10">
+                        @Html.Hidden("Id", Model.Id)
+                        <input type="button" value="Cancel" onclick="@("window.location.href = '"+@Url.Action("AccountListView","Accountant")+ "'");" />
+                        <input type="submit" value="Save" />
+                    </div>
+                </fieldset>
+            </div>
         </div>
-
-        <div class="col-md-6">
-            <input type="button" value="Cancel" onclick="@("window.location.href = '"+@Url.Action("AccountListView","Accountant")+ "'");" />
-            <input type="submit" value="Save" />
-        </div>
-    </fieldset>
-</div>
 }

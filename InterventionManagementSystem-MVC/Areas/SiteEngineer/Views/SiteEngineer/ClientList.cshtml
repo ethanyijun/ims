@@ -4,11 +4,7 @@
     ViewBag.Title = "ClientList";
 }
 
-<h2>ClientList</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Client List</h2>
 <table class="table table-striped table-bordered table-hover table-responsive" style="background-color: white">
     <tr>
         <th class="col-md-2 col-lg-2">
@@ -35,9 +31,8 @@
             @Html.DisplayFor(modelItem => item.DistrictName)
         </td>
         <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+        
             @Html.ActionLink("View", "ClientDetails", new { id=item.Id })
-            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
         </td>
     </tr>
 }

@@ -39,6 +39,10 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         }
 
         // GET: SiteEngineer/SiteEngineer
+        /// <summary>
+        /// Return engineer details
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             var user = Engineer.getDetail();
@@ -54,9 +58,10 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         
         public ActionResult CreateClient()
         {
-            String districtName = Engineer.getDetail().District.Name;
-
-            ClientViewModel clientViewmodel = new ClientViewModel() { DistrictName=districtName};
+            ClientViewModel clientViewmodel = new ClientViewModel()
+            {
+                DistrictName = Engineer.getDetail().District.Name
+            };
             return View(clientViewmodel);
         }
 
@@ -114,7 +119,6 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             Intervention interention = Engineer.getNonGuidInterventionById(id);
             InterventionViewModel model = BindSingleIntervention(interention);
             
-
             return View(model);
         }
 
@@ -122,14 +126,14 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         [HttpPost]
         public ActionResult EditInterventionState(InterventionViewModel interventionmodel)
         {
-            string interventionState = Request.Form["StatesList"];
-            
+            //string interventionState = Request.Form["StatesList"];
+            string interventionState = interventionmodel.SelectedState;
             InterventionState interventionStatus = new InterventionState();
             Enum.TryParse(interventionState, out interventionStatus);
             int interventionStateInt = (int)interventionStatus;
             InterventionState newState = (InterventionState)interventionStateInt;
-            bool result = Engineer.updateInterventionState(interventionmodel.Id, newState);
-            if (result)
+
+            if (Engineer.updateInterventionState(interventionmodel.Id, newState))
             {
                 var interventionList = Engineer.GetAllInterventions(Engineer.getDetail().Id).ToList();
                 var interventions = new List<InterventionViewModel>();
@@ -138,10 +142,12 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 return View("InterventionList", model);
             }
             else
-            ViewBag.error = "Operation failed, try again.";
-            Intervention interention = Engineer.getNonGuidInterventionById(interventionmodel.Id);
-            InterventionViewModel old_model = BindSingleIntervention(interention);
-            return View(old_model);
+            { 
+                ViewBag.error = "Operation failed, either the state is wrong or you are not authorized";
+                 Intervention intervention = Engineer.getNonGuidInterventionById(interventionmodel.Id);
+                 InterventionViewModel model = BindSingleIntervention(intervention);
+                 return View(model);
+            }
 
         }
 
@@ -157,17 +163,15 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
                 int lifeRemaining = 100;
                 string comments = viewmodel.Intervention.Comments;
                 InterventionState state = InterventionState.Proposed;
-                String test = Request.Form["ClientsList"];
-
-                Guid clientId = new Guid(Request.Form["ClientsList"]);
+                
+                Guid clientId = new Guid(viewmodel.SelectedClient);
                 DateTime dateCreate = DateTime.Now;
                 DateTime dateFinish = (DateTime)viewmodel.Intervention.DateFinish;
                 DateTime dateRecentVisit = DateTime.Now;
 
 
                 Guid createdBy = (Guid)Engineer.getDetail().Id;
-                Guid approvedBy = (Guid)Engineer.getDetail().DistrictId;
-                Guid typeId = new Guid(Request.Form["InterventionTypes"]);
+                Guid typeId = new Guid(viewmodel.SelectedType);
                 Intervention new_intervention = new Intervention(hours, costs, lifeRemaining, comments, state,
                 dateCreate, dateFinish, dateRecentVisit, typeId, clientId, createdBy, null);
                 Engineer.createIntervention(new_intervention);
@@ -188,8 +192,8 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/EditIntervention
         public ActionResult EditIntervention(Guid id)
         {
-            Intervention interention= Engineer.getNonGuidInterventionById(id);
-            InterventionViewModel model=BindSingleIntervention(interention);
+            Intervention intervention= Engineer.getNonGuidInterventionById(id);
+            InterventionViewModel model=BindSingleIntervention(intervention);
             
             return View(model);
         }

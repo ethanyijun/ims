@@ -105,7 +105,12 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         [HttpPost]
         public ActionResult EditDistrict(EditDistrictViewModel model)
         {
-        
+            var user = Accountant.getUserById(new Guid(model.Id));
+            
+            if (user.DistrictId.ToString().Equals(model.SelectedDistrict))
+            {
+                return RedirectToAction("EditDistrict", "Accountant", model.Id);
+            }
             if(Accountant.changeDistrict(new Guid(model.Id), new Guid(model.SelectedDistrict)))
             {
                 return RedirectToAction("EditDistrict","Accountant",model.Id);
