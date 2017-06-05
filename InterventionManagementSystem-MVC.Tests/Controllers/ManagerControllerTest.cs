@@ -13,6 +13,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
     public class ManagerControllerTest
     {
         private ManagerController controller;
+        private IMSLogicLayer.Models.User manager;
 
         [TestInitialize]
         public void SetUp()
@@ -34,12 +35,14 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
                 Name = "NSW"
             };
 
-            IMSLogicLayer.Models.User manager = new IMSLogicLayer.Models.User(db_manager);
+            manager = new IMSLogicLayer.Models.User(db_manager);
             manager.District = new IMSLogicLayer.Models.District(db_district);
 
             Mock<IManagerService> managerService = new Mock<IManagerService>();
             managerService.Setup(m => m.GetDetail()).Returns(manager);
             managerService.Setup(m => m.GetApprovedInterventions()).Returns(new List<IMSLogicLayer.Models.Intervention>());
+            //managerService.Setup(m => m.GetInterventionsByState(It.Is(IMSLogicLayer.Enums.InterventionState.Proposed))).Returns(new List<IMSLogicLayer.Models.Intervention>());
+            managerService.Setup(m => m.SendEmailNotification(It.IsAny<IMSLogicLayer.Models.Intervention>(), It.IsAny<string>()));
 
             controller = new ManagerController(managerService.Object);
         }
@@ -69,24 +72,65 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         [TestMethod]
         public void Manager_InterventionListViewPostSelectedApproved()
         {
+            var dataModel = new ManagerViewInterventionModel() {
+                SelectedType  = "Approved"
+            };
+            var result = controller.InterventionList(dataModel) as RedirectToRouteResult;
 
+            Assert.IsNotNull(result);
+            Assert.AreEqual("InterventionList", result.RouteValues["Action"]);
+            Assert.AreEqual("Manager", result.RouteValues["Controller"]);
         }
 
         [TestMethod]
         public void Manager_InterventionListViewPostSelectedOthers()
         {
+            var dataModel = new ManagerViewInterventionModel() {
+                SelectedType  = "Proposed"
+            };
+            var view = controller.InterventionList(dataModel) as ViewResult;
+            var model = view.ViewData.Model as ManagerViewInterventionModel;
 
+            Assert.IsNotNull(model);
+            Assert.IsNotNull(model.ViewList);
+            Assert.IsNotNull(model.Interventions);
+            Assert.IsNotNull(model.AuthorisedCosts);
+            Assert.IsNotNull(model.AuthorisedHours);
+            Assert.AreEqual(model.AuthorisedCosts, manager.AuthorisedCosts);
+            Assert.AreEqual(model.AuthorisedHours, manager.AuthorisedHours);
         }
 
         [TestMethod]
         public void Manager_ApproveInterventionSuccess()
         {
+            Mock<IManagerService> managerService = new Mock<IManagerService>();
+
+            managerService.Setup(m => m.GetDetail()).Returns(manager);
+            managerService.Setup(m => m.ApproveAnIntervention(It.IsAny<Guid>())).Returns(true);
+            managerService.Setup(m => m.SendEmailNotification(It.IsAny<IMSLogicLayer.Models.Intervention>(), It.IsAny<string>()));
+            managerService.Setup(m => m.GetInterventionById(It.IsAny<Guid>())).Returns(new IMSLogicLayer.Models.Intervention(40, 40, 4, "comments", IMSLogicLayer.Enums.InterventionState.Approved, new DateTime(), new DateTime(), new DateTime(), new Guid(), new Guid(), new Guid(), new Guid()));
+
+            var controller = new ManagerController(managerService.Object);
+
+            var result = controller.ApproveIntervention("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea") as RedirectToRouteResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual("InterventionList", result.RouteValues["Action"]);
+            Assert.AreEqual("Manager", result.RouteValues["Controller"]);
         }
 
         [TestMethod]
         public void Manager_ApproveInterventionFailed()
         {
+            Mock<IManagerService> managerService = new Mock<IManagerService>();
 
+            managerService.Setup(m => m.ApproveAnIntervention(It.IsAny<Guid>())).Returns(false);
+
+            var controller = new ManagerController(managerService.Object);
+
+            var view = controller.ApproveIntervention("f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea") as ViewResult;
+
+            Assert.AreEqual("Error", view.ViewName);
         }
     }
 }

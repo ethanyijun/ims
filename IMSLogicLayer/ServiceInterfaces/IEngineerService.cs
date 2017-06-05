@@ -30,6 +30,11 @@ namespace IMSLogicLayer.ServiceInterfaces
         /// Get the instance of current user
         /// </summary>
         /// <returns>The current user instance</returns>
+        String getDistrictName(Guid districtId);
+        /// <summary>
+        /// Get district name by its id
+        /// </summary>
+        /// <returns>Name of district</returns>
         User getDetail();
         /// <summary>
         /// Get the User instance by its id
@@ -59,6 +64,18 @@ namespace IMSLogicLayer.ServiceInterfaces
         Client getClientById(Guid clientId);
 
         /// <summary>
+        /// Get all intervention form it's id
+        /// </summary>
+        /// <param name="interventionId">The guid of user id</param>
+        /// <returns>The user's interventions list</returns>
+        IEnumerable<Intervention> GetAllInterventions(Guid userId);
+        /// <summary>
+        /// Get a non-guid intervention form it's id
+        /// </summary>
+        /// <param name="interventionId">The guid of intervention id</param>
+        /// <returns>The non-guid intervention</returns>
+        Intervention getNonGuidInterventionById(Guid interventionId);
+        /// <summary>
         /// Get an intervention form it's id
         /// </summary>
         /// <param name="interventionId">The guid of an intervention</param>
@@ -70,7 +87,7 @@ namespace IMSLogicLayer.ServiceInterfaces
         /// </summary>
         /// <param name="intervention">An intervention instance</param>
         /// <returns>An instance of Intervention created</returns>
-        Intervention createIntervention(Intervention intervention);
+        bool createIntervention(Intervention intervention);
 
         /// <summary>
         /// Get a list of interventions based on it's creator

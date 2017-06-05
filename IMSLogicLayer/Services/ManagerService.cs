@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IMSLogicLayer.Models;
 using IMSLogicLayer.Enums;
+using System.Net.Mail;
 
 namespace IMSLogicLayer.Services
 {
@@ -29,7 +30,7 @@ namespace IMSLogicLayer.Services
             managerId = Users.fetchUserByIdentityId(managerIdentityId).Id;
             interventionService = new InterventionService();
         }
-      
+
         /// <summary>
         /// Get the current User instance
         /// </summary>
@@ -40,6 +41,7 @@ namespace IMSLogicLayer.Services
             user.District = new District(Districts.fetchDistrictById(user.DistrictId.Value));
             return user;
         }
+
         /// <summary>
         /// Get a list of interventions from the state they are in
         /// </summary>
@@ -78,7 +80,7 @@ namespace IMSLogicLayer.Services
         /// </summary>
         /// <param name="interventionId">The guid of an intervention</param>
         /// <returns>True if successfully approved an intervention, false if fail</returns>
-        public Boolean ApproveAnIntervention(Guid interventionId)
+        public bool ApproveAnIntervention(Guid interventionId)
         {
             //create instance of intervention from guid
             var intervention = GetInterventionById(interventionId);
@@ -101,6 +103,21 @@ namespace IMSLogicLayer.Services
             {
                 return false;
             }
+        }
+
+        public void SendEmailNotification(Intervention intervention, string sendTo)
+        {
+            IEmailService email = new EmailService();
+            //string from = fromUser.Email;
+            string from = "BurningGroupTestMail@gmail.com";
+            string fromName = GetDetail().Name;
+
+            //string to=toUser.Email;
+            //string toName = toUser.UserName;
+            string toName = "Test";
+
+            MailMessage message = email.CreateMessage(from, sendTo, fromName, toName, intervention);
+            email.SendEmail(message);
         }
 
         /// <summary>

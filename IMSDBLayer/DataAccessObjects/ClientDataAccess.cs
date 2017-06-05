@@ -16,9 +16,12 @@ namespace IMSDBLayer.DataAccessObjects
         {
             using (IMSEntities context = new IMSEntities())
             {
-                context.Clients.Add(new Client(client));
+            
+                Client newClient = new Client(client);
+                context.Clients.Add(newClient);
                 context.SaveChanges();
-                return context.Clients.Find(client);
+                return newClient;
+
             }
 
         }

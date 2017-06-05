@@ -56,9 +56,10 @@ namespace IMSLogicLayer.Services
         /// <returns>A client instance created</returns>
         public Client createClient(string clientName, string clientLocation)
         {
-
-            return new Client(Clients.createClient(new Client(clientName, clientLocation, getDetail().DistrictId.Value)));
-
+            
+             Client client= new Client(Clients.createClient(new Client(clientName, clientLocation, getDetail().DistrictId.Value)));
+            Guid id = client.Id;
+            return client;
         }
         /// <summary>
         /// Get All intervention Types
@@ -76,13 +77,17 @@ namespace IMSLogicLayer.Services
         {
             return GetDetail(engineerIdentityId);
         }
+        public String getDistrictName(Guid districtId) {
+            return GetDistrictName(districtId);
+        }
+
         /// <summary>
         /// Get all clients on the same district as the current user
         /// </summary>
         /// <returns>A list of client</returns>
         public IEnumerable<Client> getClients()
         {
-            return Clients.fetchClientsByDistrictId(getDetail().DistrictId.Value).Select(c => new Client(c)).ToList();
+            return Clients.fetchClientsByDistrictId(getDetail().DistrictId.Value).ToList().Select(c => new Client(c)).ToList();
         }
         /// <summary>
         /// Get all the interventions for a client
@@ -92,6 +97,13 @@ namespace IMSLogicLayer.Services
         public IEnumerable<Intervention> getInterventionsByClient(Guid clientId)
         {
             var interventions = Interventions.fetchInterventionsByClientId(clientId).Select(c => new Intervention(c)).ToList();
+            foreach (var intervention in interventions) {
+                intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+                intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
+                intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));
+
+            }
+
             interventions.RemoveAll(i => i.InterventionState == InterventionState.Cancelled);
             return interventions;
         }
@@ -115,24 +127,94 @@ namespace IMSLogicLayer.Services
             return new Intervention(Interventions.fetchInterventionsById(interventionId));
         }
         /// <summary>
+        /// Get an non-guid intervention form it's id
+        /// </summary>
+        /// <param name="interventionId">The guid of an intervention</param>
+        /// <returns>The intervention instance</returns>
+        public Intervention getNonGuidInterventionById(Guid interventionId)
+        {
+            Intervention intervention= new Intervention(Interventions.fetchInterventionsById(interventionId));
+                // intervention.LifeRemaining=
+                intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+                intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
+                intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));
+
+
+            return intervention;
+        }
+
+        /// <summary>
         /// Create an intervention
         /// </summary>
         /// <param name="intervention">An intervention instance</param>
         /// <returns>An instance of Intervention created</returns>
-        public Intervention createIntervention(Intervention intervention)
+        public bool createIntervention(Intervention intervention)
         {
             var newIntervention = new Intervention(Interventions.create(intervention));
-            if (approveAnIntervention(newIntervention.Id))
-            {
-                return newIntervention;
-            }
-            else
-            {
-                return intervention;
-            }
+            newIntervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+            newIntervention.Client = new Client(Clients.fetchClientById((Guid)newIntervention.ClientId));///new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+            newIntervention.District= new District(Districts.fetchDistrictById(newIntervention.Client.DistrictId)); //new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+
+          return  approveAnIntervention(newIntervention.Id);
+          //  return newIntervention;
+            //if (approveAnIntervention(newIntervention.Id))
+            //{
+            //    return newIntervention;
+            //}
+            //else
+            //{
+            //    return newIntervention;
+            //}
 
 
         }
+        //public IEnumerable<Intervention> GetNonGuidIntervention(Guid interventionId)
+        //{
+        //    IEnumerable<Intervention> inters=Interventions.fetchInterventionsListById(interventionId).ToList();
+            
+
+
+        //    // interventionList.RemoveAll(i => i.InterventionState == InterventionState.Cancelled);
+
+
+        //    foreach (var intervention in interventionList)
+        //    {
+        //        intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+        //        intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
+        //        intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));
+
+        //    }
+        //    return interventionList;
+        //}
+
+
+        /// <summary>
+        /// Get a list of interventions created by this user
+        /// </summary>
+        /// <param name="userId">The guid of an user</param>
+        /// <returns>A list of interventions</returns>
+        public IEnumerable<Intervention> GetAllInterventions(Guid userId)
+        {
+    
+            var interventionList = new List<Intervention>();
+            interventionList.AddRange(Interventions.fetchInterventionsByCreator(userId).Select(c => new Intervention(c)).ToList());
+
+
+            interventionList.RemoveAll(i => i.InterventionState == InterventionState.Cancelled);
+       
+
+            foreach (var intervention in interventionList)
+            {
+                intervention.InterventionType = new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
+                intervention.Client = new Client(Clients.fetchClientById(intervention.ClientId.Value));
+                intervention.District = new District(Districts.fetchDistrictById(intervention.Client.DistrictId));
+
+            }
+            return interventionList;
+        }
+
+
+
         /// <summary>
         /// Get a list of interventions created and approved by this user
         /// </summary>
@@ -168,7 +250,7 @@ namespace IMSLogicLayer.Services
             {
                 if (state == InterventionState.Approved)
                 {
-                    return approveAnIntervention(interventionId);
+                    return (approveAnIntervention(interventionId));
                 }
                 else
                 {
@@ -193,7 +275,8 @@ namespace IMSLogicLayer.Services
             if (intervention.CreatedBy == getDetail().Id)
             {
                 User user = new User(Users.fetchUserById(userId));
-                return interventionService.updateIntervetionApprovedBy(interventionId, user);
+              return  Interventions.ApproveIntervention(intervention);
+           //     return interventionService.updateIntervetionApprovedBy(interventionId, user);
             }
             else
             {
@@ -241,13 +324,15 @@ namespace IMSLogicLayer.Services
 
                 if (interventionService.updateInterventionState(interventionId, InterventionState.Approved, user.Id))
                 {
-                    return updateInterventionApproveBy(interventionId, user.Id);
+
+
+                    return Interventions.ApproveIntervention(intervention);
                 }
                 else
                 {
                     return false;
                 }
-
+                //return Interventions.ApproveIntervention(intervention);
 
             }
             else

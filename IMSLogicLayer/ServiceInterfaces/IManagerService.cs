@@ -30,6 +30,7 @@ namespace IMSLogicLayer.ServiceInterfaces
         /// <returns>A list of Intervention with interventionType, client, district property</returns>
         IEnumerable<Intervention> GetApprovedInterventions();
 
+        void SendEmailNotification(Intervention intervention, string sendTo);
 
         /// <summary>
         /// Get an intervention from guid provided
