@@ -96,6 +96,11 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
         
         public ActionResult ApproveIntervention(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return View("Error");
+            }
+
             if (Manager.ApproveAnIntervention(new Guid(id)))
             {
                 Intervention intervention = Manager.GetInterventionById(new Guid(id));

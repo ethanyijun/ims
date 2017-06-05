@@ -116,6 +116,11 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/EditIntervention
         public ActionResult EditInterventionState(Guid id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return View("Error");
+            }
+
             Intervention interention = Engineer.getNonGuidInterventionById(id);
             InterventionViewModel model = BindSingleIntervention(interention);
             
@@ -192,6 +197,11 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/EditIntervention
         public ActionResult EditIntervention(Guid id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return View("Error");
+            }
+
             Intervention intervention= Engineer.getNonGuidInterventionById(id);
             InterventionViewModel model=BindSingleIntervention(intervention);
             
@@ -228,6 +238,11 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         // GET: SiteEngineer/ClientDetails/ClientId
         public ActionResult ClientDetails(Guid id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return View("Error");
+            }
+
             var client= Engineer.getClientById(id);
             var interventionList = Engineer.getInterventionsByClient(id);
             List<InterventionViewModel> interventions = new List<InterventionViewModel>();
