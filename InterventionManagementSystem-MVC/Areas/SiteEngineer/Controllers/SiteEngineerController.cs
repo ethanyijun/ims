@@ -114,7 +114,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             Intervention interention = Engineer.getNonGuidInterventionById(id);
             InterventionViewModel model = BindSingleIntervention(interention);
             
-            ViewBag.state = interention.InterventionState;
+
             return View(model);
         }
 
@@ -123,17 +123,26 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         public ActionResult EditInterventionState(InterventionViewModel interventionmodel)
         {
             string interventionState = Request.Form["StatesList"];
+            
             InterventionState interventionStatus = new InterventionState();
             Enum.TryParse(interventionState, out interventionStatus);
             int interventionStateInt = (int)interventionStatus;
             InterventionState newState = (InterventionState)interventionStateInt;
             bool result = Engineer.updateInterventionState(interventionmodel.Id, newState);
-            
-            var interventionList = Engineer.GetAllInterventions(Engineer.getDetail().Id).ToList();
-            var interventions = new List<InterventionViewModel>();
-            BindIntervention(interventionList, interventions);
-            var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
-            return View("InterventionList", model);
+            if (result)
+            {
+                var interventionList = Engineer.GetAllInterventions(Engineer.getDetail().Id).ToList();
+                var interventions = new List<InterventionViewModel>();
+                BindIntervention(interventionList, interventions);
+                var model = new SiteEngineerViewInterventionModel() { Interventions = interventions };
+                return View("InterventionList", model);
+            }
+            else
+            ViewBag.error = "Operation failed, try again.";
+            Intervention interention = Engineer.getNonGuidInterventionById(interventionmodel.Id);
+            InterventionViewModel old_model = BindSingleIntervention(interention);
+            return View(old_model);
+
         }
 
         // POST: SiteEngineer/Create
@@ -193,17 +202,22 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             int new_liferemaining = interventionmodel.LifeRemaining;
             DateTime new_recentvisit = interventionmodel.RecentiVisit;
         
-            Engineer.updateInterventionDetail(interventionmodel.Id,new_comments,new_liferemaining,new_recentvisit);
-            
-            var interventionList = Engineer.getInterventionsByClient(interventionmodel.ClientId);
-            List<InterventionViewModel> interventions = new List<InterventionViewModel>();
-            BindIntervention(interventionList, interventions);
-            
-            Client client = Engineer.getClientById(interventionmodel.ClientId);
-            ClientViewModel clientViewModel=  BindSingleClient(client);
-            var model = new SiteEngineerViewClientModel() { Interventions = interventions,Client= clientViewModel };
-          
-            return View("ClientDetails", model);
+            bool result= Engineer.updateInterventionDetail(interventionmodel.Id,new_comments,new_liferemaining,new_recentvisit);
+            if (result)
+            {
+                var interventionList = Engineer.getInterventionsByClient(interventionmodel.ClientId);
+                List<InterventionViewModel> interventions = new List<InterventionViewModel>();
+                BindIntervention(interventionList, interventions);
+
+                Client client = Engineer.getClientById(interventionmodel.ClientId);
+                ClientViewModel clientViewModel = BindSingleClient(client);
+                var model = new SiteEngineerViewClientModel() { Interventions = interventions, Client = clientViewModel };
+
+                return View("ClientDetails", model);
+            }
+            else
+                return View();
+           
           }
 
 

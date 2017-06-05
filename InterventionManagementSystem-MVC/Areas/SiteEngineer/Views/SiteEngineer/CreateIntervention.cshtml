@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    @Html.DropDownList("InterventionTypes", Model.ViewInterventionTypeList, "Select Intervention Type", new { @class = "form-control" })
+                    @Html.DropDownList("InterventionTypes", Model.ViewInterventionTypeList,null, new { @class = "form-control" })
                     @Html.ValidationMessage("Intervention Types")
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    @Html.DropDownList("ClientsList", Model.ViewClientsList, "Select Client", new { @class = "form-control" })
+                    @Html.DropDownList("ClientsList", Model.ViewClientsList, null, new { @class = "form-control" })
                     @Html.ValidationMessage("Clients List")
                 </div>
             </div>
