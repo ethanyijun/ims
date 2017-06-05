@@ -13,6 +13,7 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
     public class ManagerControllerTest
     {
         private ManagerController controller;
+        private Mock<IManagerService> managerService;
         private IMSLogicLayer.Models.User manager;
 
         [TestInitialize]
@@ -38,10 +39,9 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             manager = new IMSLogicLayer.Models.User(db_manager);
             manager.District = new IMSLogicLayer.Models.District(db_district);
 
-            Mock<IManagerService> managerService = new Mock<IManagerService>();
+            managerService = new Mock<IManagerService>();
             managerService.Setup(m => m.GetDetail()).Returns(manager);
             managerService.Setup(m => m.GetApprovedInterventions()).Returns(new List<IMSLogicLayer.Models.Intervention>());
-            //managerService.Setup(m => m.GetInterventionsByState(It.Is(IMSLogicLayer.Enums.InterventionState.Proposed))).Returns(new List<IMSLogicLayer.Models.Intervention>());
             managerService.Setup(m => m.SendEmailNotification(It.IsAny<IMSLogicLayer.Models.Intervention>(), It.IsAny<string>()));
 
             controller = new ManagerController(managerService.Object);
