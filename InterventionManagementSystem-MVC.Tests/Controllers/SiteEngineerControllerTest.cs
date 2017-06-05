@@ -10,6 +10,9 @@ using InterventionManagementSystem_MVC.Models;
 
 namespace InterventionManagementSystem_MVC.Tests.Controllers
 {
+    /// <summary>
+    /// Unit testing class for SiteEngineer Controller
+    /// </summary>
     [TestClass]
     public class SiteEngineerControllerTest
     {
@@ -21,6 +24,9 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
         private const string SUCCESS_TEST_GUID = "f2c4f7b0-7e2b-4095-bc8a-594cbbbd77ea";
         private const string FAILED_TEST_GUID = "11111111-7e2b-4095-bc8a-594cbbbd77ea";
 
+        /// <summary>
+        /// Test setup initialization
+        /// </summary>
         [TestInitialize]
         public void SetUp()
         {
@@ -75,6 +81,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             controller = new SiteEngineerController(engineerService.Object);
         }
 
+        /// <summary>
+        /// test for Index()
+        /// the return view should contain model with detail of engineer
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_IndexViewIndexViewModel()
         {
@@ -85,8 +95,13 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.DistrictName);
             Assert.IsNotNull(model.AuthorisedHours);
             Assert.IsNotNull(model.AuthorisedCosts);
+            Assert.AreEqual(engineer.Name, model.Name);
         }
         
+        /// <summary>
+        /// test for createclient()
+        /// the return view should contain the detail of the district, which mataches the distrcit of the engineer
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_CreateClientViewModel()
         {
@@ -97,6 +112,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual(model.DistrictName, engineer.District.Name);
         }
 
+        /// <summary>
+        /// test for CreateClient() with post data
+        /// the return view should be the client list page with a list of engineer's client
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_CreateClientPost()
         {
@@ -114,6 +133,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model);
         }
 
+        /// <summary>
+        /// test for ClientList() with post data
+        /// the return view should be the client list page with a list of engineer's client 
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_ClientListViewModel()
         {
@@ -122,6 +145,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(view.ViewData.Model);
         }
         
+        /// <summary>
+        /// test for CreateIntervention() view
+        /// the view should contain a list of clients and type of interventions
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_CreateInterventionViewModel()
         {
@@ -132,6 +159,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(model.ViewInterventionTypeList);
         }
 
+        /// <summary>
+        /// test for EditInterventionState() view
+        /// the view should contain a model with the detail of the intervention that matches the supplied id
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_EditInterventionState()
         {
@@ -142,6 +173,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual(model.Id, intervention.Id);
         }
 
+        /// <summary>
+        /// test for EditInterventionState() with post data, faield case
+        /// if the editinterveionstate failed, the user should be given the same edit page, with no data being changed
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_EditInterventionStatePostFailed()
         {
@@ -158,6 +193,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             engineerService.Verify(e => e.getNonGuidInterventionById(It.IsAny<Guid>()), Times.AtLeastOnce());
         }
 
+        /// <summary>
+        /// test for EditInterventionState() with post data, success case
+        /// if the editinterveionstate success, the user should be directed to the view of the interventionlist
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_EditInterventionStatePostSuccess()
         {
@@ -173,6 +212,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual("InterventionList", view.ViewName);
         }
 
+        /// <summary>
+        /// test for EditIntervention() view
+        /// the view should contain the model with the detail of the intervention that matches the id
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_EditIntervention()
         {
@@ -183,6 +226,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual(model.Id, intervention.Id);
         }
 
+        /// <summary>
+        /// test for EditIntervention() with post data, failed case
+        /// if the operation failed, the user would remain at the original page
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_EditInterventionPostFailed()
         {
@@ -200,6 +247,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.IsNotNull(view);
         }
 
+        /// <summary>
+        /// test for EditIntervetion() with post data, success case
+        /// if the operation success, the user would be direct to the client detail page
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_EditInterventionPostSuccess()
         {
@@ -219,6 +270,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual("ClientDetails", view.ViewName);
         }
 
+        /// <summary>
+        /// test for ClientDetails()
+        /// the view should contain the model with the detail of the client that matches the supply id
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_ClientDetails()
         {
@@ -229,6 +284,10 @@ namespace InterventionManagementSystem_MVC.Tests.Controllers
             Assert.AreEqual(model.Client.Id, client.Id);
         }
 
+        /// <summary>
+        /// test for InterventionList()
+        /// the view should contain the model with a list of intertventions
+        /// </summary>
         [TestMethod]
         public void SiteEngineer_InterventionListViewModel()
         {
