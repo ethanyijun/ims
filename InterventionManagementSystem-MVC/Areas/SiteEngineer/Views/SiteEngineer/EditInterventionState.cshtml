@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.InterventionState, htmlAttributes: new { @class = "control-label col-md-2" })
      
-            <div class="col-md-10">
+            <div class="col-md-2">
                 @Html.DropDownListFor(m=>m.SelectedState, Model.InterventionStates, new { @class = "form-control" })
                 @Html.ValidationMessage("States List")
             </div>

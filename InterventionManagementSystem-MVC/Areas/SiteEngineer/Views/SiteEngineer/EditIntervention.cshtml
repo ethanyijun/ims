@@ -18,7 +18,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.LifeRemaining, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-3">
                 @Html.EditorFor(model => model.LifeRemaining, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LifeRemaining, "", new { @class = "text-danger" })
             </div>
@@ -26,7 +26,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.RecentiVisit, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-3">
                 @Html.TextBoxFor(model => model.RecentiVisit, DateTime.Now.ToString("yyyy-MM-dd"), new { type = "date", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.RecentiVisit, "", new { @class = "text-danger" })
             </div>
@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { style = "width:230px;height:100px" } })
                 @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
             </div>
         </div>

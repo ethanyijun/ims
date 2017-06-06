@@ -156,16 +156,6 @@ namespace IMSLogicLayer.Services
             newIntervention.District= new District(Districts.fetchDistrictById(newIntervention.Client.DistrictId)); //new InterventionType(InterventionTypes.fetchInterventionTypesById(intervention.InterventionTypeId.Value));
 
           return  approveAnIntervention(newIntervention.Id);
-          //  return newIntervention;
-            //if (approveAnIntervention(newIntervention.Id))
-            //{
-            //    return newIntervention;
-            //}
-            //else
-            //{
-            //    return newIntervention;
-            //}
-
 
         }
         //public IEnumerable<Intervention> GetNonGuidIntervention(Guid interventionId)

@@ -197,7 +197,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateIntervention(SiteEngineerViewInterventionModel viewmodel)/*([Bind(Include = "Id,Name,Description,Length,Price,Rating,IncludesMeals")] Tour tour)*/
+        public ActionResult CreateIntervention(SiteEngineerViewInterventionModel viewmodel)
         {
             if (ModelState.IsValid)
             {
@@ -266,9 +266,7 @@ namespace InterventionManagementSystem_MVC.Areas.SiteEngineer.Controllers
             String new_comments = interventionmodel.Comments;
             int new_liferemaining = interventionmodel.LifeRemaining;
             DateTime new_recentvisit = interventionmodel.RecentiVisit;
-
-            bool result = Engineer.updateInterventionDetail(interventionmodel.Id, new_comments, new_liferemaining, new_recentvisit);
-            if (result)
+            if (Engineer.updateInterventionDetail(interventionmodel.Id, new_comments, new_liferemaining, new_recentvisit))
             {
                 var intervention = Engineer.getInterventionById(interventionmodel.Id);
 

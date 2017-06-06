@@ -40,7 +40,7 @@ namespace InterventionManagementSystem_MVC.Models
         [Required]
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid hours")]
         public Nullable<decimal> Hours { get; set; }
-        
+        [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 
         public DateTime RecentiVisit { get; set; }
