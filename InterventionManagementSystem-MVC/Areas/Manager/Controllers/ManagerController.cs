@@ -16,7 +16,7 @@ using IMSLogicLayer.Models;
 namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
 {
     [ManagerAuthorize]
-    
+    [HandleError]
     public class ManagerController : Controller
     {
         private IManagerService manager;
@@ -40,7 +40,12 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             this.manager = manager;
         }
 
-        // GET: Manager/Manager
+        
+        /// <summary>
+        /// Display Manager details
+        /// GET: ~/Manager/Manager/Index
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             var user = Manager.GetDetail();
@@ -53,7 +58,11 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             };
             return View(model);
         }
-
+        /// <summary>
+        /// Display a list of interventions
+        /// GET:~/Manger/Manger/InterventionList
+        /// </summary>
+        /// <returns></returns>
         public ActionResult InterventionList()
         {
             var user = Manager.GetDetail();
@@ -69,7 +78,12 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             
             return View(model);
         }
-        
+        /// <summary>
+        /// Request for a new view based on drop down
+        /// POST: ~/Manager/Manager/InterventionList
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult InterventionList(ManagerViewInterventionModel model)
         {
@@ -93,7 +107,12 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
                 return View(m);
             }
         }
-        
+        /// <summary>
+        /// Approves an intervention and send an email notification
+        /// Get ~/Manager/Manger/ApproveIntervention/Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult ApproveIntervention(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -114,6 +133,11 @@ namespace InterventionManagementSystem_MVC.Areas.Manager.Controllers
             return View("Error");
         }
 
+        /// <summary>
+        /// Bind data model to view model
+        /// </summary>
+        /// <param name="interventionList"></param>
+        /// <param name="interventions"></param>
         private void BindIntervention(IEnumerable<IMSLogicLayer.Models.Intervention> interventionList, List<InterventionViewModel> interventions)
         {
             foreach (var intervention in interventionList)

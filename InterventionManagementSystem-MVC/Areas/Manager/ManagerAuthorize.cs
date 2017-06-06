@@ -8,6 +8,11 @@ namespace InterventionManagementSystem_MVC.Areas.Manager
 {
     public class ManagerAuthorizeAttribute:AuthorizeAttribute
     {
+        /// <summary>
+        /// only authorize manager to access
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var routeData = httpContext.Request.RequestContext.RouteData;

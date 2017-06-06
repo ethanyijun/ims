@@ -37,6 +37,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         {
             this.accountant = accountant;
         }
+        /// <summary>
+        /// Return the accountant index page
+        /// GET: ~/Accountant/Accountant/Index
+        /// </summary>
+        /// <returns></returns>
 
         public ActionResult Index()
         {
@@ -47,7 +52,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             };
             return View(model);
         }
-        
+        /// <summary>
+        /// Get a list of managers and site engineer in the system
+        /// GET: ~/Accountant/Accountant/AccountListView
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AccountListView()
         {
             var siteEngineerList = Accountant.getAllSiteEngineer();
@@ -83,7 +92,13 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
         }
 
 
-        //GET Default information of an User
+
+        /// <summary>
+        /// Edit District Form with current information of the User
+        /// GET: ~/Accountant/Accountant/EditDistrict/Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult EditDistrict(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -107,6 +122,12 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             return View(model);
         }
         
+        /// <summary>
+        /// Post the updated district information to the server
+        /// POST: ~/Accountant/Accountant/EditDistrict/Id
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditDistrict(EditDistrictViewModel model)
         {
@@ -128,7 +149,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
             return View("Error");
         }
-
+        /// <summary>
+        /// View a list of report can be printed
+        /// GET: ~/Accountant/Accountant/ReportList
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ReportList()
         {
             var reportList = Enum.GetValues(typeof(ReportType)).Cast<ReportType>().Select(v => v.ToString()).ToList();
@@ -140,7 +165,12 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             
             return View(model);
         }
-        
+        /// <summary>
+        /// Display the report details
+        /// GET: ~/Accountant/Accountant/PrintReport?Name=reportName
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public ActionResult PrintReport(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -186,7 +216,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
 
             return View("Report", model);
         }
-        
+        /// <summary>
+        /// Display a form to select which district to print
+        /// GET: ~/Accountant/Accountant/PrintMonthlyReport
+        /// </summary>
+        /// <returns></returns>
         public ActionResult PrintMonthlyReport()
         {
             var report = new List<IMSLogicLayer.Models.ReportRow>();
@@ -200,11 +234,16 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant.Controllers
             return View("MonthlyDistrictReport",model);
         }
 
-
+        /// <summary>
+        /// Display the monthly report for district details
+        /// POST: ~/Accountant/Accountant/PrintMonthlyReport
+        /// </summary>
+        /// <param name="district"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult PrintMonthlyReport(MonthlyDistrictReportViewModel district)
         {
-            if (district.SelectedDistrict ==null)
+            if (district ==null||district.SelectedDistrict ==null)
             {
                 return RedirectToAction("PrintMonthlyReport","Accountant");
             }

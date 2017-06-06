@@ -8,6 +8,11 @@ namespace InterventionManagementSystem_MVC.Areas.Accountant
 {
     public class AccountantAuthorizeAttribute :AuthorizeAttribute
     {
+        /// <summary>
+        /// only authorize accountant to access
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var routeData = httpContext.Request.RequestContext.RouteData;
